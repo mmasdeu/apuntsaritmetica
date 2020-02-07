@@ -1,0 +1,387 @@
+\subsection{Residus quadràtics i el símbol de Legendre}
+
+L'objectiu d'aquesta secció és estudiar les solucions d'equacions quadràtiques mòdul un primer $p$. Concretament, ens fixarem en l'equació $x^2\equiv a\pmod{p}$.
+
+\begin{definition}
+ Sigui $p$ un primer. Diem que un enter $a$ no divisible per $p$ és un \emph{residu quadràtic mòdul $p$} si $a$ és un quadrat mòdul $p$. Si no, direm que $a$ és un \emph{no-residu quadràtic mòdul $p$}.
+\end{definition}
+
+Òbviament, si $a\equiv a'\pmod{p}$ aleshores $a$ és un residu quadràtic mòdul $p$ si i només si $a'$ ho és.
+
+\begin{example}
+L'$1$ és l'únic residu quadràtic tant mòdul $2$ com mòdul $3$.
+Els residus quadràtics mòdul $5$ són l'$1$ i el $4$, perquè $1^2\equiv 1$, $2^2\equiv 4$, i $3^2\equiv (-2)^2$, $4^2 \equiv (-1)^2$.
+
+Els residus quadràtics mòdul $7$ són $\{1,2,4\}$.
+
+Els residus quadràtics mòdul $11$ són $\{1,3,4,5,9\}$.
+\end{example}
+
+Introduim una notació que va bé per parlar d'aquest concepte.
+
+\begin{definition}
+El \emph{símbol de Legendre} es defineix, donats un primer \textbf{senar} $p$ i un enter $a$, com
+\[
+\legendre{a}{p}=\begin{cases}
+0 &\text{ si } p\mid a,\\
++1 &\text{ si $a$ és un residu quadràtic mòdul $p$,}\\
+-1&\text{ si $a$ és un no-residu quadràtic mòdul $p$}.
+\end{cases}
+\]
+\end{definition}
+
+Si $a$ i $b$ són residus quadràtics, posem $a\equiv x^2\pmod p$ i $b\equiv y^2\pmod p$, aleshores és clar que $ab\equiv (xy)^2\pmod p$ i, per tant $ab$ també és un residu quadràtic. De manera semblant, si $a\equiv x^2\pmod p$ i $ab\equiv y^2\pmod p$, aleshores $b\equiv (x^{-1}y)^2\pmod p$, del que en deduïm que el produce d'un residu amb un no-residu és un no-residu. El següent lema ens diu que el producte de dos no-residus és un residu.
+\begin{lemma}
+Si $p$ és un primer senar, l'aplicació $\psi\colon (\Z/p\Z)^\times \to \{\pm 1\},\quad a\mapsto \legendre{a}{p}$ és un morfisme de grups exhaustiu.
+\end{lemma}
+\begin{proof}
+Fem servir que $G = (\Z/p\Z)^\times$ és cíclic. El nucli de l'aplicació $\psi$ el formen els quadrats, un subgrup (normal) $H$ d'índex $2$. Per tant $\psi$ és la composició de
+\[
+G\surjects G/H \cong \{\pm 1\}.
+\]
+\end{proof}
+
+\subsection{LRQ i demostració}
+
+Durant el segle XVIII, els matemàtics es van preguntar si hi havia una manera senzilla de predir com es comporta $\legendre{a}{p}$ quan variava $p$. Per exemple, quan $a=5$ podem fer una taula com la que apareix a la Taula~\ref{taula:lrq}.
+\begin{table}[ht]
+\centering
+\label{taula:lrq}
+\begin{tabular}{lcccccccccccc}
+\toprule
+    $p$ & 7  & \textbf{11} & 13 & 17 & \textbf{19} & 23 & \textbf{29} & \textbf{31} & 37 & \textbf{41} & 43 & 47\\
+    \midrule
+    $\legendre{5}{p}$& -1& \textbf{1}& -1 & -1 & \textbf{1} & -1 & \textbf{1} & \textbf{1} & -1 & \textbf{1} & -1 & -1\\
+    $p\bmod 5$ & 2 & \textbf{1} & 3 & 2 & \textbf{4} & 3 &\textbf{4} & \textbf{1} & 2 &\textbf{1} & 3 & 2\\
+    \bottomrule
+\end{tabular}
+\caption{Taula de $\legendre{5}{p}$ per diversos primers.}
+\end{table}
+Fixem-nos que sembla que el símbol $\legendre{5}{p}$ només depengui de si $p\equiv 1,4\pmod{5}$ o no. En canvi, si fem el mateix amb $a=7$ obtenim la Taula~\ref{taula:lrq2}.
+\begin{table}[ht]
+\label{taula:lrq2}
+\centering
+
+\begin{tabular}{lcccccccccccccc}
+\toprule
+    $p$ & 11 & 13 & 17 & \textbf{19} & 23 & \textbf{29} & \textbf{31} & \textbf{37} & 41 & 43 & \textbf{47}&\textbf{53}&\textbf{59}&61\\
+\midrule
+    $\legendre{7}{p}$& -1& -1& -1 & \textbf{1} & -1 & \textbf{1} & \textbf{1} & \textbf{1} & -1 & -1 & \textbf{1} & \textbf{1} & \textbf{1}&-1\\
+    $p\bmod 7$ & 4 & 6 & 3 & \textbf{5} & 2& \textbf{1} & \textbf{3} & \textbf{2} & 6 & 1 & \textbf{5} & \textbf{4} & \textbf{3}&5\\
+\bottomrule
+\end{tabular}
+
+\caption{Taula de $\legendre{7}{p}$ per diversos primers.}
+
+\end{table}
+Ara observem que no sembla d'entrada que hi hagi una relació tan senzilla. En canvi, per $a=11$ tornem a observar el mateix comportament que per $a=5$ (quant val $\legendre{9}{p}$?). El teorema següent explica aquest fenòmen de manera molt precisa.
+
+\begin{theorem}[Llei de Reciprocitat Quadràtica de Gauss]
+\label{thm:lrq}
+Siguin $p$ i $q$ dos primers senars. Aleshores
+\[
+    \legendre{p}{q} = (-1)^{\frac{p-1}{2}\frac{q-1}{2}}\legendre{q}{p}=\begin{cases}
+    +\legendre{q}{p} & p\equiv 1\pmod 4\text{ o } q\equiv 1 \pmod{4}\\
+    -\legendre{q}{p} & p\equiv 3\pmod 4\text{ i } q\equiv 3 \pmod{4}
+    \end{cases}.
+    \]
+A més,
+\[
+\legendre{-1}{p} = (-1)^{\frac{p-1}{2}}=\begin{cases}
++1&p\equiv 1\pmod{4}\\
+-1&p\equiv 3\pmod{4},
+\end{cases}
+\quad
+\legendre{2}{p} = \begin{cases}
++1 & p\equiv \pm 1\pmod {8}\\
+-1 & p \equiv \pm 3 \pmod{8}.
+\end{cases}
+\]
+\end{theorem}
+
+Fixem-nos que, si posem $p=5$, el teorema anterior ens dona que
+\[
+\legendre{5}{p} = \legendre{p}{5} = \begin{cases}
++1 &p\equiv 1,4\pmod 5,\\
+-1 &p\equiv 2,3\pmod 5.
+\end{cases}
+\]
+En canvi, si $p=7$, el signe $(-1)^{\frac{p-1}{2}\frac{q-1}{2}}= (-1)^{\frac{q+1}{2}}$ depèn de com sigui $q$ mòdul $4$. Com que $\legendre{q}{7}$ depèn de $q$ mòdul $7$, la quantitat $\legendre{7}{q}$ depèn de $q$ mòdul $28$. De fet,
+\[
+\legendre{7}{p}=\begin{cases}
+1&p\equiv 1, 3, 9, 19, 25, 27\pmod{28}\\
+-1&p\equiv 5, 11, 13, 15, 17, 23\pmod{28}\\
+0 & p = 7.
+\end{cases}
+\]
+
+La LRQ també ens permet calcular ràpidament els símbols de Legendre: per exemple, suposem que volem saber si $211$ és un quadrat mòdul $653$.
+
+Com que $653\equiv 1\pmod 4$,
+\[
+\legendre{211}{653}=\legendre{653}{211},
+\]
+i com que $653\equiv 20\pmod{211}$,
+\[
+\legendre{653}{211} = \legendre{20}{211}=\legendre{4\cdot 5}{211} = \legendre{4}{211}\legendre{5}{211}=\legendre{5}{211}.
+\]
+Com que $5\equiv 1\pmod 4$,
+\[
+\legendre{5}{211}=\legendre{211}{5}=\legendre{1}{5} = 1.
+\]
+Concloem que $211$ és un quadrat mòdul $653$, però fixem-nos que aquest càlcul no ens permet dir quin és $x$ tal que $x^2\equiv 211\pmod{653}$ (solució: $118^2\equiv 211\pmod{653}$).
+
+Fixem-nos que per dur a terme el càlcul anterior cal factoritzar ($20=4\cdot 5$). Per nombres molt grans això seria un problema, però hi ha una generalització del símbol de Legendre (anomenat símbol de Jacobi) que solventa aquest problema.
+
+\subsubsection{Demostració de la LRQ}
+
+Sigui $p$ un primer senar, i $a$ un enter no divisible per $p$. El primer resultat que ens caldrà dona una manera eficient de calcular $\legendre{a}{p}$, i ens servirà també per la demostració de la LRQ.
+\begin{proposition}[Criteri d'Euler]
+ \[
+ \legendre a p \equiv a^{\frac{p-1}{2}}\pmod p.
+ \]
+\end{proposition}
+\begin{proof}
+Si $a\equiv x^2\pmod p$, aleshores
+\[
+a^{\frac{p-1}{2}} \equiv x^{p-1}\equiv 1\pmod p,
+\]
+pel petit teorema de Fermat. Considerem ara la factorització
+\[
+x^{p-1}-1 = (x^{\frac{p-1}{2}}-1)(x^{\frac{p-1}{2}}+1).
+\]
+El polinomi $x^{p-1}-1$ té com a molt $p-1$ arrels a $\Z/p\Z$. Com que tots els elements de $(\Z/p\Z)^\times$ en són arrel, en deduïm que té exactament $p-1$ arrels. Aquestes s'han de dividir en arrels de cadascun dels factors. Com que la meitat d'elements (els quadrats) són arrel del primer factor, l'altra meitat (els no-quadrats) han de ser arrels del segon factor, i per tant si $a$ és un no-quadrat,
+\[
+a^{\frac{p-1}{2}}+1\equiv0\pmod p,
+\]
+com voliem veure.
+\end{proof}
+
+Observem que la proposició anterior demostra la fórmula per $\legendre{-1}{p}$. Vegem ara la fórmula per $\legendre{2}{p}$.
+
+\begin{proposition}
+Si $p$ és un primer senar, aleshores
+\[
+\legendre 2p=\epsilon(p)=\begin{cases}
++1&p\equiv \pm 1\pmod{8},\\
+-1&p\equiv \pm 3 \pmod{8}.
+\end{cases}
+\]
+\end{proposition}
+\begin{proof}
+Considerem l'anell $R=\Z[\zeta]/(p)$ amb $\zeta=\zeta_8$. Pel criteri d'Euler,
+\[
+\legendre{2}{p}\equiv 2^{\frac{p-1}{2}}\pmod p,
+\]
+i per tant serà útil trobar una arrel quadrada de $2$ mòdul $p$. Fixem-nos que $\zeta^4+1=0$, o $\zeta^2+\zeta^{-2}=0$. Per tant, si escrivim $\tau=\zeta+\zeta^{-1}$, tenim
+\[
+\tau^2 = (\zeta+\zeta^{-1})^2= 2.
+\]
+Deduïm que
+\[
+2^{\frac{p-1}{2}}\equiv \tau^{p-1}\pmod p.
+\]
+Veurem ara que $\tau^p\equiv \zeta^p+\zeta^{-p}\equiv \epsilon(p)\tau\pmod p$:
+\begin{description}
+\item[Cas $p\equiv \pm 1\pmod 8$ ($\iff \epsilon(p)=1$):] En aquest cas, $\tau^p\equiv \zeta+\zeta^{-1}\equiv \tau\pmod p$.
+\item[Cas $p\equiv \pm 3\pmod 8$ ($\iff \epsilon(p)=-1$):] En aquest cas, $\tau^p\equiv \zeta^3+\zeta^{-3}\equiv -\tau\pmod p$.
+\end{description}
+Per tant, $\tau \legendre{2}{p} \equiv \epsilon(p) \tau \pmod p$ i, multiplicant per $\tau$, obtenim
+\[
+2\legendre{2}{p}\equiv 2\epsilon(p)\pmod p.
+\]
+Com que $p$ és senar, trobem finalment $\legendre{2}{p}=\epsilon(p)$.
+\end{proof}
+
+
+Donat un primer $p$, denotarem per $\zeta_p$ el nombre complex $\zeta_p=e^{\frac{2\pi i}{p}}$. Recordem una propietat coneguda de $\zeta_p$:
+
+\begin{lemma}
+Es té, per a tot $a\in \Z$,
+\[
+\sum_{n=0}^{p-1} \zeta_p^{an}=\begin{cases}
+p& p\mid a,\\
+0& p\nmid a.
+\end{cases}
+\]
+\end{lemma}
+\begin{proof}
+Si $p\mid a$, aleshores $\zeta_p^a=1$ i el resultat és obvi. En cas contrari, $\zeta_p^a\neq 1$, i per tant la suma geomètrica val
+\[
+\sum_{n=0}^{p-1} \zeta_p^{an} = \frac{\zeta_p^{ap}-1}{\zeta_p^a-1}=0.
+\]
+\end{proof}
+
+\begin{definition}
+ La \emph{suma de Gauss} associada a un element $a\in (\Z/p\Z)^\times$ és
+ \[
+ \gamma_a = \sum_{n=1}^{p-1}\legendre{n}{p} \zeta_p^{an}.
+ \]
+\end{definition}
+
+\begin{lemma}
+La suma de Gauss $\gamma_0$ val $0$.
+\end{lemma}
+\begin{proof}
+Com que $\gamma_0=\sum_{n=1}^{p-1} \legendre{n}{p}$ i hi ha la meitat d'elements que són residus quadràtics i la meitat que no ho són, la suma dels residus és $0$.
+\end{proof}
+
+\begin{lemma}
+Per a tot enter $a$, es té $\gamma_a=\legendre{a}{p}\gamma_1$.
+\end{lemma}
+\begin{proof}
+Pel lema anterior, podem assumir que $p\nmid a$. Aleshores:
+\[
+\legendre a p\sum_{n=0}^{p-1} \legendre n p \zeta_{p}^{an}= \sum_{n=0}^{p-1} \legendre{an}{p}\zeta_p^{an} = \sum_{m=0}^{p-1} \legendre{m}{p}\zeta_p^m = \gamma_1,
+\]
+on hem fet servir que multiplicar per $a$ permuta els elements de $\Z/p\Z$. El resultat s'obté multiplicant per $\legendre ap$.
+\end{proof}
+
+La base de la demostració és el següent resultat.
+\begin{proposition}
+Per tot enter $a$ coprimer amb $p$, es té que
+ \[
+ \gamma_a^2 = (-1)^{\frac{p-1}{2}} p.
+ \]
+\end{proposition}
+\begin{proof}
+ Pel lema anterior, podem suposar que $a=1$. Fixem-nos que, pel criteri d'Euler,
+ \[
+ \gamma_a\gamma_{-a}=\legendre{a}{p}\gamma_1\legendre{-a}{p}\gamma_1=\legendre{-1}{p}\gamma_1^2 = (-1)^{\frac{p-1}{2}} \gamma_1^2.
+ \]
+ Per tant, caldrà veure que $\gamma_a\gamma_{-a} = p$. Per fer-ho, calculem (totes les sumes recorren els enters entre $1$ i $p-1$).
+ \begin{align*}
+     \sum_a \gamma_a\gamma_{-a} &= \sum_{a,m,n} \legendre{n}{p}\legendre{m}{p}\zeta_p^{an-am}\\
+     &=\sum_{n,m} \legendre{n}{p} \legendre{m}{p} \sum_{a} \zeta^{a(n-m)} = \sum_n p \legendre{n}{p}^2 = p(p-1).
+ \end{align*}
+\end{proof}
+
+\begin{proof}[Demostració del Teorema~\ref{thm:lrq}]
+Si escrivim $p^*=(-1)^{\frac{p-1}{2}} p$, aleshores fixem-nos que
+\[
+\legendre{p^*}{q} = \legendre{-1}{q}^{\frac{p-1}{2}} \legendre pq \equiv (-1)^{\frac{p-1}{2}\frac{q-1}{2}} \legendre pq \pmod q.
+\]
+Per tant, per demostrar la LRQ ens cal veure que
+\[
+\legendre{p^*}{q} \equiv \legendre{q}{p} \pmod{q}.
+\]
+Per acabar, haurem de treballar a $\Z[\zeta_p]/(q)$, que és un anell de característica $q$. Aleshores, pel criteri d'Euler,
+\[
+\gamma_1\legendre{p^*}{q}\equiv \gamma_1(p^*)^{\frac{q-1}{2}} \equiv \gamma_1^q\pmod{q}.
+\]
+Ara calculem
+\begin{align*}
+\gamma_1^q &\equiv \left(\sum_n \legendre{n}{p}\zeta_p^n\right)^q \equiv \sum_n \legendre{n}{q} \zeta_p^{qn} \equiv \gamma_q\equiv \gamma_1\legendre{q}{p}\pmod{q}.
+\end{align*}
+Com que $\gamma_1$ és invertible a $\Z[\zeta_p]/(q)$, podem simplificar $\gamma_1$ de l'expressió
+\[
+\gamma_1\legendre{p^*}{q}\equiv \gamma_1 \legendre{q}{p}\pmod{q}
+\]
+per obtenir el resultat.
+
+\end{proof}
+
+\subsection{El símbol de Jacobi}
+Donats un enter $a$ i un \emph{enter senar positiu} $m$, definim
+\[
+\legendre{a}{m}=\prod_{p^k\parallel m} \legendre{a}{p}^k,
+\]
+on en el producte de la dreta el símbol és el de Legendre. Observem que si $m$ és un primer senar, aleshores aquesta definició coincideix amb el símbol de Legendre.
+
+\begin{lemma}
+\begin{enumerate}
+    \item Si $a\equiv b\pmod m$ aleshores $\legendre{a}{m} = \legendre{b}{m}$.
+    \item $\legendre{ab}{m}= \legendre am \legendre bm$ per a qualssevol $a$, $b$ i qualsevol enter senar positiu $m$.
+    \item $\legendre{a}{mn} = \legendre am \legendre an$ per a qualsevol $a$ i qualssevol enters senars positius $m$ i $n$.
+\end{enumerate}
+\end{lemma}
+\begin{remark}
+ Notem que si $\legendre{a}{m}=-1$ aleshores $a$ no és un quadrat mòdul $m$ (ja que no ho és mòdul $p$ per algun primer $p$ que divideix $m$ a una potència senar). Però en canvi, si $\legendre{a}{m}=1$ no podem deduir que $a$ sigui un quadrat mòdul $m$. Per exemple,
+ \[
+ \legendre{2}{15} = 1,
+ \]
+ però els quadrats mòdul $15$ són
+ \[
+ \{1,4,6,9,10\}.
+ \]
+\end{remark}
+
+
+ \begin{theorem}[Llei de Reciprocitat Quadràtica pel símbol de Jacobi]
+\label{thm:lrq-jacobi}
+Siguin $m$ i $n$ dos enters positius senars i coprimers entre si. Aleshores
+\[
+    \legendre{m}{n} = (-1)^{\frac{m-1}{2}\frac{n-1}{2}}\legendre{n}{m}.
+    \]
+A més,
+\[
+\legendre{-1}{m} = (-1)^{\frac{m-1}{2}}=\begin{cases}
++1&m\equiv 1\pmod{4}\\
+-1&m\equiv 3\pmod{4}
+\end{cases}
+,\quad \legendre{2}{m} = \begin{cases}
+1 & m\equiv \pm 1\pmod {8}\\
+-1 & m \equiv \pm 3 \pmod{8}.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{example}
+ Suposem que volem saber si $7411$ és un quadrat mòdul $9283$. Primer hauriem de veure que els dos són primers (sí que ho són). Aleshores, com que els dos són $\equiv 3\pmod 4$ obtenim
+ \[
+ \legendre{7411}{9283} = -\legendre{9283}{7411}=-\legendre{1872}{7411}.
+ \]
+ Si només fem servir el símbol de Legendre, ara hem de factoritzar $1872=2^4\cdot 3^3\cdot 13$. En canvi, fent servir el símbol de Jacobi només hem de treure les potències de $2$:
+ \begin{align*}
+ &-\legendre{1872}{7411} =-\legendre{2^4}{7411}\legendre{117}{7411} = -\legendre{7411}{117}\\
+ &=-\legendre{40}{117} = -\legendre{2}{117}\legendre{5}{117} = \legendre{5}{117}=\legendre{117}{5} = \legendre{2}{5}=-1.
+ \end{align*}
+\end{example}
+ \subsection{Aplicació: arrels quadrades mòdul \texorpdfstring{$p$}{p}}
+ \label{sec:arrels-quadrades}
+ 
+ En aquesta secció ens plantegem el problema de trobar les solucions d'una equació quadràtica $ax^2+bx+c=0$ a $\F_p=\Z/p\Z$, amb $p\geq 3$ primer. De la fórmula quadràtica se'n despren que n'hi ha prou amb saber trobar l'arrel quadrada de $D=b^2-4ac$, si en té. Fent servir la llei de reciprocitat quadràtica, hem vist que podem determinar ràpidament si $D$ és un quadrat, però que no obtenim informació sobre com trobar $\delta\in \F$ tal que $\delta^2=D$.
+ 
+ Recordem que, si $D$ és un quadrat, aleshores
+ \[
+ D^{\frac{p-1}{2}}\equiv 1\pmod p.
+ \]
+ Per tant, $D^{\frac{p+1}{2}} \equiv D\pmod p$. Observem aleshores que, si $\frac{p+1}{2}$ és parell ($\iff$ $p\equiv 3\pmod 4$), aleshores $\delta=D^{\frac{p+1}{4}}$ satisfà $\delta^2=D$.
+ 
+ Per tant, podem suposar que $p\equiv 1\pmod{4}$. Donarem ara un algoritme probabilístic per trobar $\delta$. Considerem l'anell $R=\F_p[x]/(x^2-D)$, i escrivim $\sqrt{D}$ per la classe de $x$ a $R$. Considerem el morfisme d'anells
+ \[
+ \varphi\colon R\to \F,\quad a+b\sqrt{D}\mapsto a+b\delta
+ \]
+ (fixem-nos que encara no hem trobat $\delta$, però en tot cas sabem que existeix).
+ 
+ Ara, triem un element $z\in \F_p^\times$ a l'atzar, i calculem (fent servir exponenciació eficient) la quantitat
+ \[
+ (1+z\sqrt{D})^{\frac{p-1}{2}}=u+v\sqrt{D}\in R.
+ \]
+ Com que $\varphi(u+v\sqrt{D}) = (1+\varphi(z)\delta)^{\frac{p-1}{2}}$ i $\F_p^\times$ té $p-1$ elements, necessàriament $u+v\delta\in \{0,1,-1\}$. Per tant, si $v\neq 0$ aleshores
+ \[
+ \delta\in \{-u/v, (1-u)/v, (-1-u)/v\}.
+ \]
+ Podem provar aquestes tres possibilitats i trobarem $\delta$. Si $v=0$, triem un altre $z\in \F_p^\times$ i repetim el procés.
+ 
+ \begin{python}
+ def troba_arrel_quadrada(a, p):
+    assert legendre_symbol(a, p) == 1
+    if (p+1) % 4 != 0:
+        return a^((p+1)//4)
+    S.<x> = GF(p)['x']
+    R.<alpha> = S.quotient(x^2-a)
+    v = 0
+    while v == 0:
+        z = GF(p).random_element()
+        w = (1 + z*alpha)^ZZ((p-1) / 2)
+        u, v = w.list()
+    ans = -u / v
+    if ans^2 == a:
+        return ans
+    vinv = 1 / v
+    ans += vinv
+    if ans^2 == a:
+        return ans
+    return ans - 2 * vinv
+ \end{python}

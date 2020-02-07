@@ -1,0 +1,786 @@
+\begin{enumerate}[leftmargin=*]
+\item Sigui $p$ un nombre primer. Direm que $\alpha \in \F_p^\times$ és una
+arrel primitiva si genera el grup $\F_p^\times$.
+
+\begin{enumerate}
+\item Sigui $p$ un nombre primer de la forma $p=2^{2^k}+1$
+per algun $k$ (primers de Fermat). Demostreu que el conjunt d'arrels
+primitives a $\F_p$ és igual al conjunt d'elements de $\F_p$ que no
+són quadrats.
+
+\item Sigui $q$ un primer tal que $p=4q+1$ també és primer. Demostreu que el conjunt
+d'arrels primitives a $\F_p$ és igual al conjunt d'elements que no
+són quadrats ni el seu quadrat és $-1$.
+
+\item Trobeu totes les arrels primitives a $\F_{13}$,
+$\F_{29}$, $\F_{149}$.
+
+\item Demostreu que el nombre d'arrels primitives de $\F_p$ és
+igual a $\varphi(\varphi(p))$.
+
+\item Demostreu que si $p>3$ és un nombre primer, el producte
+de totes les arrels primitives de $\F_p$ és igual a $1$.
+
+\item Demostreu que si $p\ge 3$ és un nombre primer, la suma
+de totes les arrels primitives de $\F_p$ és congruent a $\mu(p-1)
+\pmod{p}$, on $\mu(n)$ és la funció de Möbius, que val $1$ si $n$ és
+producte d'un nombre parell de primers diferents, $-1$ si $n$ és
+producte d'un nombre senar de primers diferents, i $0$ si no (o
+sigui $n$ és divisible per un quadrat $>1$).
+
+
+\end{enumerate}
+
+
+(Pista per e) i f): Demostreu que
+$$\prod_{\alpha\mbox{\small{} arrel primitiva a } \F_p}
+(x-\alpha)=\Phi_{p-1}(x),$$ on $\Phi_n(x)$ és el polinomi ciclotòmic enèssim.
+
+
+\item Parametrització de corbes i varietats.
+
+\begin{enumerate}
+
+\item Calculeu una fórmula que determini les solucions
+racionals de l'equació $ax^2+by^2=a+b$ en $(x,y)$, en funció del
+paràmetres $a$ i $b$.
+
+\item Calculeu una fórmula que determini les solucions
+racionals de l'equació $x^2+y^2+z^2=1$ en $(x,y,z)$. Per fer-ho,
+podeu utilitzar la projecció estereogràfica $\pi(x,y,z)=(s,t)$ a
+partir del punt $(0,0,-1)$, i trobeu una descripció explícita del
+punt $(x,y,z)$ en funció del punt $(s,t)$ del pla.
+
+\item Feu el mateix que l'apartat (b) però amb
+l'equació $x_1^2+x_2^2+\cdots+x_n^2=1$.
+
+\item Comproveu que les solucions racionals de l'equació
+$x^3+y^3+z^3=1$ venen donades donant valors racionals $(s,t)$ a les
+fórmules $$ x(s,t) = \frac{3 t - \frac 13 (s^2 + s t + t^2)^2}{t
+(s^2 + s t + t^2) - 3} $$
+
+$$y(s,t) = \frac{3 s + 3 t + \frac 13 (s^2 + s t + t^2)^2}{t
+(s^2 + s t + t^2) - 3}$$
+
+$$ z(s,t) = \frac{-3 - (s^2 + s t + t^2) (s + t)}{t (s^2 + s t
++ t^2) - 3}.$$
+
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item Demostreu que si $n\ge 2$ i $k\ge 1$ són enters,
+aleshores $(n-1)$ sempre divideix $(n^k-1)$, però que $(n-1)^2$
+divideix $(n^k-1)$ si i només si $(n-1)$ divideix $k$.
+
+\item Demostreu que $n$ divideix $(n-1)!+1$ si i només si $n$
+és un nombre primer.
+
+\item Demostreu que $(n-1)!+1=n^k$ per un cert nombre $k$ si i
+només si $n=2,3$ o $5$.
+
+\end{enumerate}
+
+\item Un nombre enter $n$ no primer s'anomena un nombre de
+Carmichael si per a tot nombre enter $a$ coprimer amb $n$ tenim que
+$$a^{n-1} \equiv 1 \pmod{n}.$$
+
+\begin{enumerate}
+\item Demostreu que un nombre enter $n$ es de Carmichael si i
+només si $n$ és compost i divideix $a^n-a$ per a tot enter $a$.
+
+\item Demostreu que per a tot $n\ge 2$ enter, el nombre d'elements $a$ de $\Z/n\Z$ tals que $a^{n-1}=1$ és exactament igual a
+$$\prod_{p \mid n, \ p \text{ primer}} \gcd(p-1,n-1)$$
+
+\item Demostreu que un nombre compost $m$ es de Carmichael si
+és lliure de quadrats i $(p-1)$ divideix $(m-1)$ per a tot primer
+$p$ que divideix $m$.
+
+\item Trobeu tots els nombres de Carmichael entre $2$ i $3000$.
+
+\end{enumerate}
+
+\item Considereu la funció $\varphi$ d'Euler (o sigui,
+$\varphi(n)$ és igual al nombre d'elements invertibles a l'anell
+$\Z/n \Z$).
+
+\begin{enumerate}
+\item Trobeu tots els nombres $n$ tals que $\varphi(n)=1$, i
+tots els nombres $n$ tals que $\varphi(n)=2$.
+
+\item Trobeu tots els nombres $n$ tals que $\varphi(n)=24$.
+
+\item Trobeu l'enter positiu més petit $a$ tal que no hi ha
+cap enter $n$ amb $\varphi(n)=a$, el més petit tal que té
+exactament 2 solucions, exactament 3 solucions i exactament 4
+solucions.
+
+\item Demostreu que, si $\gcd(m,n)>1$, aleshores
+$\varphi(nm)>\varphi(n)\varphi(m)$.
+
+\item Demostreu que, si $m \mid n$, aleshores $\varphi(m)\mid
+\varphi(n)$.
+
+\item Demostreu que  $n \mid \varphi(a^n-1)$ per a tot $a>1$.
+\end{enumerate}
+
+\item Sigui $p$ un nombre primer senar.
+\begin{enumerate}
+
+\item Sigui $A$ el producte
+de tots els residus quadràtics mòdul $p$ (els residus quadràtics
+mòdul $p$ són els elements de $\F_p^\times$ que són quadrats). Demostreu
+que 
+\[
+A\equiv (-1)^{(p+1)/2} \pmod{p}.
+\]
+\item Demostreu que si $p\equiv 1\pmod{4}$, aleshores la suma de tots el nombres $r$, $1 \le r \le p-1$ que
+són residus quadràtics és igual a $p(p-1)/4$.
+
+\item Sigui $a$ un nombre enter no divisible per $p$. Considerem el conjunt $$S_a=\{\overline{na}\in \F_p \ : \
+n\in \{1,2,\dots,(p-1)/2\} \},$$ i el conjunt $S_a'$  format pels
+elements $\bar r$ de $S_a$ tals que $r>p/2$, on $r$ és l'únic nombre
+enter tal que $1\le r\le p-1$, i $r\equiv \bar r \pmod{p}$.
+Demostreu que $$\prod_{r\in S_a} r=(-1)^{|S_a'|}\prod_{s\in S_1}s$$
+i dedu\"{\i}u que $\left(\frac{a}{p}\right)=(-1)^{|S_a'|}$.
+\end{enumerate}
+
+
+\item Sigui $m$ un enter positiu
+senar. Podem escriuré així $m=p_1\dots p_s$ on els $p_i$ són primers
+senars, no necessàriament diferents. Es defineix el \textbf{símbol de Jacobi}
+com:
+$$
+\displaystyle{\left (\frac{a}{m} \right )=\prod_{i=1}^{s}\left
+(\frac{a}{p_i} \right )}.
+$$
+
+\begin{enumerate}
+\item Demostreu que si $a$ és primer amb $m$, aleshores
+l'aplicació $\mu_a\colon : \Z/m\Z\to \Z/m\Z$ definida com $x\mapsto ax$ és un automorfisme
+(i.e. és bijectiva i morfisme de grups).
+
+\item Denotem per  $\displaystyle{\left[\frac{a}{m} \right]}$ el signe de la permutació donada per
+l'aplicació $\mu_a$ a $\Z/m\Z$. Demostreu que si $m=m_1m_2$,
+aleshores
+$$
+\displaystyle{\left[ \frac{a}{m} \right] =\left [\frac{a}{m_1}
+\right]\left [\frac{a}{m_2} \right]}.
+$$
+
+\item Demostreu que per a tot $m$ senar i $a$ primer amb $m$
+tenim que
+$$\displaystyle{\left[\frac{a}{m} \right]}=\displaystyle{\left(\frac{a}{m}
+\right)}.$$
+
+\item Siguin $m$ i $n$ dos enters senars positius i primer
+entre si. Si escollim com a representant de cada element de $\Z/m\Z$
+un enter $0\le a <m$, i també representants $0\le b<n$ dels
+elements de $\Z/n\Z$, demostreu que tenim tres bijeccions naturals
+$L,M,N\colon \Z/m\Z\times \Z/n\Z\to \Z/(mn)\Z$ donades per $L$ la
+bijecció que ens determina el teorema xin\`{e}s, $N(a,b)=an+b$ i
+$M(a,b)=bm+a$.
+
+\item Demostreu que per a tot $b\in \Z/m\Z$, el signe de la permutació
+$\sigma_b\colon\Z/m\Z\to \Z/m\Z$ que envia $\sigma_b(a)=a+b$ és
+sempre 1.  Comproveu que la composició de $L^{-1}N$ és igual
+a l'aplicació $(\sigma_b\circ \mu_n)\times i \colon\Z/m\Z\times
+\Z/n\Z\to \Z/m\Z\times \Z/n\Z$ donada $((\sigma_b\circ \mu_n)\times
+i)(a,b)=(na+b,b)$. Idem amb $L^{-1}M$ i $i\times (\sigma_a\circ
+\mu_m)$.
+
+\item Demostreu que el signe de la permutació de $\Z/m\Z\times \Z/n\Z$ donada per la
+bijecció $N^{-1}M$ és $(-1)^{(m-1)(n-1)/4}$. Per fer-ho podeu
+fer servir el fet que el signe d'una permutació $\tau$ d'un conjunt $X$
+totalment ordenat és igual a $-1$ elevat al nombre d'inversions de
+$\tau$: parelles $(a,b)\in X^2$ tals que $a<b$ i $\tau(b)<\tau(a)$,
+i demostrar que si posem l'ordre lexicogràfic a $\Z/m\Z\times
+\Z/n\Z$, el nombre d'inversions és $ \binom{m}{2}\binom{n}{2}$.
+
+\item Dedu\"{\i}u de $(L^{-1}N)(N^{-1}M)=L^{-1}M$ la Llei de reciprocitat quadràtica per al símbol de
+Jacobi:  Si $(m,n)=1$, aleshores
+$$
+\left(\frac{m}{n} \right) \left(\frac{n}{m}
+\right)=(-1)^{\frac{m-1}{2}\frac{n-1}{2}}.
+$$
+
+\end{enumerate}
+
+\item Direm que un nombre és $k$-compost si es divisible per
+com a mínim $k$-nombres primers diferents. Per exemple, 24 es
+2-compost però no és 3-compost, i $210=2\cdot 3 \cdot 5 \cdot 7$ es
+$k$-compost per a $k=2,3,4$.
+
+\begin{enumerate}
+\item Trobeu 3 nombres consecutius cadascun d'ells 3-compost.
+
+\item Demostreu que per a tot $k\ge 2$ i per a tot $n$
+existeixen $n$ nombres consecutius tots ells
+$k$-compostos.
+
+\item Un nombre enter $n$ no és lliure de quadrats si hi ha
+algun nombre primer $p$ tal que $p^2$ divideix $n$. Doneu tres
+nombres consecutius que no siguin lliures de quadrats. Demostreu per
+a tot $m\ge 2$ existeixen $m$ nombres consecutius que no són lliures
+de quadrats.
+
+\item Hi ha $m$ nombres consecutius lliures de quadrats per a
+a tot $m\ge 2$?
+
+\item Per a tot $k\ge 1$, hi ha $m$ nombres consecutius que no
+siguin $k$-compostos per a a tot $m\ge 2$?
+
+\end{enumerate}
+
+\item 
+\begin{enumerate}
+    \item  Demostreu que hi ha exactament 4 anells
+commutatius (amb unitat) no isomorfs dos a dos amb 4 elements.
+Descriviu-los.
+
+\item Més en general, demostreu que si $p$ és un nombre
+primer, hi ha exactament 4 anells commutatius (amb unitat) no
+isomorfs dos a dos amb $p^2$ elements. (Indicació: Demostreu que un
+anell amb $p^2$ elements, o bé és isomorf a $\Z/p^2\Z$, o bé és un
+$\Z/p\Z$ espai vectorial de dimensió 2).
+
+\item Podeu dir quants anells commutatius amb 6 elements hi
+ha, mòdul isomorfia?
+\end{enumerate}
+
+\item Considerem una aplicació $d:\Z\to \Z$ tal que $d(p)=1$
+per a tot nombre primer $p$, i que $d(n m)=nd(m)+md(n)$ per a qualssevol enters $n$ i $m$.
+
+\begin{enumerate}
+\item Demostreu que $d(n)=0$ si i només si $n=0$ o $\pm1$.
+
+\item Demostreu que $d(-n)=-d(n)$.
+
+\item Demostreu que si $n=\prod_{i=1}^s p_i^{r_i}$ és la
+factorització amb producte de nombres enters, on $p_i$ són nombres
+primers diferents, $r_i\ge 1$, aleshores
+$$d(n)=n\sum_{i=1}^s \frac{r_i}{p_i}.$$
+(i per tant $d$ està únicament determinada).
+
+\item Sigui $p$ és un nombre primer. Definim $v_p(n)=k$ si
+$p^k$ és la màxima pot\`{e}ncia de $p$ que divideix un enter
+$n$. Demostreu que si $0<v_p(n)<p$, aleshores $v_p(d(n))=v_p(n)-1$,
+però, en canvi, si $v_p(n)=p$, aleshores $v_p(d(n))\ge p$.
+
+\item Demostreu que $n$ és lliure de quadrats si i nomes si
+$\gcd(n,d(n))=1$.
+
+\item Demostreu que $n=d(n)$ si i nomes si $n=\pm p^p$ per un
+nombre primer $p$.
+
+\item Demostreu que no hi ha solucions de $d(n)=a$ per a
+$a=2,3$ i $11$. Trobeu totes les solucions de $d(a)=4,5$ i $6$.
+\end{enumerate}
+
+\item Considerem un nombre primer $p\ge 3$, i definim els
+enters $a_k$ (depenent de $p$) que verifiquen la seg\"{u}ent igualtat de
+polinomis en $x$ amb coeficients a $\Z$:
+$$\prod_{j=1}^{p-1} (x-j) = \sum_{k=0}^{p-1} a_k x^k.$$
+
+\begin{enumerate}
+\item Demostreu que $p \mid a_k$ per a $1\le k\le
+p-2$. (Indicació: treballeu a $\F_p$).
+
+\item Calculeu explícitament $a_0$, i demostreu que
+$$a_1=-(p-1)!\sum_{j=1}^{p-1}\frac 1j.$$
+
+\item Demostreu que si $p\ge 5$, aleshores $p^2\mid
+a_1$. (Indicació: substitu\"{\i}u $x$ per $p$ a l'equació definitoria dels
+$a_k$).
+
+\item Utilitzeu l'apartat anterior per a demostrar que si
+$p\ge 5$, aleshores
+$$\sum_{j=1}^{p-1} \frac 1j \equiv 0 \pmod{p^2}$$
+(pensant l'igualtat a $\F_p$ o, si ho preferiu, que el numerador de
+la part esquerra de l'equació és divisible per $p^2$).
+
+\item Demostreu que si $p\ge 5$, aleshores
+$$\sum_{j=1}^{p-1} \frac 1{j^2} \equiv 0 \pmod{p}.$$
+\end{enumerate}
+
+\item Considereu la funció $\varphi$ d'Euler (o sigui,
+$\varphi(n)$ és igual al nombre d'elements invertibles a l'anell
+$\Z/n \Z$).
+\begin{enumerate}
+\item Demostreu que si $k$ i $a$ són enters positius, amb
+$a\ge 2$, i $m=a^k-1$, aleshores $k$ és l'ordre de $a$ mòdul $m$.
+
+\item Demostreu que si $k$ i $a$ són enters positius, amb
+$a\ge 2$, aleshores $k\mid \varphi(a^n-1)$.
+
+\item Demostreu que si $p \mid\varphi(m)$ però $p
+\nmid m$, aleshores hi ha com a mínim un nombre $q$ primer
+amb $q\mid m$ i $q\equiv 1 \pmod{p}$.
+
+\item Demostreu que per a tot nombre primer $p$, hi ha
+infinits nombres primers $q$ tals que $q\equiv 1 \pmod{p}$.
+\end{enumerate}
+
+\item Diem que un polinomi irreductible i mònic $q(x)$ de
+$\F_p[x]$, on $p$ és un nombre primer, és primitiu si la classe de
+$x$ a $\F_p[x]/q(x)$ és primitiva (i.e. té ordre exactament $p^d-1$,
+on $d$ és el grau de $q(x)$).
+
+\begin{enumerate}
+\item Demostreu que un polinomi de la forma $x^d+a\in \F_p[x]$ no
+pot ser mai primitiu.
+
+\item Demostreu que si $p=2$ i
+$2^d-1$ és un primer (s'anomenen de Mersene), aleshores tot polinomi
+$q(x)\in \F_2[x]$ monic i irreductible és primitiu.
+
+\item Demostreu que el nombre de polinomis irreductibles, primitius
+i mònics de grau $d>1$ a $\F_p[x]$ és exactament $\frac
+{\varphi(p^d-1)}{d}$, on $\varphi$ és la funció $\varphi$ d'Euler.
+
+\item Un trinomi primitiu és un polinomi de la forma $q(x)=x^d+ax^s+b\in
+\F_p[x]$, que és irreductible i primitiu. Demostreu que si $p=2$, un
+trinomi $x^d+x^s+1\in \F_2[x]$ és primitiu si i només si la
+recurr\`{e}ncia $z_n=z_{n-d}+z_{n-s} \pmod{2}$ té periode $t=2^d-1$, i
+és el màxim posible (el periode és $t$ si $z_{n}=z_{n+t}$ per a tot
+$n$, i $t>0$ és el més petit que ho compleix).
+
+
+\item Calculeu tots els polinomis primitius per a $p=2$ i $n=2,3,4$, $p=3$, $n=2,3$, i
+$p=5$, $n=2$.
+
+\end{enumerate}
+
+\item Direm que un polinomi $p(x)\in \Q[x]$ pren valors
+enters si per a tot $n\in \Z$ es té  $p(n)\in \Z$. Denotem per
+$\Z\{x\}$ el conjunt de polinomis que pren valors enters.
+
+\begin{enumerate}
+\item Demostreu per a tot $n\in \Z_{\ge 1}$, el polinomi
+$$b_n(x)=\frac1{n!} \prod_{i=0}^{n-1} (x-i)$$
+pren valors enters. Definim $b_0(x)=1$.
+
+\item Donat un polinomi $p(x)\in \Q[x]$, definim
+$\Delta(p(x))=p(x+1)-p(x)$. Demostreu que si $p(x)\in \Z\{x\}$,
+aleshores $\Delta(p(x))\in \Z\{x\}$. Demostreu que
+$\Delta(b_n(x))=b_{n-1}(x)$ per a tot $n\ge 1$.
+
+\item Demostreu que $Z\{x\}$ és un subanell de $\Q[x]$.
+
+\item Demostreu que si un polinomi $p(x)$ és combinació lineal entera
+$$p(x)=\sum_{n=0}^r a_n b_n(x)$$
+amb $a_n\in \Z$ per a tot $n$, aleshores $p(x)\in \Z\{x\}$, i a més
+$a_n=\Delta^{n}(p(x))(0)$.
+
+\item Demostreu, utilitzant l'apartat anterior, que tot polinomi de
+$\Z\{x\}$ és combinació lineal entera dels $p_n(x)$, i per tant que
+$$\Z\{x\}=\bigoplus_{n=0}^{\infty} \Z b_n(x). $$
+
+
+\end{enumerate}
+
+\item Una funció $f:\Z_{\ge 1} \to \C$ és
+multiplicativa si $f(a b)=f(a)  f(b)$ per a tot $a$ i $b$
+primers entre si.
+
+\begin{enumerate}
+
+\item  Demostreu que la funció $d(n)$ que compta el nombre de
+divisors de $n$ és multiplicativa.
+
+\item  Demostreu que la funció $\sigma(n)=\sum_{d\mid
+n} d$, suma de divisors de $n$, és multiplicativa.
+
+\item  Demostreu que si $f$ és multiplicativa, la seg\"{u}ent
+funció també ho és:
+ $$\widehat{f}(n)=\sum_{d\mid n} f(d).$$
+
+\item  Determineu explicitament $\widehat{f}$ per a $f(n)=1$
+(constant igual a 1), $f(n)=\chi_1(n)$ (la funció que val 1 si $n=1$,
+i $0$ si no), $f(n)=n$ (la funció identitat) i $f=\varphi(n)$ (la
+funció d'Euler).
+
+\item  Sigui $\mu(n)$ la funció definida com $\mu(n)=0$ si $n$ és divisible per algun quadrat, $\mu(n)=1$ si $n$
+té exactament un nombre parell de divisors primers i $\mu(n)=-1$ si
+en té un nombre senar. Demostreu que
+$$f(n)=\sum_{d\mid n} \mu(d)\widehat{f}(n/d)$$
+(Pista: feu-ho primer per la funció $\chi_1(n)$ que val $0$ per a tot
+$n>0$, $\chi_1(1)=1$.)
+
+\item Demostreu que si $F(x)$ és una funció de $[1,\infty]$ als reals $\R$, i
+$$G(x)=\sum_{1\le d\le x} F(x/d)$$
+per a tot $x\ge 1$, aleshores
+ $$F(x)=\sum_{1\le d\le x} \mu(d) G(x/d)$$
+per a tot $x\ge 1$.
+
+
+\item  Demostreu que, per a tot $x\ge 2$, $$\left| \sum_{1\le
+n\le x} \frac{\mu(n)}{n} \right| \le 1.$$ Per a demostrar-ho podeu
+fer els seg\"{u}ents passos:
+\begin{enumerate}
+\item Proveu que $\sum_{d\le x} \mu(d) \lfloor\frac xd \rfloor=1$
+per a tot $x\ge 1$ enter.
+\item Proveu que $$\left| \sum_{d\le x} \mu(d) \left( \frac xd - \lfloor\frac xd
+\rfloor\right) \right| \le x-1.$$
+\item Dedu\"{\i}u que $$x\left| \sum_{d\le x} \frac {\mu(d)}d  \right|
+\le x$$
+\end{enumerate}
+
+\end{enumerate}
+
+\item Definim inductivament els polinomis ciclotòmics
+$\Phi_n(x)$ per a $n\ge 1$ enter com $\Phi_1(x)=x-1$ i
+$$\Phi_n(x)=\frac {x^n-1}{\prod_{d\mid n,\ d<n} \Phi_d(x)}$$
+
+\begin{enumerate}
+
+\item   Demostreu que $\Phi_{2n}(x)=\Phi_n(-x)$ si $n$ és
+senar.
+
+\item  Demostreu que $\Phi_{p^m}(x)=\Phi_p(x^{p^{m-1}})$.
+
+\item  Demostreu que $\Phi_{n}(x)=\Phi_q(x^{n/q})$ si
+$$q=\mbox{rad}(n)=\prod_{p\mid n, \mbox{\scriptsize{ $p$ primer}}}
+p.$$
+
+\item  Demostreu que si $p$ i $q$ son primers diferents,
+aleshores $\Phi_{p}(x)$ i $\Phi_{pq}(x)$ tenen tots els coeficients
+iguals a $0$, $1$ o $-1$.
+
+\item  Demostreu que si $n$ és divisible com a molt per a dos
+primers senars diferents, aleshores $\Phi_{n}(x)$ té tots els
+coeficients iguals a $0$, $1$ o $-1$.
+
+\item  Calculeu $\Phi_{105}(x)$ i comproveu que té algun
+coefficient diferent de $0$ i $\pm 1$.
+
+\end{enumerate}
+
+\item Sigui $\lfloor x \rfloor$ la part entera inferior d'un
+nombre real (o sigui, el nombre enter més gran més petit que $x$).
+
+Definim, donat un nombre real, les successions $r_0=x$,
+$a_0=\lfloor r_0 \rfloor$,  i per $n\ge 1$, si $r_{n-1}= a_{n-1}$,
+parem la successió, i si no
+$$ r_n=\frac 1{r_{n-1}-a_{n-1}} \ \  \mbox{ i } \ \  a_n=\left\lfloor r_n \right\rfloor.$$ Denotem per
+$x= [a_0;a_1,a_2,a_3,\cdots]$ l'expansió de $x$ en fracció
+continua.
+
+\begin{enumerate}
+
+\item  Demostreu que $x$ és racional si i només si existeix un
+$n$ tal que $r_n=a_n$.
+
+\item  Donat un nombre real $x=[a_0;a_1,a_2,a_3,\cdots]$,
+considerem els nombres racionals
+$$q_n=[a_0;a_1,a_2,a_3,\cdots,a_n]$$ per a cada $n\ge 0$. Siguin
+$h_n$ i $k_n$ el numerador i denominador de $q_n$. Demostreu que
+$$h_n=a_nh_{n-1}+ h_{n-2} \mbox{ i que } k_n=a_nk_{n - 1} + k_{n - 2}.$$
+
+\item  Demostreu que
+$$k_nh_{n-1}-k_{n-1}h_n=(-1)^n \mbox{ i } \frac{h_n}{k_n}-\frac{h_{n-1}}{k_{n-1}}
+= \frac{(-1)^{n+1}}{k_nk_{n-1}}.$$
+
+\item  Per a $n\ge 1$ i $x=[a_0;a_1,a_2,a_3,\cdots]$ real,
+sigui $x_n=[a_n;a_{n+1},a_{n+2},a_{n+3},\cdots]$. Demostreu que per
+a tot $n\ge 1$,
+$$x=\frac {h_nx_{n+1}+h_{n-1}}{k_nx_{n+1}+k_{n-1}}$$
+
+\item  Diem que $x=[a_0;a_1,a_2,a_3,\cdots]$ és una fracció
+continua eventualment periòdica si existeixen $d\ge 1$ i $n_0\ge 0$
+tal que $x_{n+d}=x_{n}$ per a tot $n\ge n_0$. Demostreu que per
+$x=\sqrt{2}$, per $\sqrt{3}$ i per $\sqrt{5}$, la fracció continua
+és eventualment periòdica.
+
+\item  Demostreu que si la fracció continua de $x$ és periòdica
+amb periode $1$ o $2$, aleshores $x$ és arrel d'un polinomi mònic de
+grau com a molt $2$ amb coeficients racionals.
+
+\item Demostreu que si la fracció continua de $x$ és
+eventualment periòdica, aleshores $x$ és arrel d'un polinomi mònic
+de grau com a molt $2$ amb coeficients racionals. \emph{Comentari:} El recíproc  és cert però molt més difícil de demostrar.
+
+\end{enumerate}
+
+
+
+
+\item Sigui $\lfloor x \rfloor$ la part entera inferior d'un
+nombre real (o sigui, el nombre enter més gran més petit que $x$).
+Donat un nombre primer $p$, i un enter $n$, sigui $v_p(n)$ la màxima
+potencia de $p$ que divideix $n$.
+
+\begin{enumerate}
+
+\item  Demostreu que si $x_i\in \R$ per a $i=1,\dots, n$,
+aleshores $$\sum_{i=1}^{n} \left\lfloor x_i\right\rfloor \le
+\left\lfloor \sum_{i=1}^{n} x_i\right\rfloor.$$
+
+\item  Demostreu que $$v_p(n!)=\sum_{i=1}^{\infty} \left\lfloor
+\frac n{p^i}\right\rfloor.$$
+
+\item  Demostreu que si $m=a_1+\dots+a_n$, amb $a_i\in \Z_{\ge
+0}$, i $p$ és un nombre primer, aleshores
+$$v_p(m!)\ge \sum_{i=1}^{n} v_p(a_i!).$$
+Dedu\"{\i}u que $$\frac {m!}{a_1!\cdots a_n!}\in\Z_{\ge 1}.$$
+
+\item  Demostreu que si $a\in \Z$, aleshores el nombre $\frac
+1{2a-1} \binom{2a}{a}$ és enter.
+
+
+\item   Demostreu que si $a$ i $b\in\Z$, aleshores el nombre
+seg\"{u}ent és enter: $$ \frac{(2a)!(2b)!}{a!b!(a+b)!}$$
+
+\item  Demostreu que
+$$N!>\left( \frac {N}{e}\right)^N$$
+(Indicació: $e^N>N^N/N!$), i dedu\"{\i}u, junt amb b), que $$\sum_{p\le
+N} \frac{\log(p)}{p-1} > \log(N)-1,$$ el que prova que hi ha
+infinits primers d'una altra manera.
+
+\end{enumerate}
+
+
+\item Sigui $\lfloor x \rfloor$ la part entera inferior d'un
+nombre real (o sigui, el nombre enter més gran més petit que $x$).
+Donat un nombre primer $p$, i un enter $n$, sigui $v_p(n)$ la màxima
+potencia de $p$ que divideix $n$.
+
+\begin{enumerate}
+
+
+\item  Demostreu que $$v_p(n!)=\sum_{i=1}^{\infty} \left\lfloor
+\frac n{p^i}\right\rfloor.$$
+
+\item  Demostreu que per a tot $n\ge a\ge 0$,  $$v_p(n!)\ge
+v_p(a!)+v_p((n-a)!).$$
+
+\item  Demostreu que si  $\frac{2n}3< p\le n$ és un nombre
+primer, aleshores $$v_p(\binom{2n}{n})=0.$$
+
+\item  Demostreu que si  $\sqrt{2n}< p\le n$ és un nombre
+primer, aleshores $$v_p(\binom{2n}{n})\le 1.$$
+
+\item  Demostreu que per a tot nombre enter $n$, si prenem
+\[
+P_n=\{p \mbox{ nombres primers } \ | \ n+2\le p \le 2n+1\}
+\]
+aleshores
+\[
+\prod_{p\in P_n} p \le \binom{2n+1}{n}< 4^n.
+\]
+
+\item  Dedu\"{\i}u de tot això que si $n$ és prou gran,
+aleshores sempre hi ha un nombre primer $p$ amb $n\le p<2n$.
+(Indicació: considereu $\binom{2n}{n}$).
+
+\end{enumerate}
+
+
+\item Sigui $\chi:\F_p^* \to \C^*$ un morfisme de grups.
+Denotarem per $\chi(n)=\chi(\bar n)$ si $\bar n\ne 0$ és la classe
+de $n$ mòdul $p$, i $\chi(n)=0$ si $\bar n=0$. L'anomenarem caràcter
+de Dirichlet mòdul $p$. Diem que $\chi=1$ si $\chi(a)=1$ per a tot
+$a\in \F_p^*$.
+
+\begin{enumerate}
+
+
+\item  Demostreu que $\chi(n)=\left( \frac np \right)$ és
+un caràcter de Dirichlet.
+
+\item   Si $\chi$ i $\chi'$ són caràcters de Dirichlet
+mòdul $p$, demostreu que $\chi\chi'$ (definit com $(\chi\chi')(a)=
+\chi(a)\chi'(a)$) també ho és.
+
+\item  Demostreu que $\sum_{a\in \F_p} \chi(a)=0$ si i
+només si $\chi\ne 1$.
+
+\item Sigui $\psi=e^{2\pi i/p}\in \C$ una arrel primitiva
+$p$-\`{e}ssima de 1. Definim la suma de Gauss de $\chi$ com
+$$G(\chi)=\sum_{a\in \F_p} \chi(a) \psi^a.$$
+Calculeu $G(\chi)$ si $\chi=1$, si $\chi$ és el caràcter
+modul $5$ determinat dient que $\chi(2)=i=\sqrt{-1}$, i si $\chi$
+és el caràcter modul $7$ determinat dient que
+$\chi(3)=\omega = e^{\pi i /3}.$.
+
+\item  Si $\chi$ i $\chi'$ són caràcters de Dirichlet
+mòdul $p$, definim $$J(\chi,\chi')=\sum_{a\in \F_p}
+\chi(a)\chi'(1-a).$$ Demostreu que si $\chi$, $\chi'$ i $\chi\chi'$
+són $\ne 1$, aleshores
+$$J(\chi,\chi')G(\chi\chi')=G(\chi)G(\chi').$$
+
+\item Demostreu que si $\chi\ne 1$, aleshores $\| G(\chi)\|
+=\sqrt{p}$ com a número complex.
+
+\end{enumerate}
+
+
+
+\item L'objectiu d'aquest problema és demostrar que per a
+tota base $b>1$, hi ha infinits enters $n>1$ no primers que són
+pseudoprimers per la base $b$. Recordem que $n$ és pseudoprimer per
+a la base $b$ si $b^{n-1}\equiv 1 \pmod{n}$.
+
+\begin{enumerate}
+\item Dóna un exemple d'un pseudoprimer $n$ no primer en la base $2$. Demostra que
+si $n$ és pseudoprimer no primer en la base $2$, aleshores $2^n-1$
+també ho és.
+\item Més en general, demostra que si  $n$ és pseudoprimer no primer en la base
+$b$, i $\gcd(b-1,n)=1$, aleshores l'enter $N=(b^n-1)/(b-1)$ també ho
+és, i $N>n$.
+\item Aplica l'apartat anterior per a demostrar que hi ha infinits
+pseudoprimers no primers en la base $b=2,3,5$.
+\item Sigui $b>1$ un enter i $p$ un nombre primer tal que $p$ no
+divideix $b^3-b$. Sigui $n=(b^{2p}-1)/(b^2-1)$.
+\begin{enumerate}
+\item Demostra que $n$ és un enter, i que no és primer.
+\item Demostra que $2p$ divideix $n-1$.
+\item Demostra que $n$ és pseudoprimer en la base $b$.
+\end{enumerate}
+\item Conclou demostrant l'objectiu.
+\end{enumerate}
+
+
+\item Sigui $P_n=2\cdot 3 \cdot 5 \cdots p_n$ és producte de
+tots els $n$ primers nombres primers, on $p_n$ denota el en\`{e}ssim
+nombre primer. L'objectiu es demostrar que el primer $p_{n+1}$ és
+l'únic nombre enter positiu $m$ tal que
+$$1<2^m\left(\sum_{d\mid P_n} \frac{\mu(d)}{2^d-1} - \frac 12
+\right)<2,$$ on $\mu(d)$ és la funció de M\"{o}bius que val $1$ si $d$
+és producte d'un nombre parell de primers diferents, $-1$ si és
+producte d'un nombre senar de primers diferents, i $0$ si no (o
+sigui, és divisible per algun nombre $>1$ al quadrat).
+
+\begin{enumerate}
+\item Definim la seg\"{u}ent distribució de probabilitat als enters positius
+$n\ge 1$: $p(n)=2^{-n}$. Demostreu que la probabilitat $q(d)$ que un
+enter a l'atzar sigui divisible per $d$ amb aquesta distribució és
+$$q(d)=\sum_{n=1}^{\infty} p(nd)=\frac{1}{2^d-1}.$$
+\item Demostreu ara que la probabilitat $c(m)$ que un nombre enter a
+l'atzar sigui coprimer amb $m$ és
+$$c(m)=\sum_{d\mid m} \frac{\mu(d)}{2^d-1},$$
+utilitzant l'anomenat principi d'inclusió-exclusió.
+\item Demostreu directament que
+\[c(P_n)=\sum_{\gcd(m,P_n)=1} p(m)= \frac 12 + \frac{1}{2^{p_{n+1}}} +
+\sum_{i\in I_n}\frac{1}{2^i},\quad\text{ on  } I_n\subset \Z_{i>p_{n+1}}.\]
+\item Demostreu que $$2^{m-p_{n+1}}<2^{m}\left(c(P_n)-\frac12\right) <2^{m-p_{n+1}+1}$$
+i dedu\"{\i}u-ne el resultat.
+\item Doneu una fòrmula per $p_n$ utilitzant això i la funció $\lfloor\
+\rfloor$ ``part entera per sota''.
+\item Una altra fòrmula ``fàcil'' per $\pi(n)$, el nombre de primers
+menors que $n$ és la seg\"{u}ent:
+$$ \pi(n)=\sum_{j=2}^n \left( 1 + \left\lfloor
+\frac{2-\sum_{i=1}^j \left( \left\lfloor\frac
+{j}{i}\right\rfloor-\left\lfloor\frac {j-1}{i}\right\rfloor\right)}
+{j} \right\rfloor \right)$$
+\begin{enumerate}
+\item Demostreu primer que
+$$d(j)=\sum_{i=1}^j \left( \left\lfloor\frac
+{j}{i}\right\rfloor-\left\lfloor\frac {j-1}{i}\right\rfloor\right)$$
+és el nombre de divisors de $j$.
+\item Demostreu ara que
+\[F(j)= 1 + \left\lfloor
+\frac{2-d(j)} {j} \right\rfloor =
+\begin{cases}
+1 & \text{si $j$ és primer},\\
+0 & \text{si $j$ és compost}.
+\end{cases}
+\]
+\item Dedu\"{\i}u la fórmula per $\pi(n)$.
+\end{enumerate}
+
+\end{enumerate}
+
+
+\item  A la classe de problemes hem analitzat l'algoritme de
+Karatsuba per la multiplicació d'enters. Aquest exercici estudia una
+generalització d'aquest algoritme. Considerem dos nombres positius
+$x$, $y$, cadascun de $kn$ bits per certs enters $k$ i $n$ (si el
+nombre de bits no és un múltiple de $k$, podem afegir zeros).
+Escrivim $x$ i $y$ en base $B = 2^n$ (notem que en aquesta base tant
+$x$ com $y$ tindran exactament $k$ dígits), de manera que
+$x=\sum_{i=0}^{k-1} y_i B^i$ i $y=\sum_{i=0}^{k-1} y_iB^i$.
+Considerem els polinomis $p(t)=\sum_{i=0}^{k-1}x_it^i$ i
+$q(t)=\sum_{i=0}^{k-1}y_it^i$.
+  \begin{enumerate}
+  \item Trobeu una relació entre els polinomis $p(t)$, $q(t)$ i el producte $xy$.
+  \item Trobeu una fórmula semblant a la de l'algoritme de Karatsuba que dóni els coeficients de $p(t)q(t)$ en termes dels valors de $p$ i $q$ en els punts
+    \[
+      \infty, 0, \pm 1, \pm 2,\ldots \pm (k-2), k-1.
+    \]
+  \item En el cas $k=3$, compteu el nombre de sumes i productes d'enters de $n$ bits que cal fer en aquest cas per obtenir el producte de $x$ i $y$.
+  \item Doneu un algoritme recursiu aprofitant aquesta idea (per $k=3$) i estimeu el nombre d'operacions de bit que cal per multiplicar enters de $N$ bits.
+  \item A la vista del resultat obtingut, podeu conjecturar quin és el nombre d'operacions de bit aproximat que calen amb $k$ arbitrari?
+  \item Compareu el resultats amb l'algoritme \emph{schoolbook} i amb l'algoritme de \emph{Karatsuba}.
+  \end{enumerate}
+
+\item  Sigui $n\ge 2$ un nombre enter. Denotem per
+$$s_m(n)=\sum_{k=1}^{m} k^{n}.$$ Donat un nombre enter
+$n\ge 2$, denotem $P_n$ el conjunt de primers que el divideix.
+\begin{enumerate}
+\item Demostreu que si $n=p$ un nombre primer, aleshores $s_{n-1}(n-1)\equiv
+-1 \pmod{n}$.
+\item Demostreu que si $p$ és un primer, aleshores $s_{p-1}(n-1)=\sum_{k=1}^{p-1}
+k^{n-1}$ és $\equiv -1\pmod{p}$ si $p-1$ divideix a $n-1$, i és
+$\equiv 0\pmod{p}$ si no.
+\item Demostreu que $s_{n-1}(n-1)\equiv -1 \pmod{n}$ si i només si per a tot
+$p\in P_n$ tenim que $p(p-1)$ divideix $\frac np -1$. 
+
+(Indicació: proveu que si $p$ divideix $n$, $s_{n-1}(n-1)=\sum_{k=1}^{n-1}
+k^{n-1}$ és $\equiv -\frac np\pmod{p}$ si $p-1$ divideix a $n-1$, i
+és $\equiv 0\pmod{p}$ si no).
+\item Trobeu 2 nombres enters no primers $n$ tals que per a tot $p\in P_n$
+tenim que $p-1$ divideix $\frac np -1$.
+\item Trobeu 2 nombres enters no primers $n$ tals que per a tot $p\in P_n$
+tenim que $p$ divideix $\frac np -1$.
+\item Demostreu que $n$ compleix que per a tot $p\in P_n$,
+$p$ divideix $\frac np -1$ si i només si
+$$\sum_{p\in P_n}\frac 1p -\prod_{p\in P_n}\frac 1p \in \Z_{\ge 1}.$$
+\item Demostreu que un nombre senar i lliure de quadrats que
+compleixi la propietat anterior ha de tenir com a mínim 9 divisors
+primers diferents.
+\item Proveu amb l'ajuda de l'ordinador qu\`{e} no hi ha cap nombre
+senar lliure de quadrats menor que $10^{12}$ que compleixi la
+propietat anterior (es sospita que no n'hi ha cap, però no es
+coneix).
+\end{enumerate}
+
+
+
+\item Definim els polinomis de Bernoulli $B_{n}(x)$ com els
+coeficients del desenvolupament en serie de la funció
+$$\frac{ze^{zx}}{e^z-1}=\sum_{n=0}^{\infty} B_n(x) \frac{z^n}{n!},$$
+i els nombres de Bernoulli $B_n=B_n(0)$.
+
+Definim $$s_m(n)=\sum_{k=1}^{m} k^{n}.$$
+
+\begin{enumerate}
+\item Demostreu que $$B_n(x)=\sum_{k=0}^n \binom{n}{k} B_k
+x^{n-k}.$$
+\item Demostreu que
+$$s_m(n)=\frac{1}{m+1}(B_{m+1}(n+1)-B_{m+1}).$$
+\item Demostreu que
+$$\sum_{k=0}^n \binom{n+1}{k} B_k=0.$$
+\item Demostreu que $B_n=0$ per a tot $n$ senar.
+\item Demostreu que per a tot $n$,
+$$B_{2n}+\sum_{(p-1)\mid 2n} \frac 1p \in \Z.$$
+\item Demostreu que per a tot nombre primer $p$, i $n$ i $m$ no
+divisibles per $p-1$ però $n\equiv m \pmod{p-1}$, aleshores
+$$\frac{B_n}{n}\equiv \frac{B_m}{m} \pmod{p}$$
+\end{enumerate}
+
+
+\item Un número enter $n$ és abundant si la suma dels seus
+divisors és més gran que $2n$ (recordem que un nombre és perfecte si
+la suma dels seus divisors és igual a $2n$).
+\begin{enumerate}
+\item Proveu que tot múltiple positiu d'un nombre abundant és abundant.
+\item Proveu que tot múltiple positiu de un nombre perfecte fora d'ell mateix és abundant.
+\item Comproveu que tot nombre de la forma $6m+20$, $6m+12$ i $6m+40$ per $m>1$ i
+$12m+20$ per $m\ge 1$, són suma de dos nombres abundants.
+\item Proveu que tot nombre parell més gran que $46$ és suma de dos
+nombres abundants, veient que els casos anteriors cobreixen tots
+aquests nombres parells.
+\end{enumerate}
+
+\end{enumerate}

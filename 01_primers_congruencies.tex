@@ -1,0 +1,645 @@
+\subsection{Divisibilitat}
+\begin{theorem}[Divisió entera]
+Donats enters $a$ i $b$ amb $b > 1$, existeixen enters únics $q$ i $r$ tals que
+\[
+a = bq +r,\quad 0\leq r < d.
+\]
+L'enter $q$ s'anomena el quocient d'$a$ entre $b$, i $r$ s'anomena el residu.
+\end{theorem}
+En general, diem que $a$ divideix $b$ si existeix un enter $q$ tal que $aq=b$. Escriurem $a\mid b$.
+
+Una primera aplicació és el fet que qualsevol enter admet representacions en qualsevol base:
+\begin{theorem}[representació $m$-àdica o en base $m$]
+Sigui $m\geq 2$. Aleshores tot enter positiu $n$ es pot escriure de manera única com
+\[
+n = a_0 + a_1 m+a_2m^2+\cdots+ a_km^k, \quad 0\leq a_i\leq m-1,\quad a_k\neq 0.
+\]
+on $k$ és l'únic enter que satisfà
+\[
+m^k \leq n < m^{k+1}.
+\]
+\end{theorem}
+
+Passem ara a parlar del màxim comú divisor (que escriurem $\gcd$, de l'anglès \emph{greatest common divisor}). El màxim comú divisor dels nombres $a$ i $b$ es defineix com
+\[
+\gcd(a,b)=\max\{d ~\colon~ d\mid a\text{ i } d\mid b\}.
+\]
+També definim $\gcd(0,0)=0$.
+
+\begin{lemma}
+Es té:
+\[
+\gcd(a,b) = \gcd(b,a)=\gcd(\pm a,\pm b) = \gcd(a,b-a) = \gcd(a,b+a). 
+\]
+\end{lemma}
+
+Observem que, com a conseqüència, també obtenim
+\[
+\gcd(a,b+at) = \gcd(a,b)\quad \forall t\in\Z.
+\]
+
+Aquesta observació ens permet calcular el màxim comú divisor entre dos nombres de manera ràpida. Comencem amb un exemple:
+
+\begin{example}
+Calculem $\gcd(986,289)$. Fent la divisió entera, obtenim
+\[
+986 = 3\cdot 289 + 119,
+\]
+i per tant
+\[
+\gcd(986,289) = \gcd(3\cdot 289+119,289) = \gcd(119,289).
+\]
+Seguim ara amb una nova divisió:
+\[
+289 = 2\cdot 119 + 51,
+\]
+que ens dona
+\[
+\gcd(119,289) = \gcd(119,2\cdot 119 + 51) = \gcd(119, 51).
+\]
+Seguim amb
+\[
+119 = 2\cdot 51 + 17,
+\]
+i per tant
+\[
+\gcd(119,51) = \gcd(2\cdot 51+ 17,51) = \gcd(17,51).
+\]
+Finalment, com que $51=17\cdot 3$, obtenim $\gcd(17,51) = 17$.
+\end{example}
+
+Aquest procediment es pot escriure en forma d'algoritme:
+
+\begin{algorithm}
+\caption{Calcula el $\gcd$ de dos enters}
+\begin{python}
+def gcd(a,b):
+    while b:
+        a, b = b, a % b
+    return a.abs()
+\end{python}
+
+\end{algorithm}
+
+També és fàcil de veure que
+\begin{lemma}
+Per a tot $a,b,n\in\Z$ es té:
+\[
+\gcd(an,bn) = |n|\gcd(a,b).
+\]
+\end{lemma}
+\begin{proof}
+Podem assumir (canviant signes i reordenant, si cal) que $a\geq b\geq 1$ i $n>0$. Farem la demostració per inducció sobre $a+b\geq 2$. El cas base és $a=b=1$ i és obvi. Per fer el cas general, escrivim
+\[
+a=bq+r,\quad 0\leq r<b,
+\]
+i aleshores
+\[
+an = bnq + rn,
+\]
+per tant:
+\[
+\gcd(an,bn) = \gcd(bnq+rn,bn)=\gcd(rn,bn)=|n|\gcd(r,b)=|n|\gcd(a,b),
+\]
+on a la tercera igualtat hem aplicat la hipòtesi d'inducció (com que $r < b\leq a$, tenim $r+b < a + b$).
+\end{proof}
+
+Finalment, també és important veure que el $\gcd$ satisfà una maximalitat més forta que la que diu explícitament la seva definició:
+\begin{lemma}
+Siguin $a,b,n\in\Z$ i suposem que $n\mid a$ i $n\mid b$. Aleshores $n\mid\gcd(a,b)$.
+\end{lemma}
+\begin{proof}
+ Escrivim $a=na'$ i $b=nb'$. Per tant,
+ \[
+ \gcd(a,b)=\gcd(na',nb') = n\gcd(a',b')
+ \]
+ i veiem que $n$ divideix $\gcd(a,b)$.
+\end{proof}
+
+\subsection{Factorització d'enters}
+Recordem que un primer és un nombre positiu $p$ que té exactament dos divisors positius ($1$ i $p$). L'objectiu d'aquesta subsecció és demostrar el següent resultat, que ens diu que els nombres primers són els ``blocs'' amb els quals es construeixen tots els nombres naturals. 
+\begin{theorem}[Teorema fonamental de l'aritmètica]
+\label{thm:tfa}
+Tot enter positiu $n$ es pot escriure com a producte de primers:
+\[
+n=p_1 p_2\cdots p_r.
+\]
+A més, aquesta descomposició és única, llevat de la possible reordenació dels factors.
+\end{theorem}
+
+\begin{remark}
+Fixem-nos que això no passa en altres anells commutatius. Per exemple, a $R=\Z[\sqrt{-5}]$ l'element $6\in R$ es pot escriure com $6=2\cdot 3=(1+\sqrt{-5})(1-\sqrt{-5})$, i cadascun dels quatre elements $2$, $3$, $1+\sqrt{-5}$ i $1-\sqrt{-5}$ té exactament dos divisors llevat de les unitats $\pm 1$ (serien ``primers'' amb la definició que hem donat, però s'anomenen \emph{irreductibles}). Per tant, en aquest anell no es compleix l'anàleg del teorema fonamental de l'aritmètica.
+\end{remark}
+
+El resultat clau que ens caldrà per demostrar aquest teorema és el següent.
+\begin{theorem}[Euclides]
+\label{thm:Euclides-pab}
+ Sigui $p$ és un primer i $a,b\in\Z$. Aleshores
+ \[
+ p\mid ab \implies p\mid a \text{ o } p \mid b.
+\]
+\end{theorem}
+\begin{proof}
+ Si $p\mid a$ ja estem. Si no, aleshores $\gcd(p,a)=1$. Per tant, $\gcd(pb,ab)=b$. Ara observem que $p\mid pb$ i $p\mid ab$, i per tant $p\mid \gcd(pb,ab)=b$.
+\end{proof}
+
+Ara ja podem demostrar el teorema fonamental de l'aritmètica.
+\begin{proof}[Demostració del Teorema~\ref{thm:tfa}]
+ Primer veiem l'existència, per inducció en $n\geq 1$. Si $n=1$ ja estem (producte buit). Pel cas general, si $n$ és primer ja estem (producte d'un sol terme), i si no, aleshores es pot escriure $n=ab$ amb $a,b < n$. Per hipòtesi d'inducció, tant $a$ com $b$ són producte de primers, i per tant $n$ també ho és.
+ 
+ Per veure la unicitat, suposem que tenim dues factoritzacions
+ \[
+ n = p_1\cdots p_r = q_1\cdots q_s,
+ \]
+ amb els $p_i$'s i $q_j$'s primers. Observem que $p_1$ divideix $q_1\cdot(q_2\cdots q_s)$. Aleshores,  o bé $p_1=q_1$ o bé $p_1\mid q_2\cdots q_s$. Continuant, podem veure que $p_1 = q_j$ per algun $j$. Per tant, podem cancel·lar $p_1$ de la primera expressió i $q_j$ de la segona. Obtenim que
+ \[
+ n/p_1 = p_2\cdots p_r = q_1\cdots q_{j-1} q_{j+1}\cdots q_s.
+ \]
+ Per inducció sobre $n$, aquestes dues factoritzacions  de $n/p_1$ són iguals, i per tant les dues factoritzacions de $n$ també ho són.
+\end{proof}
+
+Tal i com hem vist a la primera part de la demostració, escriure una factorització en primers és fàcil si sabem trobar un primer que divideixi $n$ (o un factor no trivial). Aquest problema no és gens fàcil de fer quan $n$ és gran, i més endavant veurem la importància que aquest fet té per la criptografia.
+
+
+El teorema fonamental de l'aritmètica ens porta a pensar que hi hauria d'haver molts primers, si amb ells s'han de poder construir tots els naturals. En efecte, tenim el següent resultat famós.
+
+\begin{theorem}[Euclides]
+ Hi ha infinits primers.
+\end{theorem}
+\begin{proof}
+ Donats primers $p_1$, $p_2$, \ldots, $p_n$, construirem un primer $p_{n+1}$ diferent de tots els anteriors: considerem
+ \[
+ N= p_1 p_2\cdots p_n +1,
+ \]
+ i sigui $q$ un primer que divideixi a $N$. Aleshores $q\mid N$ i, si $q$ fos un dels $p_i$, aleshores $q$ també dividiria a $p_1p_2\cdots p_n = N-1$. Però això voldria dir que $q$ dividiria a $N-(N-1)=1$, que no pot ser. Per tant, $q$ és un primer que no apareix a la llista, i podem definir $p_{n+1} = q$. Com que aquest procés es pot repetir indefinidament, hi ha  infinits primers.
+\end{proof}
+
+També ens podem preguntar si podem trobar molts primers entre els termes d'una successió aritmètica donada. Concretament, si $a$ i $r$ són dos enters positius, podem considerar els enters de la forma $a + rx$, amb $x\geq 0$. Òbviament, si $g=\gcd(a,r)>1$, tindrem $g\mid a+rx$ i per tant com a molt hi haurà un primer en el conjunt $\{a+rx ~|~ x\geq 0\}$. En canvi, tenim el següent resultat, del qual no tindrem temps de fer la demostració.
+\begin{theorem}[Dirichlet]
+Siguin $a,r$ dos enters coprimers. Aleshores hi ha infinits primers de la forma $a+rx$, amb $x\in\Z$.
+\end{theorem}
+
+
+Si ens interessa enumerar els primers, podem fer servir l'anomenat \emph{garbell d'Eratòstenes}, que ens dona tots els primers menors que un enter donat $n$. Es tracta d'anar traient de la llista tots els múltiples de $p$, on $p$ és el primer element de la llista (que forçosament haurà de ser primer). Només cal mirar fins a $\sqrt{n}$, ja que si un enter $m$ no és primer, aleshores necessàriament ha de tenir un factor primer menor que $\sqrt{m}$.
+
+\begin{algorithm}
+\caption{Retorna una llista dels primers menors que $n$}
+\begin{python}
+def garbell(n):
+    if n <= 2:
+        return []
+    elif n == 3:
+        return [2]
+    else:
+        P = [2] # El primer més petit és el 2
+        X = range(3,n,2) # Inicialitzem amb els senars < n.
+        p = X[0]
+        while p * p <= n:
+            P.append(p)
+            X = [x for x in X if x % p != 0]
+            p = X[0]
+        P += X
+        return P
+\end{python}
+\end{algorithm}
+
+ \subsection{Els enters mòdul \texorpdfstring{$n$}{n}}
+ Donat un enter positiu $n$, considerarem el morfisme d'anells
+ \[
+ \red\colon \Z\to\Z/n\Z,\quad a\mapsto a\bmod{n}.
+ \]
+ Direm que $a\equiv b\pmod{n}$ si $\red(a)=\red(b)$ (com a elements de $\Z/n\Z$). És a dir, si $n\mid a-b$.
+ 
+ \begin{proposition}[Cancel·lativitat]
+ \label{prop:cancellativitat}
+ Si $\gcd(c,n)=1$ i $ac\equiv bc\pmod{n}$, llavors $a\equiv b\pmod{n}$.
+ \end{proposition}
+\begin{proof}
+ Farem servir el teorema fonamental de l'aritmètica: suposem que $n$ divideix $ac-bc = (a-b)c$ i $\gcd(c,n)=1$. Aleshores, si una potència d'un primer $p$ divideix exactament a $n$ (que escriurem $p^k\parallel n$), necessàriament $p^k\parallel (a-b)$ (ja que $p\nmid c$). Per tant, $n\mid (a-b)$, que és equivalent a $a\equiv b\pmod n$.
+\end{proof}
+ \subsubsection{Inversos mòdul \texorpdfstring{$n$}{n}}
+ Considerem el grup d'unitats $(\Z/n\Z)^\times$ de l'anell $\Z/n\Z$. Ens interessa saber quins elements de $\Z/n\Z$ són unitats.
+ 
+% \begin{definition}
+% Un conjunt $R\subset \Z$ es diu que és un \emph{sistema complet de residus (SCR)} si la restricció de $\red$ a $R$ és una bijecció de conjunts.
+% \end{definition}
+% \begin{lemma}
+% Si $R$ és un SCR i $\gcd(a,n)=1$, aleshores $aR=\{ax ~|~ x\in R\}$ també és un SCR.
+% \end{lemma}
+% \begin{proof}
+%  Fixem-nos que $\# aR = \# R$, i que per la cancel·lativitat
+% \[
+% ax \equiv a x'\pmod n\implies x\equiv x'\pmod n,
+% \]
+% i com que $R$ és un SCR tenim que $x=x'$. Per tant els elements de $aR$ tenen tots ells diferents reduccions mòdul $n$.
+% \end{proof}
+ 
+ \begin{proposition}
+ Si $\gcd(a,n)=1$, aleshores l'aplicació
+ \[
+ m_a\colon \Z/n\Z\to\Z/n\Z,\quad x\mapsto ax
+ \]
+ és una bijecció.
+ \end{proposition}
+ \begin{proof}
+Com que $m_a$ és un morfisme d'anells, podem parlar del nucli $\ker m_a$. Fixem-nos que, com que $\gcd(a,m)=1$, la Proposició~\ref{prop:cancellativitat} ens garanteix
+\[
+ax\equiv 0\pmod{m}\implies x\equiv 0\pmod{m},
+\]
+i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sortida i d'arribada són finits i iguals, necessàriament $m_a$ és exhaustiva.
+ \end{proof}
+ 
+ \begin{corollary}[Unitats de $\Z/n\Z$]
+ El grup d'unitats de $\Z/n\Z$ és
+ \[
+ (\Z/n\Z)^\times = \{ a\in\Z/n\Z ~|~ \gcd(a,n)=1\}.
+ \]
+ \end{corollary}
+ \begin{proof}
+  Si $\gcd(a,m)=1$, aleshores la proposició anterior (de fet, l'exhaustivitat d'$m_a$) ens garanteix l'existència d'un element $x$ tal que $ax\equiv 1\pmod{m}$, és a dir que $a$ és invertible a $\Z/m\Z$.
+  
+  Recíprocament, si $x\in\Z$ satisfà $ax\equiv 1\pmod{m}$, aleshores existeix $y\in\Z$ tal que
+  \[
+  ax+my = 1.
+  \]
+  Suposem que $d\mid a$ i $d\mid m$. Per l'equació anterior, $d\mid ax+my=1$, i per tant $d=1$. Concloem que $\gcd(a,m)=1$.
+ \end{proof}
+ 
+ \begin{remark}
+ Fixem-nos que si $a\in\Z/n\Z$ té sentit parlar de $\gcd(a,n)$, pensant en $\gcd(\hat a,n)$ on $\hat a$ és un enter qualsevol tal que $\red(\hat a)=a$. Si prenem un altre aixecament $\hat a+ tn$, aleshores $\gcd(\hat a+tn,n)=\gcd(\hat a,n)$, i per tant no depèn de quin hem triat.
+ \end{remark}
+ Donarem un nom al cardinal d'aquest grup finit.
+ \begin{definition}
+ La funció \emph{$\varphi$ d'Euler} assigna a un enter positiu $n$ el valor
+ \[
+ \varphi(n)=\#(\Z/n\Z)^\times=\{1\leq a\leq n~|~ \gcd(a,n)=1\}.
+ \]
+ \end{definition}
+ Per exemple, $\varphi(p) = p-1$ si $p$ és primer i, de fet, és fàcil de veure que
+ \[
+ \varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p-1).
+ \]
+ Més endavant veurem com determinar $\varphi(n)$ en general, si coneixem la factorització d'$n$ en producte de primers.
+ 
+ El que hem desenvolupat fins aquí ens permet resoldre totes les equacions lineals mòdul $n$.
+ 
+ \begin{proposition}
+ \label{prop:eqslineals}
+ L'equació $ax\equiv b\pmod n$ té  solució si i només si $\gcd(a,n)\mid b$.
+ \end{proposition}
+ \begin{proof}
+  Sigui $g=\gcd(a,n)$. Si $x$ és una solució de $ax\equiv b\pmod n$, aleshores $n\mid ax-b$. Com que $g\mid a$ i $g\mid n$, aleshores $g\mid b$.
+  
+  Recíprocament, suposem que $g\mid b$. Aleshores $g\mid a$, $g\mid b$, i $g\mid n$. Per tant, $n\mid (ax-b)$ si i només si
+  \[
+  \frac n g\mid \left(\frac a g x - \frac b g\right).
+  \]
+  Però ara $\gcd(a/g,n/g)=1$ i, per tant, es té una solució de $a/g x \equiv b/g \pmod{n/g}$.
+ \end{proof}
+
+ \subsubsection{El petit teorema de Fermat i el teorema d'Euler}
+ Recordem un teorema bàsic de la teoria de grups, conegut com el teorema de Lagrange: si $G$ és un grup finit aleshores l'ordre de qualsevol subgrup $H\subseteq G$ divideix l'ordre de $G$. Això ens servirà per demostrar dos teoremes atribuits a Euler i Fermat:
+ \begin{theorem}[Euler]
+ \label{thm:Euler}
+ Sigui $\gcd(a,n)=1$. Aleshores
+ \[
+ a^{\varphi(n)}\equiv 1\pmod{n}.
+ \]
+ \end{theorem}
+ \begin{proof}
+  Considerem $G=(\Z/n\Z)^\times$, i $H=\langle a\rangle\subseteq G$. Aleshores $\#H = \operatorname{ord}(a) \mid \#G = \varphi(n)$. Per tant, $a^{\varphi(n)}$ és la identitat a $G$, com voliem veure.
+ \end{proof}
+ 
+ \begin{corollary}[Petit teorema de Fermat]
+ Si $p$ és un primer i $p\nmid a$, aleshores
+ \[
+ a^{p-1} \equiv 1\pmod{n}.
+ \]
+ \end{corollary}
+ 
+  \subsubsection{El teorema dels residus xinesos}
+  
+  \begin{theorem}
+  \label{thm:crt}
+  Si $m_1$, \ldots, $m_k$ són enters coprimers entre si, aleshores el morfisme d'anells
+  \[
+  \Z/(m_1\cdots m_k)\Z\to\Z/m_1\Z \times\cdots\times \Z/m_k\Z,\quad a\mapsto (a\bmod m_1,\ldots, a\bmod m_k)
+  \]
+  és un isomorfisme.
+  \end{theorem}
+  
+  La demostració d'aquest teorema es redueix fàcilment, com veurem, al cas $k=2$. En aquest cas, podem veure que el teorema es diu el següent:
+  \begin{proposition}
+   Siguin $m,n\in\Z$ enters amb $\gcd(m,n)=1$. Aleshores, donats $a,b\in \Z$, el sistema d'equacions
+   \begin{align*}
+   x&\equiv a\pmod{m}\\
+   x&\equiv b\pmod{n}
+   \end{align*}
+   té solució, que és única mòdul $mn$.
+  \end{proposition}
+  \begin{proof}
+  Busquem $x$ de la forma
+  \[
+  x = a+tm,
+  \]
+  per algun $t$ tal que $a+tm\equiv b\pmod{n}$. Aquesta equació és té solució perquè $\gcd(m,n)=1$, tal i com hem vist a la Proposició~\ref{prop:eqslineals}.
+  
+  Per veure la unicitat, considerem dues solucions $x$ i $y$. Aleshores $z=x-y$ és divisible per $n$ i $m$. Com que $\gcd(m,n)=1$, tenim $nm\mid z$, i per tant $z\equiv 0\pmod{mn}$, d'on tenim que $x\equiv y\pmod{mn}$.
+  \end{proof}
+
+  \begin{proof}[Demostració (del Teorema~\ref{thm:crt})]
+   Farem inducció en $k\geq 1$, on el cas $k=1$ és trivial. Considerarem $k\geq 2$. Per veure l'exhaustivitat cal trobar, donats $a_1,\ldots,a_k$, un enter $x\in\Z$ tal que
+   \begin{align*}
+   x&\equiv a_1\pmod{m_1}\\
+   x&\equiv a_2\pmod{m_2}\\
+   \phantom{x}&\phantom{\equiv}\vdots\\
+   x&\equiv a_k\pmod{m_k}.
+   \end{align*}
+   Aplicant la proposició anterior,
+   el conjunt de solucions de les dues primeres equacions és el mateix que el conjunt de solucions de
+   \[
+   x\equiv a_{12}\pmod{m_1m_2},
+   \]
+   on $a_{12}$ és la solució proporcionada per la Proposició. Per tant, ens reduïm al sistema
+    \begin{align*}
+   x&\equiv a_{12}\pmod{m_1m_2}\\
+   \phantom{x}&\phantom{\equiv}\vdots\\
+   x&\equiv a_k\pmod{m_k}.
+   \end{align*}
+  que té una solució única mòdul $m_1m_2\cdots m_k$, per hipòtesi d'inducció.
+  \end{proof}
+ 
+ Tenim una versió del teorema dels residus xinesos pels grups d'unitats.
+ \begin{lemma}
+ Si $m_1$, \ldots, $m_k$ són enters coprimers entre si, aleshores el morfisme de grups
+  \[
+  (\Z/(m_1\cdots m_k)\Z)^\times\to(\Z/m_1\Z)^{\times} \times\cdots\times (\Z/m_k\Z)^{\times},\quad a\mapsto (a\bmod m_1,\ldots, a\bmod m_k)
+  \]
+  és un isomorfisme.
+ \end{lemma}
+ \begin{proof}
+  Si $\gcd(a,m_1\cdots m_k) = 1$, aleshores $\gcd(a,m_i)=1$ per a tot $i=1,\ldots,k$. Per tant, l'aplicació està ben definida.
+  
+  La injectivitat és automàtica, pel fet que es tracta de la restricció del morfisme d'anells del teorema dels residus xinesos.
+  
+  Per veure l'exhaustivitat, observem que el teorema dels residus xinesos ens garanteix, donats $a_i \in \Z/m_i\Z$, un element $a\in\Z/(m_1\cdots m_k)\Z$ que tal que $a\pmod m_i = a_i$. Ara bé, si sabem que $\gcd(a_i,m_i)=1$ per a tot $i$, aleshores $\gcd(a,m_i)=1$ per a tot $i$, i d'aquí obtenim (pel Teorema~\ref{thm:Euclides-pab}) que $\gcd(a,m)=1$.
+ \end{proof}
+ 
+En teoria de nombres, una funció $f$ s'anomena \emph{multiplicativa} si $f(mn)=f(m)f(n)$ sempre i quan $\gcd(m,n)=1$. Si $f(mn)=f(m)f(n)$ per a tot $m,n$ aleshores s'anomena \emph{completament multiplicativa}.
+
+ \begin{corollary}
+ La funció $\varphi$ d'Euler és multiplicativa: si $\gcd(m,n)=1$, aleshores
+ \[
+ \varphi(mn)=\varphi(m)\varphi(n).
+ \]
+ \end{corollary}
+ \begin{proof}
+  Només cal prendre cardinalitats en el lema anterior.
+ \end{proof}
+Com a conseqüència de la multiplicativitat de $\varphi$, podem donar una fórmula per $\varphi(n)$ en termes de la factorització de $n$.
+\begin{proposition}
+ Sigui $n\geq 1$ un enter que factoritza com
+ \[
+ n = p_1^{e_1} p_2^{e_2}\cdots p_k^{e_k}.
+ \]
+ Aleshores
+\[
+\varphi(n)= n \prod_{i=1}^k \left(1-\frac{1}{p_i}\right) = \prod_{i=1}^k p_i^{e_i-1}(p_i-1).
+\]
+\end{proposition}
+
+\begin{remark}
+\label{rmk:factoritzar-i-phi}
+En general, és difícil calcular $\varphi(n)$ eficientment sense conèixer una factorització de $n$. Per exemple, si $n=pq$ és el producte dos primers, aleshores la informació que ens dona saber $\varphi(n)$ ens permet calcular la factorització de $n$ de manera molt ràpida: considerem el polinomi $X^2-2sX + n$, on $s = \frac{n+1-\varphi(n)}{2}$. Aquest polinomi té $p$ i $q$ com a arrels, que podem trobar calculant:
+\[
+p,q = s \pm \sqrt{s^2 - n}.
+\]
+\end{remark}
+La funció $\varphi$ també satisfà una propietat que ens serà útil més endavant.
+
+\begin{proposition}
+ Per a tot $n\geq 1$ es té:
+ \[
+ \sum_{1\leq d\mid n}\varphi(d) = n
+ \]
+\end{proposition}
+\begin{proof}
+ Anomenem $f(n)$ al terme de l'esquerra, i volem veure que $f(n)=n$. Primer veurem que $f$ és multiplicativa: considerem enters coprimers $m$ i $n$. Donat un enter $k$, denotem per $\Delta(k)$ el conjunt dels seus divisors positius. Aleshores es té una bijecció $\Delta(m)\times\Delta(n)\to \Delta(mn)$, donada per $(d_1,d_2)\mapsto d_1d_2$ (comproveu-ho). Per tant:
+ \begin{align*}
+ f(mn)&=\sum_{d\in\Delta(mn)}\varphi(d) = \sum_{d_1\in\Delta(m)}\sum_{d_2\in\Delta(n)}\varphi(d_1d_2)\\
+ &=\sum_{d_1\in\Delta(m)}\sum_{d_2\in\Delta(n)}\varphi(d_1)\varphi(d_2)\\
+ &=\sum_{d_1\in\Delta(m)}\varphi(d_1)\sum_{d_2\in\Delta(n)}\varphi(d_2) = f(m)f(n).
+ \end{align*}
+ Per tant, només cal comprovar que $f(p^k) = p^k$ per a tot primer $p$ i tot $k\geq 0$. Els divisors de $p^k$ són de la forma $p^r$ amb $0\leq r \leq k$, i per tant:
+\[
+f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
+\]
+\end{proof}
+ \subsection{Mètodes efectius per inversos i exponenciació}
+ El primer que veurem és com es pot trobar de manera efectiva l'invers d'un element $a$ mòdul $n$, és a dir, com resoldre l'equació $ax\equiv 1\pmod{n}$, suposant que $\gcd(a,n)=1$. L'eina clau ens la dona el que es coneix com la identitat de Bézout.
+ 
+ \begin{proposition}[Identitat de Bézout]
+ \label{prop:xgcd}
+  Siguin $a,b\in\Z$ i $g=\gcd(a,b)$. Aleshores existeixen $x,y\in\Z$ tals que
+  \begin{equation}
+  \label{prop:bezout}
+  g=ax+by.
+  \end{equation}
+ \end{proposition}
+ 
+ Com que la demostració es pot fer constructiva, començarem amb un exemple, que podrem convertir en un algoritme que ens proporcioni la demostració.
+ 
+ \begin{example}
+ Prenem $a=120$, $b = 53$. Ja veiem que $\gcd(a,b)=1$, però el que farem serà aplicar l'algoritme d'Euclides i aprofitar tota la informació que ens dona:
+ \begin{align*}
+120 &= \ul 2\cdot 53 + 14\\
+53 & = \ul 3\cdot 14 + 11\\
+14 &= \ul 1 \cdot 11 + 3\\
+11 &= \ul 3\cdot 3 + 2\\
+3 &= \ul 1\cdot 2 + 1\\
+ \end{align*}
+ Ara aprofitem les equacions anteriors, per escriure:
+ \begin{align*}
+ 14 &= 120 - 2\cdot 53\\
+ 11 &= 53 - 3\cdot 14 = 53 - 3\cdot(120 - 2\cdot 53) = -3\cdot 120 + 7\cdot 53\\
+ 3 &= 14 - 1\cdot 11 = (120 - 2\cdot 53) -1\cdot(-3\cdot 120 +7\cdot 53) = 4\cdot 120 -9\cdot 53\\
+ 2 &= 11 - 3\cdot 3 = (-3\cdot 120 + 7\cdot 53) - 3\cdot (4\cdot 120 - 9\cdot 53) = -15\cdot 120 + 34\cdot 53\\
+ 1 &= 3 - 1\cdot 2 = (4\cdot 120 - 9\cdot 53) - 1\cdot(-15\cdot 120 + 34\cdot 53) = 19\cdot 120 - 43\cdot 53.
+ \end{align*}
+ Fixem-nos que podem rescriure les igualtats anteriors fent servir ``coordenades'' respecte la parella $(120, 53)$:
+ \begin{align*}
+     14 &= (1,0) - \ul{2}\cdot (0,1) = (1,-2)\\
+     11 &= (0,1) - \ul{3}\cdot (1,-2) = (-3,7)\\
+     3 &=  (1,-2) - \ul{1}\cdot(-3,7) = (4,-9)\\
+     2 &= (-3,7) - \ul{3}\cdot(4,-9) = (-15,34)\\
+     1 &= (4,-9) - \ul{1}\cdot(-15,34) = (19,-43)
+ \end{align*}
+ Observem que els nombres subratllats són justament els quocients que hem anant obtenint en les divisions successives.
+ \end{example}
+ L'exemple anterior ens dona la idea de l'algoritme conegut com ``algoritme d'Euclides extès'':
+ \begin{algorithm}
+ \caption{Retorna enters $g$, $x$ i $y$ satisfent $g=\gcd(a,b)$ i $ax+by=g$}
+ \begin{python}
+ def xgcd(a,b):
+    signe_a, signe_b = a.sign(), b.sign()
+    a, b = a.abs(), b.abs()
+    x, y, r, s = 1, 0, 0, 1
+    while b:
+        q, c = a.quo_rem(b)
+        a, b, r, s, x, y = b, c, x - q * r, y - q * s, r, s
+    return a, signe_a * x, signe_b * y
+ \end{python}
+ \end{algorithm}
+ 
+ \begin{proof}[Demostració (de la Proposició~\ref{prop:xgcd})]
+    Demostrarem que l'algoritme és correcte. Denotem els valors inicials per $a_0, b_0, r_0, s_0, x_0, y_0$ i els valors després de $n$ iteracions per $a_n, b_n, r_n, s_n, x_n, y_n$. Podem suposar que $a_0, b_0\geq 0$, i veurem per inducció que a cada iteració es té que
+    \begin{align*}
+    a_n &= a x_n + b y_n\\
+    b_n &= a r_n + b s_n\\
+    \gcd(a_n,b_n)&=\gcd(a,b)
+    \end{align*}
+    Fixem-nos que el cas $n=0$ és trivial. Ara bé:
+    \begin{enumerate}
+        \item $a_{n+1} = b_n$, $x_{n+1} = r_n$, $y_{n+1}=s_n$, i per tant $(1)$ es redueix a observar que $b_n = a r_n + b s_n$, per hipòtesi d'inducció.
+        \item $b_{n+1} = c = a_n - qb_n$, i $r_{n+1} = x_n-qr_n$, $s_{n+1} = y_n-qs_n$. Per tant, $(2)$ es redueix a observar que
+        \begin{align*}
+        ar_{n+1}+bs_{n+1}&=a(x_n-qr_n) + b(y_n-qs_n)\\
+        &=ax_n+by_n -q(ar_n+bs_n)\\
+        &=a_n-qb_n =b_{n+1}.
+        \end{align*}
+        \item Per hipòtesi d'inducció, tenim $\gcd(a_n,b_n)=\gcd(a,b)$. Aleshores:
+        \begin{align*}
+        \gcd(a_{n+1},b_{n+1})&=\gcd(b_n,a_n-qb_n)\\
+        &=\gcd(b_n,a_n)=\gcd(a,b).
+        \end{align*}
+    \end{enumerate}
+Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, $a_n = ax_n+by_n$, i per tant $x=x_n$ i $y=y_n$ satisfan la identitat que busquem.
+ \end{proof}
+
+  \begin{remark}
+  Fixem-nos que la solució del teorema xinès dels residus es troba invertint $m$ mòdul $n$, i per tant es basa en última instància en l'algoritme d'Euclides extès. Més concretament, com que $\gcd(m,n)=1$, podem trobar enters $x,y$ tals que
+  \[
+  xm+yn=1.
+  \]
+  Aleshores podem definir $x=a + (b-a)xm=ayn + bxm$. Fixem-nos que:
+  \[
+  ayn + bxm \equiv ayn \equiv a(1-xm)\equiv a\pmod m,
+  \]
+  i
+  \[
+  ayn + bxm \equiv bxm \equiv b(1-yn)\equiv b\pmod n.
+  \]
+  \end{remark}
+ Fent servir la identitat de Bézout, és molt fàcil donar un algoritme per resoldre $ax = b\pmod m$:
+ 
+ \begin{algorithm}
+ \caption{Donats $a$, $b$ i $m$ retorna $x$ satisfent $ax\equiv b\pmod m$}
+ \begin{python}
+ def resol_equacio_lineal(a,b,m):
+    g, x, y = xgcd(a, m) # g = a * x + m * y
+    q, r = b.quo_rem(g)
+    if r != 0:
+        raise ValueError("L'equació no té solució")
+    else:
+        return q * x
+ \end{python}
+  \end{algorithm}
+ 
+ En particular, podem calcular inversos a $\Z/m\Z$:
+ 
+ \begin{algorithm}
+ \caption{Donats $a$ i $m$ coprimers, retorna $a^*$ satisfent $aa^*\equiv 1\pmod m$}
+ \begin{python}
+ def invers_mod(a,m):
+     return resol_equacio_lineal(a,1,m)
+ \end{python}
+ \end{algorithm}
+ 
+  El segon objectiu que ens proposem en aquesta secció és el de, donats enters $a$, $r$ i $m$, calcular la quantitat
+  \[
+  a^r\pmod{m}.
+  \]
+  Com que ja sabem calcular inversos, suposarem que $r>0$. Aleshores, podem suposar d'entrada que: $m\geq 2$ i que $0\leq a\leq m$.
+ 
+  La manera naïf de calcular $a^r\pmod{m}$ consistiria en calcular primer $a^r$ i després reduir mòdul $m$. Si $r$ és gran, però, això ens faria treballar amb nombres molt grans (nombres amb $r$ vegades el nombre de dígits d'$a$), mentre que el resultat és petit (busquem un nombre menor que $m$). Per tant, a cada operació ens interessa reduir el resultat parcial mòdul $m$.
+  
+ L'altre problema que tenim és que, si $r$ és gran, aleshores hauriem d'evitar fer $r-1$ multiplicacions (que és com probablement hem apres a calcular $a^r$). En l'exemple següent veiem com podem fer-ho més ràpidament.
+ 
+ \begin{example}
+  Suposem que volem calcular $a^{25}$. Observem que $25=16+8+1 = 2^4+2^3+1$. Per tant,
+  \[
+  a^{25} = a^{2^4+2^3+1}=a^{2^4}\cdot a^{2^3}\cdot a = (((a^2)^2)^2)^2\cdot ((a^2)^2)^2\cdot a.
+  \]
+  Aleshores, podem obtenir el resultat calculant primer $a^2$, després $a^4 = (a^2)^2$, després $a^8=(a^4)^2$, després $a^{16}=(a^8)^2$ i, finalment $a^{25}=a^{16}\cdot a^8\cdot a$ s'obté fent dos productes de les quantitats prèvies. En total, hem elevat al quadrat $4$ vegades i hem fet $2$ multiplicacions al final: aquestes $6$ multiplicacions són bastant menys que les $24$ que haurien calgut per obtenir el resultat de manera naïf.
+ \end{example}
+ 
+ Donem un algoritme que calcula $a^r\pmod{m}$ amb $O(\log(r))$ multiplicacions a $\Z/m\Z$.
+ 
+ \begin{algorithm}
+ \caption{Calcula $a^r\pmod m$, versió inicial}
+\begin{python}
+def exponentiate(a,r,m):
+    result = 1
+    powers = a % m
+    if r < 0:
+        r = -r
+        powers = invers_mod(a,m)
+    while r:
+        if r % 2 == 1:
+            result = (result * powers) % m
+        powers = powers ** 2 % m
+        r //= 2
+    return result
+\end{python}
+  \end{algorithm}
+  
+ Podem estalviar espai llegint els bits al revés. Vegem primer un exemple
+ \begin{example}
+ Escrivim
+ \[
+ a^{25} = a^{16+8+1} = a^{16+8}\cdot a = (a^{4}\cdot a^2)^4\cdot a = (((a^2\cdot a)^2)^2)^2\cdot a.
+ \]
+ En aquest cas, amb una sola variable podem anar desant el resultat parcial.
+ \end{example}
+ 
+ Obtindrem la següent funció:
+  \begin{algorithm}
+ \caption{Calcula $a^r\pmod m$, versió millorada}
+ \begin{python}
+def exponentiate_reverse(a,r,m):
+    if r < 0:
+        r = -r
+        a = invers_mod(a,m)
+    result = 1
+    for bit in reversed(r.bits()):
+        result = result**2 % m
+        if bit == 1:
+            result = (result * a) % m
+    return result
+ \end{python}
+ \end{algorithm}
+ 
+\subsection{Diffie--Hellman i RSA}
+Els algoritmes que hem vist fins ara ens permeten descriure protocols clàssics en la criptografia.
+
+\subsubsection{Diffie--Hellman}
+\label{sec:diffie-hellman}
+L'intercanvi de claus de Diffie--Hellman  funciona de la manera següent. Les dues parts, Alice i Bob, fixen un primer $p$. Es treballarà amb el grup cíclic $G = (\Z/p\Z)^\times$. Alice i Bob fixen també un generador $g\in G$, que a l'igual que $p$ serà públic. El protocol funciona de la manera següent:
+\begin{enumerate}
+    \item L'Alice escull un enter a l'atzar $1<a<p-1$, i envia la quantitat $A=g^a\bmod{p}$ a en Bob.
+    \item En Bob, per la seva banda, escull un enter a l'atzar $1<b<p-1$, i envia la quantitat $B=g^b\bmod{p}$ a l'Alice.
+    \item Alice i Bob calculen respectivament $S=B^a\bmod{p}$ i $S=A^b\bmod{p}$. Observem que les dues quantitats són iguals a $g^{ab}\pmod{p}$, que serà el secret compartit.
+\end{enumerate}
+
+Primer de tot, observem que els càlculs involucrats es poden fer de manera eficient gràcies a l'exponenciació modular. Per trobar un generador $g$, el que es fa és triar un primer $p$ de la forma $p=2q+1$ amb $q$ primer, i així per veure que $g\neq \pm 1$ té ordre $p-1$ només cal comprovar (mitjançant exponenciació modular) que $g^q\equiv -1\pmod{p}$.
+
+Fixem-nos que un observador Eve que tingui accés a tota la comunicació sap els valors de $g^a\pmod{p}$ i $g^b\pmod{p}$. El \emph{problema de Diffie--Hellman} consisteix a calcular $g^{ab}\pmod{p}$ donats $g^a\pmod{p}$ i $g^b\pmod{p}$. Al 2019, no coneixem\footnote{S'entén la comunitat acadèmica.} cap algoritme que resolgui aquest problema sense resoldre el \emph{problema del logaritme discret}: donats $A$ i $g$, trobar $a$ tal que $g^a\equiv A\pmod{p}$.
+
+\subsubsection{RSA}
+En aquest cas, es tracta d'establir un protocol que permeti a qualsevol usuari d'escriure un missatge xifrat de manera que només el receptor pretés el pugui desxifrar. Per fer-ho, cada usuari receptor escull dos primers grans $p$ i $q$, i calcula el producte $N=pq$ i $\varphi(N)=(p-1)(q-1)$. Aleshores tria un enter $1<e<\varphi(n)$, i fent servir l'algoritme que hem vist abans calcula el seu invers mòdul $\varphi(n)$: calcula $d$ amb $de\equiv 1\pmod{\varphi(n)}$. Així, cada usuari té una clau pública $(N,e)$ i una clau privada $(\varphi(N),d)$.
+
+Suposem ara que Alice vol enviar un missatge a Bob, que té clau pública $(N_B,e_B)$. Podem suposar que el missatge està codificat com un enter $1<m<N_B$ coprimer amb $N_B$. Aleshores Alice calcula $c=m^{e_B}\bmod{N_B}$, que serà el missatge xifrat. Quan Bob ho rebi, calcula $c^{d_B}\bmod{N_B}$. Vegem que
+\[
+c^{d_B}\equiv m^{e_Bd_B}\equiv m^{1+t\varphi(N_B)}\equiv m\pmod{N_B},
+\]
+i per tant Bob pot desxifrar el missatge. Sense saber quant val $\varphi(N_B)$, no es pot trobar $d_B$ a partir de $e_B$ i, per tant, la seguretat del sistema rau en la dificultat de factoritzar $N_B$ (vegeu la Remarca~\ref{rmk:factoritzar-i-phi}). Més endavant veurem algoritmes per factoritzar enters, però els millors mètodes són sub-exponencials, fet que els fa inviables\footnote{Almenys al 2020! El novembre de 2019 un equip de 6 matemàtics va aconseguir factoritzar l'RSA-240, que té 240 dígits decimals.} per certs nombres de més de 250 decimals.  

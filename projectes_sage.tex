@@ -1,0 +1,47 @@
+\subsection{Com factoritza un polinomi mòdul diferents primers}
+ 
+ En aquest projecte s'estudia la factorització d'un polinomi fixat amb coeficients enters, mòdul diferents primers. Donat un polinomi $f(x)\in\Z[x]$, definim el seu tipus de factorització mòdul $p$ de la manera següent: suposem que la imatge $\bar f(x)\in \F_p[x]$ factoritza com
+ \[
+ \bar f(x)= \bar f_1(x)^{e_1}\cdots \bar f_g(x)^{e_g}\in \F_p[x],
+ \]
+ on $\deg \bar f_i(x)= d_i$. Aleshores direm que $f$ té tipus de factorització $(d_1^{e_1},\ldots,d_g^{e_g})$ (on l'ordre no importa). Per exemple, un polinomi de grau $2$ pot tenir tipus $(2)$, $(1^2)$ o $(1,1)$ (no posem els exponents si són $1$).
+ 
+ Comenceu estudiant polinomis quadràtics, i vegeu quins tipus apareixen, i quantes vegades. El fenòmen que descobrim l'hauriem de poder demostrar.
+ 
+ Després es pot continuar per polinomis cúbics i veure si  podem veure algun patró. Es pot seguir amb polinomis de grau més alt.
+ 
+ \subsection{Estudi del nombre de punts d'una corba algebraica segons el primer}
+ 
+ En aquest projecte, estudiarem corbes de la forma $f(x,y,z)=0$, on $f\in\Z[x,y,z]$ és un polinomi homogeni. Podem comptar els punts mòdul diferents primers, així com els punts a $\F_{p^k}$ on $k\geq 1$ va canviant. Escrivim
+ \[
+ N_f(p,k) = \# \{ (x:y:z)\in\mathbb{P}^2(\F_{p^k}) ~|~ f(x,y,z) = 0\}.
+ \]
+ El tipus de preguntes que ens podem fer:
+ \begin{itemize}
+     \item Com creix $N_f(p,1)$ respecte $p$? Depen de $f$, aquest creixement?
+     \item Podem veure termes de segon ordre en el creixement de $N_f(p,1)$? Aquests, depenen d'alguna manera del polinomi $f$ (o del seu grau)?
+     \item Fixeu $f$ i un primer $p$, i trobeu una fórmula recursiva per $N_f(p,k)$ que us permeti trobar $N_f(p,k)$ per a tot $k$ a partir dels valors corresponents per $k=1,2,\ldots, k_0$ (on $k_0$ dependrà del grau d'$f$ però no de $p$).
+ \end{itemize}
+ 
+ \subsection{Nombre de punts mòdul \texorpdfstring{$p$}{p} per corbes el·líptiques: variació I}
+ Estudieu la distribució de $\#E(\F_p)$, i després la de
+ \[
+ \frac{p+1 - \#E(\F_p)}{2\sqrt{p}}
+ \]
+ per diverses corbes el·líptiques. Dibuixeu histogrames dels resultats, i intenteu identificar les distribucions resultants. Compareu en particular el resultat que obteniu per aquestes dues corbes:
+ \begin{align*}
+     E_0\colon & y^2 + y = x^3 - x^2,\\
+     E_1\colon & y^2 + y = x^3.
+ \end{align*}
+ \subsection{Nombre de punts mòdul \texorpdfstring{$p$}{p} per corbes el·líptiques: variació II}
+ Donada una corba el·líptica $E$ definida sobre $\Q$, definim la funció
+ \[
+ C_E(x) = \prod_{p\leq x}\frac{\#E(\F_p)}{p},\quad x\in\R_{>0}.
+ \]
+ Estudieu el comportament assimptòtic de $C_E$ ($x\to\infty$) per diverses corbes el·líptiques. Per exemple, considereu les corbes:
+ \begin{align*}
+E_0\colon& y^2+y=x^3-x^2,\\
+E_1\colon& y^2+y=x^3-x,\\
+E_2\colon& y^2+y = x^3+x^2-2x,\\
+E_3\colon&y^2 +y =x^3 - 7x+6.
+\end{align*}
