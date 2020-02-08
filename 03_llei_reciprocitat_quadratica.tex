@@ -363,7 +363,9 @@ A més,
  \delta\in \{-u/v, (1-u)/v, (-1-u)/v\}.
  \]
  Podem provar aquestes tres possibilitats i trobarem $\delta$. Si $v=0$, triem un altre $z\in \F_p^\times$ i repetim el procés.
- 
+
+ \begin{algo}
+   \caption{Donat un enter $a$ i un primer $p$, troba (si existeix) una arrel quadrada d'$a$ a $\F_p$.}
  \begin{python}
  def troba_arrel_quadrada(a, p):
     assert legendre_symbol(a, p) == 1
@@ -385,3 +387,4 @@ A més,
         return ans
     return ans - 2 * vinv
  \end{python}
+\end{algo}

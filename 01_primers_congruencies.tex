@@ -70,16 +70,16 @@ Finalment, com que $51=17\cdot 3$, obtenim $\gcd(17,51) = 17$.
 
 Aquest procediment es pot escriure en forma d'algoritme:
 
-\begin{algorithm}
-\caption{Calcula el $\gcd$ de dos enters}
+\begin{algo}
+
 \begin{python}
 def gcd(a,b):
     while b:
         a, b = b, a % b
     return a.abs()
-\end{python}
-
-\end{algorithm}
+  \end{python}
+\caption{Calcula el $\gcd$ de dos enters}
+\end{algo}
 
 També és fàcil de veure que
 \begin{lemma}
@@ -182,7 +182,7 @@ Siguin $a,r$ dos enters coprimers. Aleshores hi ha infinits primers de la forma 
 
 Si ens interessa enumerar els primers, podem fer servir l'anomenat \emph{garbell d'Eratòstenes}, que ens dona tots els primers menors que un enter donat $n$. Es tracta d'anar traient de la llista tots els múltiples de $p$, on $p$ és el primer element de la llista (que forçosament haurà de ser primer). Només cal mirar fins a $\sqrt{n}$, ja que si un enter $m$ no és primer, aleshores necessàriament ha de tenir un factor primer menor que $\sqrt{m}$.
 
-\begin{algorithm}
+\begin{algo}
 \caption{Retorna una llista dels primers menors que $n$}
 \begin{python}
 def garbell(n):
@@ -201,7 +201,7 @@ def garbell(n):
         P += X
         return P
 \end{python}
-\end{algorithm}
+\end{algo}
 
  \subsection{Els enters mòdul \texorpdfstring{$n$}{n}}
  Donat un enter positiu $n$, considerarem el morfisme d'anells
@@ -477,7 +477,7 @@ f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
  Observem que els nombres subratllats són justament els quocients que hem anant obtenint en les divisions successives.
  \end{example}
  L'exemple anterior ens dona la idea de l'algoritme conegut com ``algoritme d'Euclides extès'':
- \begin{algorithm}
+ \begin{algo}
  \caption{Retorna enters $g$, $x$ i $y$ satisfent $g=\gcd(a,b)$ i $ax+by=g$}
  \begin{python}
  def xgcd(a,b):
@@ -489,7 +489,7 @@ f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
         a, b, r, s, x, y = b, c, x - q * r, y - q * s, r, s
     return a, signe_a * x, signe_b * y
  \end{python}
- \end{algorithm}
+ \end{algo}
  
  \begin{proof}[Demostració (de la Proposició~\ref{prop:xgcd})]
     Demostrarem que l'algoritme és correcte. Denotem els valors inicials per $a_0, b_0, r_0, s_0, x_0, y_0$ i els valors després de $n$ iteracions per $a_n, b_n, r_n, s_n, x_n, y_n$. Podem suposar que $a_0, b_0\geq 0$, i veurem per inducció que a cada iteració es té que
@@ -532,7 +532,7 @@ Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, 
   \end{remark}
  Fent servir la identitat de Bézout, és molt fàcil donar un algoritme per resoldre $ax = b\pmod m$:
  
- \begin{algorithm}
+ \begin{algo}
  \caption{Donats $a$, $b$ i $m$ retorna $x$ satisfent $ax\equiv b\pmod m$}
  \begin{python}
  def resol_equacio_lineal(a,b,m):
@@ -543,17 +543,17 @@ Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, 
     else:
         return q * x
  \end{python}
-  \end{algorithm}
+  \end{algo}
  
  En particular, podem calcular inversos a $\Z/m\Z$:
  
- \begin{algorithm}
+ \begin{algo}
  \caption{Donats $a$ i $m$ coprimers, retorna $a^*$ satisfent $aa^*\equiv 1\pmod m$}
  \begin{python}
  def invers_mod(a,m):
      return resol_equacio_lineal(a,1,m)
  \end{python}
- \end{algorithm}
+ \end{algo}
  
   El segon objectiu que ens proposem en aquesta secció és el de, donats enters $a$, $r$ i $m$, calcular la quantitat
   \[
@@ -575,7 +575,7 @@ Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, 
  
  Donem un algoritme que calcula $a^r\pmod{m}$ amb $O(\log(r))$ multiplicacions a $\Z/m\Z$.
  
- \begin{algorithm}
+ \begin{algo}
  \caption{Calcula $a^r\pmod m$, versió inicial}
 \begin{python}
 def exponentiate(a,r,m):
@@ -591,7 +591,7 @@ def exponentiate(a,r,m):
         r //= 2
     return result
 \end{python}
-  \end{algorithm}
+  \end{algo}
   
  Podem estalviar espai llegint els bits al revés. Vegem primer un exemple
  \begin{example}
@@ -603,7 +603,7 @@ def exponentiate(a,r,m):
  \end{example}
  
  Obtindrem la següent funció:
-  \begin{algorithm}
+  \begin{algo}
  \caption{Calcula $a^r\pmod m$, versió millorada}
  \begin{python}
 def exponentiate_reverse(a,r,m):
@@ -617,7 +617,7 @@ def exponentiate_reverse(a,r,m):
             result = (result * a) % m
     return result
  \end{python}
- \end{algorithm}
+ \end{algo}
  
 \subsection{Diffie--Hellman i RSA}
 Els algoritmes que hem vist fins ara ens permeten descriure protocols clàssics en la criptografia.

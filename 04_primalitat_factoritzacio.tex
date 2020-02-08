@@ -129,7 +129,10 @@ Com que $p\mid n$, aleshores $p\nmid n-1$ i per tant $d\leq p-1$. Per tant, la p
  \operatorname{Prob}(\text{error} \mid p\text{ primer}) = 0,\quad \operatorname{Prob}(\text{error} \mid p\text{ compost})<4^{-k}.
  \]
  
-Una possible implementació del test de Miller--Rabin:
+ Una possible implementació del test de Miller--Rabin:
+
+ \begin{algo}
+   \caption{Test de Miller--Rabin}
 \begin{python}
 def es_pseudoprimer_fort(n,base):
     s = 0
@@ -154,7 +157,8 @@ def es_primer_miller_rabin(n,k):
         if not es_pseudoprimer_fort(n, b):
             return False
     return True
-\end{python}
+  \end{python}
+\end{algo}
 El test de Miller--Rabin no dona una manera de demostrar la primalitat de $n$, llevat de comprovar més de una quarta part de les bases, que és impràctic. Tot i així, si assumim una generalització de la hipòtesi de Riemann (coneguda com a GRH per funcions-L de Dirichlet) aleshores tenim:
  \begin{proposition}
   Suposem GRH. Si $n$ és un enter compost senar, aleshores hi ha alguna base $b<2\log^2n$ tal que $n$ no és pseudoprimer fort en base $b$.
@@ -188,6 +192,8 @@ Si $n$ és primer, aleshores $\F_n^\times$ és cíclic d'ordre $n-1$, i si $a$ �
 
 L'avantatge del test de Lucas és que, si podem factoritzar completament $n-1$, obtenim una demostració de la primalitat de $n$. Per demostrar que els factors primers de $n-1$ són de fet primers, podem aplicar de nou el test de Lucas, i si fem aquest procés de manera recursiva arribem a una demostració incondicional de la primalitat de $n$, que és fàcilment verificable. El conjunt de dades involucrades en aquesta cadena s'anomena \emph{certificat de primalitat}.
 
+\begin{algo}
+  \caption{Test de Lucas}
 \begin{python}
 def test_lucas(n,a, trust = 100):
     verbose('Test de Lucas amb n = %s i base = %s'%(n,a))
@@ -206,7 +212,8 @@ def test_lucas(n,a, trust = 100):
         while not test_lucas(p,b, trust):
             b += 1
     return True
-\end{python}
+  \end{python}
+\end{algo}
 \subsection{Algoritmes de factorització}
 D'entre els mètodes per determinar la primalitat de $n$, només el mètode del garbell ens dona un factor de $n$ si aquest és compost. Els altres mètodes ens diran que $n$ és compost, sense donar-nos cap informació dels factors de $n$. En aquesta $\S$ veurem mètodes que intenten trobar un factor no trivial de $n$ quan ja sabem que aquest existeix.
  \subsection{\texorpdfstring{$\rho$}{Rho} de Pollard}
@@ -335,7 +342,9 @@ Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest
  O\left(e^{\sqrt{(1+\varepsilon)\log n \log\log n}}\right)
  \]
  \end{theorem}
- 
+
+ \begin{algo}
+   \caption{Factorització de Lenstra}
  \begin{python}
  def factor_lenstra(n, intents = 100):
     from sage.rings.finite_rings.finite_field_prime_modn \ 
@@ -353,7 +362,7 @@ Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest
         except ZeroDivisionError as e:
             return ZZ(re.search(r'\d+', str(e)).group()).gcd(n)
 \end{python}
-
+\end{algo}
 
  \subsection{Bases de factors}
  
@@ -602,8 +611,10 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  \]
  \end{corollary}
 
-Per tant, veiem que els termes de la successió $(p_n)_{n\geq 0}$ ens proporcionen bons candidats per obtenir $B$-nombres a l'hora de factoritzar un enter $N$.
+ Per tant, veiem que els termes de la successió $(p_n)_{n\geq 0}$ ens proporcionen bons candidats per obtenir $B$-nombres a l'hora de factoritzar un enter $N$.
 
+ \begin{algo}
+   \caption{Factorització per fraccions continuades.}
 \begin{python}
 def es_B_suau(n,B):
     m = n
@@ -618,7 +629,7 @@ def es_B_suau(n,B):
                 val += 1
         v.append(val)
     return v if  m == 1 else False
-    
+
 def frac_continuada_sqrt(n):
     F.<s> = QuadraticField(n)
     v = F.embeddings(RDF)[0]
@@ -635,7 +646,7 @@ def frac_continuada_sqrt(n):
         x = xinv - a
         b, b0 = a * b + b0, b
         yield b
-        
+
 def factor_fraccions_continuades(n,B):
     M = frac_continuada_sqrt(n)
     relations = []
@@ -666,6 +677,7 @@ def factor_fraccions_continuades(n,B):
                 if g > 1 and g < n:
                     return g
 \end{python}
+\end{algo}
 
 Acabem aquesta \S{} amb un resultat interessant sobre fraccions continuades, encara que no ens serveixi directament per factoritzar.
 
@@ -818,6 +830,8 @@ O\left(e^{(1+\epsilon)\sqrt{\log n\log\log n}}\right)
 operacions.
 \end{proposition}
 
+\begin{algo}
+\caption{Factorització pel garbell quadràtic.}
 \begin{python}
 def garbell(k0, k1, B, n):
     llista = [[x, x*x -n] for x in srange(k0,k1)]
@@ -861,8 +875,9 @@ def factor_garbell_quadratic(n,Bmax,inc):
             if g > 1 and g < n:
                 return g
 \end{python}
+\end{algo}
 
- \subsection{Algoritmes pel logaritme discret}
+\subsection{Algoritmes pel logaritme discret}
  
 
   \subsubsection{Pohlig--Hellman}

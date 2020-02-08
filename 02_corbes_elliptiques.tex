@@ -149,7 +149,7 @@ def add(P,Q):
     xPQ = s1^2 - a2 - P[0] - Q[0]
     yPQ = -P[1] + s1*(P[0] - xPQ)
     return (xPQ, yPQ)
-    
+
 def double(P):
     s1 = (3*P[0]**2 + 2*a2 *P[0] + a4) / (2 * P[1])
     xPQ = s1^2 - 2*P[0]
@@ -769,6 +769,9 @@ Vegem la complexitat d'aquest algoritme. Els polinomis $\psi_\ell$ tenen grau $O
 
 Acabem la secció amb una implementació en  \texttt{Sage} de l'algoritme d'Schoof.
 
+\begin{algo}
+  \caption{Donats enters $A$ i $B$ i un primer $p$, calcula $p+1-\#E(\F_p)$, on $E$ és la corba el·líptica
+    $y^2=x^3+Ax+B$}
 \begin{python}    
 def t_mod(A, B, p, ell):
     pmod = p % ell
@@ -796,4 +799,5 @@ def Schoof(A, B, p): # y^2 = x^3 + Ax + B
         traces.append(t_mod(A, B, p, ell))      
     t = CRT(traces, S) # Fem servir el Teorema Xinès dels Residus
     return t if t < M / 2 else t-M
-\end{python}
+  \end{python}
+\end{algo}
