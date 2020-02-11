@@ -147,7 +147,7 @@ i dedu\"{\i}u que $\left(\frac{a}{p}\right)=(-1)^{|S_a'|}$.
 
 
 \item Sigui $m$ un enter positiu
-senar. Podem escriuré així $m=p_1\dots p_s$ on els $p_i$ són primers
+senar. Podem escriure $m=p_1\dots p_s$ on els $p_i$ són primers
 senars, no necessàriament diferents. Es defineix el \textbf{símbol de Jacobi}
 com:
 $$
@@ -531,9 +531,23 @@ Dedu\"{\i}u que $$\frac {m!}{a_1!\cdots a_n!}\in\Z_{\ge 1}.$$
 \item   Demostreu que si $a$ i $b\in\Z$, aleshores el nombre
 seg\"{u}ent és enter: $$ \frac{(2a)!(2b)!}{a!b!(a+b)!}$$
 
+\item Demostreu que per a tot $n\ge 0$,
+  \[
+    \frac {(12n)!n!}{(6n)!(4n)!(3n)!}\in\Z_{\ge 1}, i
+  \]
+  \[
+    \frac {(12n)!n!}{(8n)!(3n)!(2n)!}\in\Z_{\ge 1}.
+  \]
+  És cert per alguna altra combinació $a+b+c=13$, $a\ge b\ge c>0$ que
+  \[
+    \frac {(12n)!n!}{(an)!(bn)!(cn)!}\in\Z_{\ge 1}?
+  \]
+
 \item  Demostreu que
-$$N!>\left( \frac {N}{e}\right)^N$$
-i dedu\"{\i}u, junt amb b), que $\sum_{p\le
+  \[
+    N!>\left( \frac {N}{e}\right)^N
+  \]
+  (Indicació: $e^N>N^N/N!$) i dedu\"{\i}u, del què heu vist que $\sum_{p\le
 N} \frac{\log(p)}{p-1} > \log(N)-1$. En particular, veiem que hi ha infinits primers.
 \end{enumerate}
 
@@ -541,7 +555,7 @@ N} \frac{\log(p)}{p-1} > \log(N)-1$. En particular, veiem que hi ha infinits pri
 \item Sigui $\lfloor x \rfloor$ la part entera inferior d'un
 nombre real (o sigui, el nombre enter més gran més petit que $x$).
 Donat un nombre primer $p$, i un enter $n$, sigui $v_p(n)$ la màxima
-potencia de $p$ que divideix $n$.
+potència de $p$ que divideix $n$.
 
 \begin{enumerate}
 
@@ -608,7 +622,7 @@ són $\ne 1$, aleshores
 $$J(\chi,\chi')G(\chi\chi')=G(\chi)G(\chi').$$
 
 \item Demostreu que si $\chi\ne 1$, aleshores $\| G(\chi)\|
-=\sqrt{p}$ com a número complex.
+=\sqrt{p}$ com a nombre complex.
 
 \end{enumerate}
 
@@ -702,7 +716,7 @@ Considerem els polinomis $p(t)=\sum_{i=0}^{k-1}x_it^i$ i
 $q(t)=\sum_{i=0}^{k-1}y_it^i$.
   \begin{enumerate}
   \item Trobeu una relació entre els polinomis $p(t)$, $q(t)$ i el producte $xy$.
-  \item Trobeu una fórmula semblant a la de l'algoritme de Karatsuba que dóni els coeficients de $p(t)q(t)$ en termes dels valors de $p$ i $q$ en els punts
+  \item Trobeu una fórmula semblant a la de l'algoritme de Karatsuba que doni els coeficients de $p(t)q(t)$ en termes dels valors de $p$ i $q$ en els punts
     \[
       \infty, 0, \pm 1, \pm 2,\ldots \pm (k-2), k-1.
     \]
@@ -772,13 +786,18 @@ $$\frac{B_n}{n}\equiv \frac{B_m}{m} \pmod{p}$$
 divisors és més gran que $2n$ (recordem que un nombre és perfecte si
 la suma dels seus divisors és igual a $2n$).
 \begin{enumerate}
+\item Calculeu tots els nombres abundants menors que $50$.
 \item Proveu que tot múltiple positiu d'un nombre abundant és abundant.
 \item Proveu que tot múltiple positiu de un nombre perfecte fora d'ell mateix és abundant.
-\item Comproveu que tot nombre de la forma $6m+20$, $6m+12$ i $6m+40$ per $m>1$ i
-$12m+20$ per $m\ge 1$, són suma de dos nombres abundants.
+\item Comproveu que tot nombre de la forma $6m+20$, $6m+12$ i $6m+40$ per $m>1$ és suma de dos nombres abundants.
 \item Proveu que tot nombre parell més gran que $46$ és suma de dos
 nombres abundants, veient que els casos anteriors cobreixen tots
 aquests nombres parells.
+\item Proveu que tot nombre senar $n$ més gran que $28122$ es pot
+escriure com $n=88a+315b$, on $2 < b < 90 $ és un nombre senar, i
+que cada sumand és abundant.
+\item Feu una llista de tots els nombres que no són suma de dos nombres abundants, fent
+un programa en \texttt{Sage}, \texttt{Python} o \texttt{C}.
 \end{enumerate}
 
 \end{enumerate}
