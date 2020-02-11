@@ -614,7 +614,7 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  Per tant, veiem que els termes de la successió $(p_n)_{n\geq 0}$ ens proporcionen bons candidats per obtenir $B$-nombres a l'hora de factoritzar un enter $N$.
 
  \begin{algo}
-   \caption{Factorització per fraccions continuades.}
+   \caption{Determina si un enter és $B$-suau.}
 \begin{python}
 def es_B_suau(n,B):
     m = n
@@ -629,7 +629,12 @@ def es_B_suau(n,B):
                 val += 1
         v.append(val)
     return v if  m == 1 else False
+\end{python}
+\end{algo}
 
+ \begin{algo}
+   \caption{Càlcul de la fracció continuada d'$\sqrt{n}$.}
+\begin{python}
 def frac_continuada_sqrt(n):
     F.<s> = QuadraticField(n)
     v = F.embeddings(RDF)[0]
@@ -646,7 +651,12 @@ def frac_continuada_sqrt(n):
         x = xinv - a
         b, b0 = a * b + b0, b
         yield b
+\end{python}
+\end{algo}
 
+ \begin{algo}
+   \caption{Factorització per fraccions continuades.}
+\begin{python}
 def factor_fraccions_continuades(n,B):
     M = frac_continuada_sqrt(n)
     relations = []
