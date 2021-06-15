@@ -56,18 +56,22 @@
 \usepackage{mathtools}
 \usepackage[all]{xy}
 
-
+\usepackage[section]{placeins}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \usepackage{listings}
+
 \usepackage{color}
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{minted}
+\usemintedstyle{tango}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage[section, Algoritme]{algorithm}
 \usepackage{float}
-\newfloat{algorithm}{t}{lop}
-\usepackage{csquotes}
+\newfloat{algorithm}{h}{lop}
+\usepackage{attachfile}
 \usepackage{hyperref}
 \hypersetup{hidelinks,colorlinks=false,breaklinks=true,urlcolor=ocre,bookmarksopen=false, pdftitle={Apunts d'Aritmètica},pdfauthor={Marc Masdeu}}
 
@@ -175,7 +179,6 @@
 
 \newminted[python]{python}{xleftmargin=0cm}
 
-
  \newcommand{\red}{\operatorname{red}}
 \renewcommand{\setminus}{\smallsetminus}
 \newcommand{\fixme}[1]{\footnote{\textbf{ FIXME: } \textrm{#1}}}
@@ -222,7 +225,7 @@
 
 
 % \setcounter{tocdepth}{2}
-
+\usepackage[autostyle]{csquotes}
 \usepackage{imakeidx}
 \makeindex
 
@@ -282,7 +285,7 @@
 
 \usechapterimagefalse
 %\chapterimage{Cap0.png} % Table of contents heading image
-\chapter{Primers i congruències \texorpdfstring{($\sim$6h)}{}}
+\chapter{Primers i congruències}
 {
 \let\paragraph\subsubsection
 \let\subsubsection\subsection
@@ -291,15 +294,16 @@
 \input{01_primers_congruencies.tex}
 }
 %\chapterimage{Cap1.png}
-\chapter{Corbes el·líptiques (\texorpdfstring{$\sim$9h}{})}
+\chapter{Corbes el·líptiques}
 {
 \let\paragraph\subsubsection
 \let\subsubsection\subsection
 \let\subsection\section
+
 \input{02_corbes_elliptiques.tex}
 }
 %\chapterimage{Cap2.png}
-\chapter{La llei de reciprocitat quadràtica (\texorpdfstring{$\sim$5h}{})}
+\chapter{La llei de reciprocitat quadràtica}
 {
 \let\paragraph\subsubsection
 \let\subsubsection\subsection
@@ -308,7 +312,8 @@
 \input{03_llei_reciprocitat_quadratica.tex}
 }
 %\chapterimage{Cap3.png}
-\chapter{Primalitat i factorització (\texorpdfstring{$\sim$10h}{})}
+
+\chapter{Primalitat i factorització}
 {
 \let\paragraph\subsubsection
 \let\subsubsection\subsection
@@ -318,13 +323,6 @@
 }
 
 \appendix
-\chapter{Projectes de \texttt{Sage}}
-{
-\let\subsection\section
-\let\subsubsection\subsection
-\let\paragraph\subsubsection
-\input{projectes_sage.tex}
-}
 
 \chapter{Exposicions orals}
 {
@@ -335,46 +333,21 @@
 \input{exposicions_orals.tex}
 }
 
-\chapter{Problemes per entregar}
+\chapter{Projectes de \texttt{Sage}}
 {
-\let\paragraph\subsubsection
-\let\subsubsection\subsection
 \let\subsection\section
-
-\input{problemes_entregar.tex}
+\let\subsubsection\subsection
+\let\paragraph\subsubsection
+\input{projectes_sage.tex}
 }
 
+%\chapter{Problemes per entregar}
+%{
+%\let\paragraph\subsubsection
+%\let\subsubsection\subsection
+%\let\subsection\section
+%
+%\input{problemes_entregar.tex}
+%}
 
-
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
-
-% \chapter*{Bibliografia}
-% \addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliografia}} % Add a Bibliography heading to the table of contents
-
-
-% \begin{thebibliography}{20}
-% \bibitem{Bret}
-% 	Otto Bretscher,
-% 	\textit{Linear Algebra with Applications},
-% 	1997, Prentice-Hall International Inc.
-% \bibitem{NaXa}
-% 	Enric Nart, Xavier Xarles,
-% 	\textit{Apunts d'àlgebra lineal}, 2016, Col.lecci\'o Materials, 237, UAB.
-% \end{thebibliography}
-
-%\printbibliography[heading=bibempty]
-
-%----------------------------------------------------------------------------------------
-%	INDEX
-%----------------------------------------------------------------------------------------
-
-\cleardoublepage % Make sure the index starts on an odd (right side) page
-\phantomsection
-\setlength{\columnsep}{0.75cm} % Space between the 2 columns of the index
-\addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}} % Add an Index heading to the table of contents
-\printindex % Output the index
-
-%----------------------------------------------------------------------------------------
 \end{document}

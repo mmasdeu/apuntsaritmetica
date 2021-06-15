@@ -1,36 +1,21 @@
 
 \subsection{Primalitat}
 
-\subsubsection{El ``test'' de Wilson}
-\begin{proposition}[Teorema de Wilson]
- Un enter $p>1$ és primer si i només si
- \[
- (p-1)!\equiv -1\pmod{p}.
- \]
-\end{proposition}
-\begin{proof}
- Si $p$ no és primer, prenem $\ell\mid p$ un factor primer de $p$. Tenim, per una banda, que $\ell\mid (p-1)!$, i també que $\ell\mid p\mid (p-1)!+1$. Però aleshores $\ell\mid 1$, que és una contradicció.
- 
- D'altra banda, si $p>2$ és primer (per $p=2$ ho podem verificar directament), aleshores fixem-nos que els factors que apareixen en el producte
- \[
- (p-1)! = \prod_{x=1}^{p-1} x
- \]
- són representants de tots els elements de $(\Z/p\Z)^\times$. En particular, per cada $x$ que apareix en el producte també apareix $y\equiv x^{-1} \pmod p$, que es cancel·larà. L'única manera que aquests dos termes no es cancel·lin és si $y=x$, és a dir si $x^2\equiv 1\pmod p$, i això només passa per $x=1$ i $x=p-1$. Per tant, tenim $(p-1)!\equiv p-1\equiv -1\pmod p$, com voliem demostrar.
-\end{proof}
-Fixem-nos que no és un mètode pràctic per decidir si $p$ és primer, ja que per calcular el factorial de $p-1$ calen prop de $p$ operacions. Veurem altres mètodes que ens permeten demostrar que un nombre és compost, o bé donar-nos molta seguretat sobre el fet que és primer (si ho és).
- \subsubsection{Fermat i Miller--Rabin}
- 
+En aquesta secció estudiarem diferents algoritmes que ens permeten decidir si un enter $n$ és primer. És el que es coneix com \emph{tests de primalitat}.
+
+ \subsubsection{El test de Fermat}
+ El primer test pràctic que analitzem es basa en explotar el petit Teorema de Fermat. Sabem que si $n$ és primer aleshores per tot enter $a$ amb $\gcd(a,n)=1$ es té $a^{n-1}\equiv 1\pmod n$. Donarem un nom als nombres compostos que es comporten com a primers des del punt de vista d'aquest resultat.
  \begin{definition}
- Un enter compost senar $n$ s'anomena \emph{pseudoprimer en base $b$} si $\gcd(b,n)=1$ i $b^{n-1}\equiv 1\pmod n$.
+ Un enter compost senar $n$ s'anomena \emph{pseudoprimer en base $a$} si $\gcd(a,n)=1$ i $a^{n-1}\equiv 1\pmod n$.
  \end{definition}
  
- Observem que $n$ és pseudoprimer en bases $b_1$ i $b_2$, aleshores també ho és en les bases $b_1b_2$ i $b_1b_2^{-1}$ (on l'invers el fem mòdul $n$).
+ Observem que $n$ és pseudoprimer en bases $a$ i $b$, aleshores també ho és en les bases $ab$ i $ab^{-1}$ (on l'invers el fem mòdul $n$).
  
  \begin{lemma}
- Si $n$ no és pseudoprimer en una base $(b\in\Z/n\Z)^\times$, aleshores $n$ no ho és en com a mínim la meitat de les possibles bases $b$.
+ Si $n$ no és pseudoprimer en una base $(a\in\Z/n\Z)^\times$, aleshores $n$ no ho és en com a mínim la meitat de les possibles bases $a$.
  \end{lemma}
  \begin{proof}
-  Sigui $\{b_1,\ldots,b_s\}$ el conjunt de les bases en les quals $n$ és pseudoprimer. Sigui $b\in(\Z/n\Z)^\times$ una base en la qual $n$ no és pseudoprimer. Aleshores $\{bb_1,\ldots,bb_s\}$ és un conjunt de $s$ residus tals que $n$ no és pseudoprimer en aquelles bases.
+  Sigui $\{a_1,\ldots,a_s\}$ el conjunt de les bases en les quals $n$ és pseudoprimer. Sigui $a\in(\Z/n\Z)^\times$ una base en la qual $n$ no és pseudoprimer. Aleshores $\{aa_1,\ldots,aa_s\}$ és un conjunt de $s$ residus tals que $n$ no és pseudoprimer en aquelles bases.
  \end{proof}
  
  \begin{definition}
@@ -49,87 +34,179 @@ Fixem-nos que no és un mètode pràctic per decidir si $p$ és primer, ja que p
  \begin{proposition}
   Sigui $n$ un primer compost.
   \begin{enumerate}
-      \item Si $n$ no és lliure de quadrats, aleshores $n$ no és de Carmichael.
+      \item Si $n$ és de Carmichael, aleshores $n$ és lliure de quadrats.
       \item Si $n$ és lliure de quadrats, aleshores $n$ és de Carmichael si i només si $p-1\mid n-1$ per tot $p\mid n$.
   \end{enumerate}
  \end{proposition}
  \begin{proof}
  \fixme{Vegeu els problemes per entregar.}
  \end{proof}
-
  
- Per evitar els problemes amb els nombres de Carmichael, suposem que $n$ sigui un pseudoprimer en base $b$. Per tant,
+ \begin{corollary}
+ Si $n$ és un nombre de Carmichael, aleshores és producte de com a mínim tres primers.
+ \end{corollary}
+ \begin{proof}
+ Suposem, per arribar a contradicció, que $n=pq$ és producte de només dos primers, amb $p<q$. Treballem mòdul $(q-1)$, i sabem que $n-1 \equiv 0\pmod{q-1}$. Però $n=pq$ i $q\equiv 1\pmod{q-1}$, per tant $0\equiv n-1\equiv pq-1\equiv p-1\pmod{q-1}$. D'aquí en treiem que $q-1$ divideix $p-1$, que és una contradicció amb el fet que $p < q$.
+ \end{proof}
+\subsubsection{El test de Solovay-Strassen}
+Podem millorar el test de Fermat amb el que hem après al capítol anterior. D'entrada, si $n$ és primer aleshores sabem que per a tot $a$ coprimer amb $n$ es té \[
+a^\frac{n-1}{2} \equiv \pm 1 \pmod n.
+\]
+Això ens donaria un altre test, però malauradament també hi ha nombres anàlegs al de Carmichael que passen aquest test sense ser primers. El primer exemple és $n=1729=7\cdot 13\cdot 19$.
+
+L'existència del símbol de Jacobi ens permet millorar aquest test. Sabem que, si $n$ és primer, aleshores es satisfà el criteri d'Euler: per a tot $1< a < n$,
+\begin{equation}
+\label{eq:eulerwitness}
+a^\frac{n-1}{2} \equiv \legendre{a}{n} \pmod n.
+\end{equation}
+Tenim maneres eficients de calcular els dos costats de la igualtat: exponenciació modular per una banda, i  la llei de reciprocitat quadràtica per l'altra. Per tant, per cada $a$ obtenim un test que potencialment ens pot certificar que $n$ és compost.
+
+\begin{definition}
+Un enter $a$ és un testimoni d'Euler (per la no-primalitat de $n$) si $\gcd(a,n)>1$ o bé no satisfà l'Equació~\eqref{eq:eulerwitness}.
+\end{definition}
+
+L'avantatge d'aquest criteri és que no hi ha ànalegs dels nombres de Carmichael. De fet, veurem que si $n$ és compost trobarem molts testimonis d'Euler coprimers amb $n$.
+
+\begin{theorem}[Solovay--Strassen]
+Sigui $n>1$ un compost senar. Aleshores existeix un testimoni d'Euler amb $\gcd(a,n)=1$.
+\end{theorem}
+\begin{proof}
+Primer suposem que $n=p_1p_2\cdots p_r$ sigui lliure de quadrats. Sigui $b$ un no-quadrat mòdul $p_1$, i sigui $a$ un enter menor que $n$ i satisfent (gràcies al teorema xinès dels residus):
+\begin{align*}
+    a &\equiv b\pmod {p_1}\\
+    a &\equiv 1\pmod {p_2\cdots p_r}.
+\end{align*}
+Sabem que $a\neq 1$, perquè $b\not\equiv 1\pmod {p_1}$. Cap dels $p_i$ divideix $a$, i per tant $\gcd(a,n)=1$. D'altra banda, per la definició d'$a$ és evident que $\legendre{a}{n}=-1$. Suposem que no fos un testimoni d'Euler. Aleshores tindríem $a^\frac{n-1}{2}\equiv -1\pmod n$. Mirant l'equivalència mòdul $p_2$, obtindrem $1\equiv -1\pmod{p_2}$, contradicció.
+
+Ara suposem que $n=p^2 n'$. Com abans, construïm $1<a<n$, amb $\gcd(a,n)=1$ i satisfent
+\begin{align*}
+a &\equiv (1+p)\pmod {p^2}\\
+a &\equiv 1 \pmod {n'}.
+\end{align*}
+Per obtenir una contradicció, elevem al quadrat l'Equació~\eqref{eq:eulerwitness} i obtenim que $a^{n-1}\equiv 1\pmod n$. Però mòdul $p^2$ podem calcular:
+\[
+a^{n-1}\equiv (1+p)^{n-1} \equiv 1+ (n-1)p\pmod{p^2}.
+\]
+Per tant, obtindríem $(n-1)p\equiv 0\pmod {p^2}$, i per tant $n-1\equiv 0\pmod p$, que és una contradicció amb el fet que $p$ divideix $n$.
+\end{proof}
+\begin{corollary}
+Sigui $n>1$ un compost senar. Aleshores més de la meitat dels enters $1<a<n$ són testimonis d'Euler.
+\end{corollary}
+\begin{proof}
+Considerem el grup $G=(\Z/n\Z)^\times$ de les unitats mòdul $n$, i definim
+\[
+H = \left\{a\in G ~|~ \legendre{a}{n} = a^{\frac{n-1}{2}}\right\}.
+\]
+Observem que $H$ és un subgrup de $G$, ja que els dos membres de la igualtat que defineix $H$ són multiplicatius. El teorema de Solovay--Strassen ens demostra que $H\neq G$, i per tant $H$ és un subgrup propi de $G$. Per tant, $\# H \leq \frac{\# G}2 < \frac{n-1}{2}$.
+\end{proof}
+
+\begin{algo}
+   \caption{Test de Solovay--Strassen}
+\begin{python}
+def solovay_strassen(n, t=10):
+    # Assumim que n és senar i més gran que 2
+    R = Zmod(n)
+    m = (n-1) // 2
+    for _ in range(t):
+        a = ZZ.random_element(2, n)
+        if gcd(a, n) > 1:
+            return False # n és compost
+        if Mod(a, n)^m != jacobi_symbol(a,n):
+            return False # n és compost
+    return True # n és primer amb probabilitat 1-2^-t
+\end{python}
+\end{algo}
+
+\subsubsection{El test de Miller--Rabin}
+ Suposem que $n$ sigui un pseudoprimer en base $a$. Per tant,
  \[
- b^{n-1}\equiv 1\pmod n.
+ a^{n-1}\equiv 1\pmod n.
  \]
- La idea és que si anem fent arrels quadrades d'aquesta igualtat i $n$ és primer, anirem trobant o bé $1$ fins que al final trobem $-1$. Si això no passa, aleshores deduirem que $n$ és compost.
+ La idea és que si anem fent arrels quadrades d'aquesta igualtat i $n$ és primer, anirem trobant $1$ fins que al final trobarem un $-1$. Si això no passa, aleshores deduirem que $n$ és compost.
  
  \begin{definition}
- Escrivim un enter compost $n=2^st+1$, amb $t$ senar. Direm que $n$ és pseudoprimer fort en base $b\in(\Z/n\Z)^\times$ si $b^t\equiv 1\pmod n$ o hi ha algun $r$ amb $0\leq r<s$ tal que
+ Escrivim un enter compost $n=2^ek+1$, amb $k$ senar. Direm que $n$ és pseudoprimer fort en base $a\in(\Z/n\Z)^\times$ si $a^k\equiv 1\pmod n$ o hi ha algun $i$ amb $0\leq i<e$ tal que
  \[
- b^{2^rt}\equiv -1\pmod n.
+ a^{2^ik}\equiv -1\pmod n.
  \]
  \end{definition}
  
- \begin{proposition}
- \label{prop:ppf}
-  Un enter compost $n$ és pseudoprimer fort per com a molt el $25 \%$ de les possibles bases $1\leq b<n$.
- \end{proposition}
- 
- Per la demostració ens caldran dos lemes previs:
- \begin{lemma}
- Sigui $G$ un grup cíclic amb $m$ elements. Aleshores
- \[
- G[k]=\{x\in G ~|~ x^k=1\}
- \]
- té ordre $\gcd(k,m)$.
- \end{lemma}
- \begin{lemma}
- Sigui $p$ un primer senar, i escrivim $p=1+2^{s't'}$ amb $t'$ senar. Aleshores
- \[
-\#\{x\in \F_p^\times ~|~ x^{2^st}\equiv 1\pmod p\}
-=
-\begin{cases}
- 2^s\gcd(t,t')&\text{ si } s<s',\\
- 0&\text{ si } s\geq s'.
-\end{cases}
- \]
- \end{lemma}
- \begin{proof}
- Fixem un generador $g$ de $\F_p^\times$ i escrivim $x=g^j$ amb $0\leq j < 1$. Aleshores l'equació que ha de satisfer $x$ es tradueix a
-\[
-2^stj\equiv \frac{p-1}{2}\equiv s^{s'-1}t'\pmod{2^{s'}t}.
-\]
-Veiem que no hi ha solucions si $s<s'$. En canvi, si $s\geq s'$, aleshores dividim per $2^sd$ (amb $d=\gcd(t,t')$) i obtenim el resultat.
- \end{proof}
- \begin{proof}[Demostració (de la Proposició~\ref{prop:ppf})]
- 
- La demostració es divideix en $3$ casos.
- 
- \textbf{Cas 1: $n$ no és lliure de quadrats.} 
- Suposem que $p^2\mid n$ per algun primer senar $p$. Veurem que en aquest cas $n$ és pseudoprimer (dèbil) per com a molt un $25\%$ de bases. Fem servir que $(\Z/p^2\Z)^\times$ és cíclic, de tamany $p(p-1)$. Si $b$ és una base per la qual $n$ és presudoprimer, aleshores $b^{n-1}\equiv 1\pmod{p^2}$ i per tant l'ordre de $b$ divideix $n-1$. El nombre de possibilitats per un tal $b$ és doncs
-\[
-d=\gcd(p(p-1),n-1).
-\]
-Com que $p\mid n$, aleshores $p\nmid n-1$ i per tant $d\leq p-1$. Per tant, la proporció de $b$'s és
-\[
-\leq \frac{p-1}{p^2-1}=\frac{1}{p+1}\leq \frac{1}{4}.
-\]
+ \begin{theorem}[Miller, Monier]
+ \label{thm:ppf}
+  Un enter compost $n$ és pseudoprimer fort per com a molt el $25 \%$ de les possibles bases $1\leq a<n$.
+ \end{theorem}
 
- \textbf{Cas 2: $n=pq$ és producte de dos primers.}
+ \begin{proof}
+ Primer de tot, estudiem el cas on $n=p^\alpha$ és una potència d'un primer. Recordem que, en aquest cas, el grup $(\Z/n\Z)^\times$ és cíclic d'ordre $(p-1)p^{\alpha-1}$. Si $n$ és pseudoprimer fort en base $a$, aleshores $a^{p-1}\equiv 1\pmod n$: per la definició, és clar que $a^{n-1}\equiv 1\pmod n$. Per tant, l'ordre d'$a$ és un divisor de $\gcd(\varphi(n),n-1)$. Com que $\varphi(n)=(p-1)p^{\alpha-1}$ i $p-1$ divideix a $n-1$ i $p$ no divideix a $n-1$, $\gcd(\varphi(n),n-1)=p-1$. Com que hi ha exactament $p-1$ elements que satisfacin aquesta congruència, obtindrem que hi ha com a molt la proporció
+\[
+\frac{p-1}{(p-1)p^{\alpha-1}} = \frac{1}{p^{\alpha-1}}
+\]
+de bases dolentes. Per $n=9$ comprovem a mà que el teorema és cert, i per per tot altre $n$ la quantitat $\frac{1}{p^{\alpha-1}}$ és menor que $1/4$, com volíem.
  
- \fixme{Acabar-la}
+A partir d'ara, podem suposar que $n$ és divisible per com a mínim dos primers. Escrivim, com abans, $n=2^ek+1$ amb $k$ senar. Sigui $i_0$ l'enter més gran en el conjunt $\{0,1,\ldots,e-1\}$ tal que hi ha alguna base $a_0$ satisfent $a_0^{2^{i_0}}\equiv -1\pmod n$. Definim els següents subconjunts de ($\Z/n\Z)^\times$:
+\begin{align*}
+    F &= \{ a \colon a^{n-1}\equiv 1 \pmod{n}\},\\
+    H &= \{ a \colon a^{2^{i_0} k}\equiv \pm 1 \pmod{n}\}.
+\end{align*}
+Podem comprovar fàcilment que les bases per les quals $n$ és pseudoprimer fort pertanyen a tots dos, i que tenim les següent inclusions:
+ \[
+ H \subseteq F \subseteq (\Z/n\Z)^\times.
+ \]
+ També és fàcil de veure que $F$ i $H$ són subgrups de $(\Z/n\Z)^\times$.
+ 
+ Primer de tot, vegem que $H$ és sempre un subgrup propi d'$F$, trobant un element $a \in F\setminus H$. Escollim  $p\mid n$, i escrivim $n=p n'$ amb $n'>1$. Pel teorema xinès dels residus, podem trobar una classe $a$ satisfent $a\equiv a_0\pmod {p}$ i $a\equiv 1\pmod {n'}$. Aleshores, recordant que $k$ és senar, tenim
+ \[
+ a^{2^{i_0}k}\equiv a_0^{2^{i_0}k}\equiv (-1)^k\equiv -1\pmod {p}.
+ \]
+D'altra banda, mòdul $n'$ tenim la congruència
+\[
+a^{2^{i_0}k}\equiv 1^{2^{i_0}k}\equiv 1\pmod {n'}.
+\]
+Per tant, $a^{2^{i_0}k}$ no pot ser ni $1$ ni $-1$ mòdul $n$, i per tant $a$ no pertany a $H$. D'altra banda, comprovem que
+\[
+a^{2^{i_0+1}k}\equiv 1\pmod n,
+\]
+i per tant $a^{n-1}\equiv 1\pmod n$, cosa que demostra que $a$ pertany a $F$.
+
+Això ja ens demostra que com a molt hi ha un $50\%$ de bases per les quals $n$ no és pseudoprimer fort: com que $H\neq (\Z/n\Z)^\times$, el subgrup $H$ té índex com a mínim $2$. Hem de treballar una mica més per reduir aquesta fita al $25\%$. Observem, però que si $n$ no és de Carmichael aleshores $F\neq (\Z/n\Z)^\times$ (tautològicament). Com que ja hem vist que en general $F\neq H$, obtenim
+\[
+H\subsetneq F\subsetneq (\Z/n\Z)^\times
+\]
+i per tant $\#H/(n-1)<\frac{\#H}{\#\Z/n\Z)^\times}\leq 1/4$.
+
+Podem doncs assumir que $n$ és de Carmichael i que, per tant, és divisible per com a mínim $3$ primers. Escrivim $n=p_1\cdots p_r$ amb $r\geq 3$. Introduïm el següent subgrup:
+\begin{align*}
+    G &= \{ a \colon a^{2^{i_0} k}\equiv \pm 1 \pmod{p},
+    \quad \forall p\mid n\}.
+\end{align*}
+Observem que $H\subseteq G\subseteq(\Z/n\Z)^\times$. 
+Veurem que $[G\colon H]=2^{r-1}\geq 4$. Considerem l'aplicació
+\[
+f\colon G \to \prod_{i=1}^r \left\{\pm 1\right\},\quad a \mapsto ( a^{2^{i_0}k}\bmod {p_i})_{i=1,\ldots,r}.
+\]
+És obvi que $f$ és un morfisme de grups. Sigui $K=\ker f$, un subgrup de $H$. Observem que la imatge de $H$ és $f(H) = \{(1,1,\ldots,1),(-1,-1,\ldots,-1)\}$, un grup d'ordre $2$. Per tant $[H\colon K]=2$. D'altra banda, si veiem que $f$ és exhaustiva aleshores $G/K$ tindrà ordre $2^r$, i per tant:
+\[
+[G\colon H] = \frac{[G\colon K]}{[H\colon K]} = \frac{2^r}{2}=2^{r-1}\geq 2^2=4.
+\]
+Per acabar, doncs, n'hi ha prou amb veure que $f$ és exhaustiva. Donat un element qualsevol $(\epsilon_1,\epsilon_2,\ldots,\epsilon_r)$ de $\prod_{i=1}^r \{\pm\}$, definim $a$ mitjançant el teorema xinès dels residus de manera que
+\[
+a\equiv\begin{cases}
+a_0\pmod{p_i} &\text{si }\epsilon_i = -1,\\
+1\pmod{p_i} &\text{si } \epsilon_i = 1.
+\end{cases}
+\]
+Aleshores és fàcil de veure que $f(a)=(\epsilon_1,\epsilon_2,\ldots,\epsilon_r)$, com volíem.
  \end{proof}
  \begin{remark}
- Només hi ha un pseudoprimer fort en les bases $2, 3, 5, 7$ per $n\leq 2.5\cdot 10^{10}$, que és $n=3215031751$.
+ Només hi ha un pseudoprimer fort respecte les bases $2, 3, 5, 7$ per $n\leq 2.5\cdot 10^{10}$, que és $n=3215031751$.
  \end{remark}
  
- El test de Miller--Rabin consisteix en triar unes quantes bases $b$ i comprovar si $n$ és pseudoprimer fort en totes les bases triades. Si es dona el cas, es decideix que $n$ és primer; i si per alguna base no passa el test es decideix que $n$ és compost. Així:
+ El test de Miller--Rabin consisteix en triar unes quantes bases i comprovar si $n$ és pseudoprimer fort en totes les bases triades. Si es dona el cas, es decideix que $n$ és primer; i si per alguna base no passa el test es té una demostració que $n$ és compost. Així, tenim:
  \[
- \operatorname{Prob}(\text{error} \mid p\text{ primer}) = 0,\quad \operatorname{Prob}(\text{error} \mid p\text{ compost})<4^{-k}.
+ \operatorname{Prob}(\text{error} \mid n\text{ primer}) = 0,\quad \operatorname{Prob}(\text{error} \mid n\text{ compost})<4^{-k}.
  \]
  
- Una possible implementació del test de Miller--Rabin:
+ Veiem tot seguit una possible implementació del test de Miller--Rabin.
 
  \begin{algo}
    \caption{Test de Miller--Rabin}
@@ -153,32 +230,28 @@ def es_pseudoprimer_fort(n,base):
 
 def es_primer_miller_rabin(n,k):
     for _ in xrange(k):
-        b = ZZ.random_element(1, n)
-        if not es_pseudoprimer_fort(n, b):
+        a = ZZ.random_element(1, n)
+        if not es_pseudoprimer_fort(n, a):
             return False
     return True
   \end{python}
 \end{algo}
-El test de Miller--Rabin no dona una manera de demostrar la primalitat de $n$, llevat de comprovar més de una quarta part de les bases, que és impràctic. Tot i així, si assumim una generalització de la hipòtesi de Riemann (coneguda com a GRH per funcions-L de Dirichlet) aleshores tenim:
+El test de Miller--Rabin no dona una manera de demostrar la primalitat de $n$, llevat de comprovar més d'una quarta part de les bases, que és impràctic. Tot i així, si assumim una generalització de la hipòtesi de Riemann (coneguda com a GRH per funcions-L de Dirichlet) aleshores tenim:
  \begin{proposition}
-  Suposem GRH. Si $n$ és un enter compost senar, aleshores hi ha alguna base $b<2\log^2n$ tal que $n$ no és pseudoprimer fort en base $b$.
+  Suposem GRH. Si $n$ és un enter compost senar, aleshores hi ha alguna base $a<2\log^2n$ tal que $n$ no és pseudoprimer fort en base $a$.
  \end{proposition}
- \subsubsection{Test de Lucas}
- Aquest test es basa en la següent afirmació.
+ Aquesta proposició dona lloc a un algoritme polinomial que determina si $n$ és primer o no, subjecte a una conjectura no provada. És a dir, deixaríem de creure una probabilitat per passar a creure en una conjectura.
+ 
+ \subsubsection{El test de Lucas}
+ Aquest test es basa en la següent observació.
  \begin{proposition}
-  Sigui $n>1$ un natural. Aleshores $n$ és primer si i només si hi ha algun enter $a$, amb $1<a<n$, tal que
-  \[
-  a^{n-1}\equiv 1\pmod n,
-  \]
-  i tal que per a tot primer $p\mid n-1$
-  \[
-  a^{\frac{n-1}{p}}\not\equiv 1 \pmod n.
-  \]
+  Sigui $n>1$ un natural. Aleshores $n$ és primer si i només si hi ha algun enter $a$, amb $1<a<n$, tal que $a^{n-1}\equiv 1\pmod n$,
+  i tal que per a tot primer $p\mid n-1$ satisfà $a^{\frac{n-1}{p}}\not\equiv 1 \pmod n$.
  \end{proposition}
  \begin{proof}
 Si $n$ és primer, aleshores $\F_n^\times$ és cíclic d'ordre $n-1$, i si $a$ és un generador, es compleixen les dues condicions. Recíprocament, si $a^{n-1}\equiv 1\pmod n$, aleshores $\gcd(a,n) =1$. La segona condició ens diu que l'ordre d'$a$ a $(\Z/n\Z)^\times$ és exactament $n-1$, i això només pot passar si $n$ és primer.
  \end{proof}
- 
+
 \begin{example}
  Vegem que $103$ és primer fent aquest test. Com que $102=2\cdot 3\cdot 17$, hem de trobar $a$ tal que
  \[
@@ -190,7 +263,17 @@ Si $n$ és primer, aleshores $\F_n^\times$ és cíclic d'ordre $n-1$, i si $a$ �
  \]
 \end{example}
 
-L'avantatge del test de Lucas és que, si podem factoritzar completament $n-1$, obtenim una demostració de la primalitat de $n$. Per demostrar que els factors primers de $n-1$ són de fet primers, podem aplicar de nou el test de Lucas, i si fem aquest procés de manera recursiva arribem a una demostració incondicional de la primalitat de $n$, que és fàcilment verificable. El conjunt de dades involucrades en aquesta cadena s'anomena \emph{certificat de primalitat}.
+\begin{example}
+Vegem que $n=134369$ és primer fent aquest test. Observem que $134368= 2^5\cdot 13\cdot 17\cdot 19$. Comprovem que $3$ satisfà $3^{n-1}\equiv 1\pmod n$, i
+\[
+3^{\frac{n-1}{2}}\equiv 134368,
+\quad a^{\frac{n-1}{13}}\equiv 17862,\quad 3^{\frac{n-1}{17}}\equiv 73312
+,\quad 3^{\frac{n-1}{19}}\equiv 103556\pmod{134369}.
+\]
+Per tant, concloem que $n$ és primer.
+\end{example}
+
+L'avantatge del test de Lucas és que, si podem factoritzar completament $n-1$, obtenim una demostració de la primalitat de $n$. Per demostrar que els factors primers de $n-1$ són de fet primers, podem aplicar de nou el test de Lucas, i si fem aquest procés de manera recursiva arribem a una demostració incondicional de la primalitat de $n$, que és fàcilment verificable. El conjunt de dades involucrades en aquesta cadena s'anomena \emph{certificat de primalitat de Pratt}.
 
 \begin{algo}
   \caption{Test de Lucas}
@@ -209,31 +292,87 @@ def test_lucas(n,a, trust = 100):
         verbose(' ... OK.')
     for p in primers_dubtosos:
         b = 2
-        while not test_lucas(p,b, trust):
-            b += 1
+        while not test_lucas(p, b, trust): # Crida recursiva
+            b += 1 # Sabem que acabarà, perquè 'factor' funciona
     return True
+  \end{python}
+\end{algo}
+\subsubsection{El test de Pocklington}
+El problema principal del test de Lucas és que requereix la factorització de $n-1$, que pot ser molt costosa. El següent test relaxa aquesta condició, i també ens dona un certificat. Escrivim $n-1=AB$ amb $\gcd(A,B)=1$. Farem servir el següent teorema.
+\begin{theorem}[Pocklington]
+Si per tot factor $p\mid A$, existeix un enter $a_p$ tal que
+\begin{enumerate}
+    \item $a_p^{n-1}\equiv 1 \pmod n$, i
+    \item $\gcd(a_p^\frac{n-1}{p} -1, n)=1$,
+\end{enumerate}
+aleshores per tot $q\mid n$ es té $q\equiv 1 \pmod{A}$.
+\end{theorem}
+\begin{proof}
+Suposem $p^e\parallel A$, i escrivim $b_p=a_p^\frac{n-1}{p^e}$. Aleshores tenim
+\[
+b_p^{p^e} \equiv a_p^{n-1}\equiv 1\pmod q,\quad b_p^{p^{e-1}}\equiv a_p^\frac{n-1}{p} \not\equiv 1 \pmod q.
+\]
+Per tant, l'ordre de $b_p$ a $(\Z/q\Z)^\times$ és exactament $p^e$. Per tant, en deduïm que $p^e\mid q-1$. Això és cert per cada $p^e\parallel A$, i per tant obtenim $A\mid q-1$, com volíem.
+\end{proof}
+\begin{corollary}
+Amb les hipòtesis del teorema, si a més tenim $A>B$ aleshores $n$ és primer.
+\end{corollary}
+\begin{proof}
+El teorema ens diu que, per tot primer $q\mid n$, tenim $q-1\geq A$. Com que $A> B$ i $AB=n-1$, tenim $A>\sqrt{n}$. Per tant, $q>\sqrt{n}$. Però si $n$ fos compost hauria de tenir un divisor primer $\leq\sqrt{n}$, i arribem a una contradicció.
+\end{proof}
+
+\begin{example}
+Considerem $n=2,175,282,177,377$. Calculem fàcilment la factorització parcial de $n-1$:
+\[
+n-1 = 2^5 \cdot 7^2 \cdot 11^3 \cdot 1,042,297.
+\]
+No intentem factoritzar l'últim factor $B=1,042,297$ (que de fet és $1,009 \cdot 1033$), ja que $A=2^5\cdot 7^2\cdot 11^3 = 2,087,008 > B$.
+
+Comprovem que $a_2=3$, $a_7=3$ i $a_{11}=2$ satisfan les hipòtesis del teorema, i per tant $n$ és primer.
+\end{example}
+
+El següent algoritme comprova que $n$ és primer fent servir un certificat que consisteix en una llista de primers \texttt{plist} amb enters $a_p$ corresponents donats per \texttt{alist}.
+\begin{algo}
+      \caption{Test de Pocklington}
+\begin{python}
+def test_pocklington(n, plist, alist):
+    A = 1
+    for a, p in zip(alist, plist):
+        if not ZZ(p).is_prime(): # Hauríem de comprovar-ho recursivament!
+            return False
+        A *= p^((n-1).valuation(p))
+        if Mod(a,n)^(n-1) != 1:
+            return False
+        if gcd(Mod(a,n)^((n-1)/p) -1, n) != 1:
+            return False
+    if A * A > n-1:
+        return True
+    return False
   \end{python}
 \end{algo}
 \subsection{Algoritmes de factorització}
 D'entre els mètodes per determinar la primalitat de $n$, només el mètode del garbell ens dona un factor de $n$ si aquest és compost. Els altres mètodes ens diran que $n$ és compost, sense donar-nos cap informació dels factors de $n$. En aquesta $\S$ veurem mètodes que intenten trobar un factor no trivial de $n$ quan ja sabem que aquest existeix.
- \subsection{\texorpdfstring{$\rho$}{Rho} de Pollard}
- Per aplicar aquest mètode, hem de triar una aplicació $f\colon \Z/n\Z\to \Z/n\Z$ que sigui fàcil d'evaluar. Per exemple, $f$ pot ser un polinomi amb coeficients enters i, de fet, una tria usual és $f(x)=x^2+1$.
+ \subsubsection{\texorpdfstring{$\rho$}{Rho} de Pollard}
+ Per aplicar aquest mètode, hem de triar una aplicació $f\colon \Z/n\Z\to \Z/n\Z$ que sigui fàcil d'evaluar. Més endavant ens convindrà que $f$ sigui un polinomi amb coeficients enters; de fet, una tria usual és $f(x)=x^2+1$.
  
  Triem també, a l'atzar, un element $x_0\in\Z/n\Z$. Definim una successió a $\Z/n\Z$ de manera recursiva, com
  \[
  x_1=f(x_0), x_2=f(x_1)=f(f(x_0)),\ldots, x_{j+1}=f(x_{j}),\quad j\geq 0.
  \]
- La idea és que aquesta successió també defineix una successió a $\Z/d\Z$ on $d\mid n$ és un divisor propi de $n$. En algun moment, es donarà el fet que $x_j\equiv x_k\pmod d$, i aleshores
+ La idea és que aquesta successió també defineix una successió a $\Z/d\Z$ on $d\mid n$ és un divisor propi de $n$. En algun moment, es donarà el fet que $x_j\equiv x_k\pmod d$ (amb $j \neq k$), i aleshores
  \[
- d\mid \gcd(x_j-x_k,n).
+ d\mid \gcd(x_j-x_k,n) \mid n.
  \]
  Per tant, si calculem els màxims comuns divisors entre les diferències dels termes i el nostre $n$, en algun moment trobarem un divisor propi. Ens cal, però, una estimació de quants termes haurem de considerar per arribar a una tal coincidència.
  
  \begin{proposition}
-  Sigui $S$ un conjunt de $d$ elements, i sigui $\lambda>0$ real. Donada una parella $(f,x_0)$ on $f\colon S\to S$ i $x_0\in S$, definim la successió $x_{j+1}=f(x_j)$. Definim també $\ell=1+\lfloor \sqrt{2\lambda d}\rfloor$.
+  Sigui $S$ un conjunt de $d$ elements, i sigui $0<\epsilon<1$ real. Donada una parella $(f,x_0)$ on $f\colon S\to S$ i $x_0\in S$, definim la successió $x_{j+1}=f(x_j)$. Definim també $\ell=1+\lfloor \sqrt{-2d\log(\epsilon)}\rfloor$.
   
-  La proporció de parelles $(f,x_0)$ per les quals $x_0,x_1,\ldots x_\ell$ són tots diferents és $<e^{-\lambda}$.
+  La proporció de parelles $(f,x_0)$ per les quals $x_0,x_1,\ldots x_\ell$ són tots diferents és $< \epsilon$.
  \end{proposition}
+ \begin{example}
+ Per exemple, per més de la meitat de les possibles tries $(f,x_0)$ en un conjunt $S$ de tamany $1000$, trobarem una repetició entre els primers $38$ termes. Pel $99\%$ de les possibles parelles $(f,x_0)$ trobarem una repetició entre els primers $96$ termes.
+ \end{example}
  \begin{proof}
   Hi ha $d^d\cdot d = d^{d+1}$ parelles $(f,x_0)$ possibles. D'entre elles, si volem que els primers $\ell$ termes siguin tots diferents, aleshores hi ha $d$ possibilitats per $x_0$, $d-1$ possibilitats per $x_1$, i així fins a $d-\ell$ possibilitats per $x_\ell$. Aleshores, cal definir encara $f$ per la resta de termes. Així, obtenim una proporció de
  \[
@@ -243,19 +382,19 @@ D'entre els mètodes per determinar la primalitat de $n$, només el mètode del 
  \[
  \log \left(\prod_{j=1}^\ell \left(1-\frac jd\right)\right) < -\sum_{j=1}^\ell \frac{j}{d} = \frac{-\ell(\ell+1)}{2d} < -\frac{\ell^2}{2d}.
  \]
- Com que $\ell > \sqrt{2d\lambda}$, obtenim el resultat.
+ Com que $\ell > \sqrt{-2d\log(\epsilon)}$, obtenim el resultat.
  \end{proof}
  \begin{corollary}
- L'algoritme $\rho$ de Pollard troba, amb probabilitat més gran que $1-e^{-\lambda}$ un factor no trivial de $n$ en $O(\sqrt[4]{n})$ passos.
+ L'algoritme $\rho$ de Pollard troba, amb probabilitat més gran que $1-\epsilon$, un factor no trivial de $n$ en $O(\sqrt[4]{n})$ passos, on la constant implícita depèn d'$\epsilon$.
  \end{corollary}
  \begin{proof}
-  Com que $n$ té un factor no trivial $d<\sqrt{n}$, el terme $\ell$ de l'enunciat de la proposició és $O\left(\sqrt{\lambda}\sqrt[4]{n}\right)$.
+  Com que $n$ té un factor no trivial $d<\sqrt{n}$, el terme $\ell$ de l'enunciat de la proposició és $O\left(\sqrt{-\log(\epsilon)}\sqrt[4]{n}\right)$.
  \end{proof}
  
  Fixem-nos que en el pas $k$, després de calcular $x_k$ caldria realitzar $k$ $\gcd$'s. Per fer-ho ràpid, podem aprofitar la següent observació:
  
  \begin{lemma}
- Siguin $k_0$ i $j_0$ dos índexs tals que $x_{k_0}\equiv x_{j_0}\pmod{d}$. Aleshores $x_k\equiv x_j\pmod{d}$ per a tot $(k,j)$ tals que $k-j=k_0-j_0$.
+ Suposem que $f$ ve donada per un polinomi amb coeficient enters, i siguin $k_0$ i $j_0$ dos índexos tals que $x_{k_0}\equiv x_{j_0}\pmod{d}$. Aleshores $x_k\equiv x_j\pmod{d}$ per a tot $(k,j)$ tals que $k-j=k_0-j_0$.
  \end{lemma}
  \begin{proof}
   Escrivim $j=j_0+t$ i $k=k_0+t$, amb $t\geq 0$. Aleshores podem fer inducció en $t$, fent servir que si $x_{j-1}\equiv x_{k-1}\pmod{d}$ aleshores $x_j=f(x_{j-1})\equiv f(x_{k-1})=x_k\pmod d$.
@@ -267,13 +406,24 @@ D'entre els mètodes per determinar la primalitat de $n$, només el mètode del 
  \]
  Si calculem $\gcd(y_k-x_k,n)=\gcd(x_{2k}-x_{k},n)$, en el pas on $k=|j_0 - k_0|$ la diferència d'índexos és la mateixa i, per tant, detectarem el divisor $d$.
 
-Una altra millora que es pot fer a l'algoritme per estalviar el càlcul de molts $\gcd$ és el de calcular, per cada iteració,
-\[
-z=\prod_{k=k_0}^{k_0+100} (x_{2k}-x_k),
-\]
-i seguidament calcular $\gcd(z,n)$. Així, canviem $100$ càlculs de $\gcd$ per $99$ multiplicacions i un sol càlcul de $\gcd$. Pot passar que $\gcd(z,n)$ sigui $n$, i aleshores simplement podem refer el càlcul dels $99$ termes que ens hem saltat, tot esperant que algun d'ells ens doni un factor no trivial.
+Una altra millora que es pot fer a l'algoritme per estalviar el càlcul de molts $\gcd$ és el de calcular, per cada iteració, $z=\prod_{k=k_0}^{k_0+100} (x_{2k}-x_k)$, i seguidament calcular $\gcd(z,n)$. Així, canviem $100$ càlculs de $\gcd$ per $99$ multiplicacions i un sol càlcul de $\gcd$. Pot passar que $\gcd(z,n)$ sigui $n$, i aleshores simplement podem refer el càlcul dels $99$ termes que ens hem saltat, tot esperant que algun d'ells ens doni un factor no trivial.
 
-Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest algoritme troba (amb probabilitat alta, depent de $\lambda$) un factor no trivial en $O(\sqrt[4]{n}\log^3 n)$ operacions de bits (recordem que el garbell d'Eratòstenes requereix $O(\sqrt{n}\log^2 n)$ operacions).
+Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest algoritme troba (amb probabilitat alta, depenent de $\epsilon$) un factor no trivial en $O(\sqrt[4]{n}\log^3 n)$ operacions de bits (recordem que el garbell d'Eratòstenes requereix $O(\sqrt{n}\log^2 n)$ operacions).
+
+\begin{algo}
+\begin{python}
+def pollard_rho(n):
+    R = Zmod(n)
+    x = R.random_element()
+    y = x
+    g = 1
+    while g == 1 or g == n:
+        x, y = x^2 + 1, (y^2 + 1)^2 + 1
+        g = gcd((x-y).lift(), n)
+    return g
+\end{python}
+\end{algo}
+
  \subsubsection{Mètode \texorpdfstring{$(p-1)$}{(p-1)} de Pollard}
  
  Suposem donat un primer $n$ compost, i ens proposem trobar un factor no trivial de $n$. El mètode $(p-1)$ de Pollard funciona bé quan algun dels primers $p$ que divideixen $n$ (que no coneixem) satisfà que cap dels divisors primers de $p-1$ no són grans.
@@ -281,56 +431,83 @@ Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest
  \begin{definition}
  Donat $B>0$, diem que un enter $k$ és $B$-potència-suau si per a tot primer $p$,
  \[
- p^e\mid k\implies p^e < B.
+ p^e\mid k\implies p^e \leq B.
  \]
  \end{definition}
  
  El mètode és el següent:
  
  \begin{enumerate}
-     \item Triem un enter $m$ que sigui múltiple de tots (o quasi tots) els enters menors que alguna fita $B$. Per exemple, podem triar $m=B!$, o bé $m=\gcd\{1,2,3,\ldots,B\}$.
-     \item Triem un enter a l'atzar $a\in \{2,\ldots,m-2\}$.
-     \item Calculem $a^m\pmod{n}$ fent servir exponenciació modular.
-     \item Calculem $d=\gcd(a^m-1\bmod n,n)$ fent servir l'algoritme d'Euclides.
-     \item Si $1<d<n$, ja hem trobat un divisor no trivial de $n$. Si no, tornem a començar amb un altre $a$ o un altre $m$.
+ \item Fixem una fita $B$ i definim (però no calculem explícitament) $k_B$ com
+ \[
+ k_B=\prod_{\ell\leq B} \ell^{\alpha_\ell},\quad\alpha_\ell = \lfloor\log B/\log\ell\rfloor
+ \]
+   %  \item Triem un enter $m$ que sigui múltiple de tots (o quasi tots) els enters menors que alguna fita $B$. Per exemple, podem triar $m=B!$, o bé $m=\gcd\{1,2,3,\ldots,B\}$.
+     \item Triem un enter a l'atzar $a\in \{2,\ldots,k_B-2\}$.
+     \item Calculem $c = a^{k_B}\bmod{n}$ fent servir exponenciació modular.
+     \item Si $1<\gcd(c-1,n)<n$, ja hem trobat un divisor no trivial de $n$. Si no, tornem a començar amb un altre $a$ o una altra $B$.
  \end{enumerate}
  
- Suposem que $p\mid n$ és un primer tal que $p-1$ és $B$-potència suau. Aleshores, $m$ és un múltiple de $p-1$ i, pel petit teorema de Fermat, tenim
+ Suposem que $p\mid n$ és un primer tal que $p-1$ és $B$-potència suau. Aleshores, $k_B$ és un múltiple de $p-1$ i, pel petit teorema de Fermat, tenim
  \[
- a^m\equiv 1\pmod p.
+ a^{k_B}\equiv 1\pmod p.
  \]
- Per tant $p\mid \gcd(a^m-1,n)$. Pot passar que el $\gcd$ resulti en $n$, que passarà si $a^m\equiv 1\pmod{n}$. En cas contrari, l'algoritme retorna un divisor no trivial.
+ Per tant $p\mid \gcd(a^{k_B}-1,n)$. Pot passar que el $\gcd$ resulti en $n$, que passarà si $a^{k_B}\equiv 1\pmod{n}$. En cas contrari, l'algoritme retorna un divisor no trivial.
  
  \begin{remark}
  Només un $15\%$ dels primers en l'interval $[10^{15},10^{15}+10000]$ satisfan que $p-1$ és $10^6$-potència-suau. Això fa que aquest mètode sigui bastant limitat.
  \end{remark}
+ \begin{algo}
+ \caption{Factorització amb el mètode $(p-1)$ de Pollard}
+ \begin{python}
+ def factor_pollard_pm1(n, B = 100):
+    while True:
+        a = Zmod(n).random_element()
+        for i in range(2, B + 1): # Calculem a^(B!)
+            a = a^i
+        g = gcd(a.lift()-1, n)
+        if g > 1 and g < n:
+            return g
+        else:
+            B *= 2
+ \end{python}
+ \end{algo}
+ 
   \subsubsection{El mètode de Lenstra}
  Com hem vist, el problema amb el mètode $p-1$ de Pollard és que si resulta que tots els factors primers $p\mid n$ són tals que $p-1$ té factors grans, aleshores el mètode no funcionarà. El \emph{mètode de Lenstra}, també conegut com el \emph{mètode de factorització amb corbes el·líptiques} es basa en canviar els grups $(\Z/p\Z)^\times$ pel grup de punts $E(\F_p)$ d'una corba el·líptica. Com que $E$ podrà variar, tindrem molts més grups dels quals podem esperar que algun tingui ordre potència-suau.
+
+% \begin{theorem}
+% El grup $E(\F_p)$ és el producte de dos grups cíclics. Per tant, si escrivim $N=\#E(\F_p)$, tenim
+% \[
+% E(\F_p) \cong \prod_{\ell\mid N} \Z/\ell^{\alpha_\ell}\Z \times \Z/\ell^{\beta_\ell}\Z,
+% \]
+% on $\alpha_\ell\geq 1$ i $\beta_\ell\geq 0$ per a tot $p\mid N$.
+% \end{theorem}
  
+
  \begin{example}
- Imaginem que hem pres $B=20$, i que $n$ és $59\cdot 101 = 5959$. Aleshores
+ Imaginem que hem pres $B=12$, i que $n=59\cdot 101 = 5959$. Aleshores
  \[
  59-1 = 58=2\cdot 29,\quad 101-1=100=4\cdot25
  \]
  no són $B$-potència-suaus. En canvi,
  \[
- 59-2 = 57 = 3\cdot 19,\quad
  101-2 = 99 = 9\cdot 11
  \]
- sí que són $B$-potència-suaus. Per tant, tindrem més possibilitats d'èxit si podem canviar $p-1$ per $p\pm s$ per algun $s$.
+ sí que és $B$-potència-suau. De fet, la corba el·líptica amb equació $y^2=x^3+744x+1$ té $99$ punts mòdul $101$. Per tant, ja veiem que tindrem més possibilitats d'èxit si podem canviar $p-1$ per $p\pm s$ per algun $s$.
  \end{example}
  
  El mètode per trobar un divisor propi $d\mid n$ depèn, com en el mètode $p-1$ de Pollard, d'un paràmetre inicial $B$, que podem anar augmentant progressivament.
  \begin{enumerate}
- \item Definim (però no calculem explícitament) $k$ com
+ \item Definim (però no calculem explícitament) $k_B$ com
  \[
- k=\prod_{\ell\leq B} \ell^{\alpha_\ell},\quad\alpha_\ell = \lfloor\log B/\log\ell\rfloor
+ k_B=\prod_{\ell\leq B} \ell^{\alpha_\ell},\quad\alpha_\ell = \lfloor\log B/\log\ell\rfloor
  \]
      \item Triem un enter $a$ de manera aleatòria, i considerem la corba el·líptica $E\colon y^2=x^3+ax+1$ i un punt $P=(0,1)\in E(\Q)$.
      \item Calculem $d=\gcd(4a^3+27,n)$. Si $d>1$, hem trobat un factor propi de $n$ (si $d<n$), o bé triem una altre $a$. Si $d=1$, continuem.
-     \item Intentem calcular $kP$ pensant $E$ com una corba definida a $\Z/n\Z$. Per fer-ho, calculem:
+     \item Intentem calcular $k_BP$ pensant $E$ com una corba definida a $\Z/n\Z$. Per fer-ho, calculem:
      \[
-     2^{\alpha_2} P, 3^{\alpha_3}(2^{\alpha_2}P),\ldots, kP. 
+     2^{\alpha_2} P, 3^{\alpha_3}(2^{\alpha_2}P),\ldots, k_BP. 
      \]
      \item Si en algun dels passos anteriors no podem fer una divisió mòdul $n$ (fent servir l'algoritme d'Euclides), és perquè la quantitat que volem invertir no és coprimera amb $n$, i això ens donarà un factor.
      \item Tornem al pas $1$ fins que funcioni.
@@ -346,27 +523,22 @@ Com que es pot calcular el $\gcd$ fent $O(\log^3(n))$ operacions de bits, aquest
  \begin{algo}
    \caption{Factorització de Lenstra}
  \begin{python}
- def factor_lenstra(n, intents = 100):
-    from sage.rings.finite_rings.finite_field_prime_modn \ 
-        import FiniteField_prime_modn as GFmodn
+ def factor_lenstra(n, intents = 100, B = 10000):
+    R = Zmod(n)
     import re # Per tractar amb expressions regulars
-    R = GFmodn(n,check=False)
-    Bound = 10000
-    primes_up_to_bound = prime_range(Bound)
-
-    for _ in xrange(intents):
+    for i in range(intents):
         Q = EllipticCurve([R.random_element(),1])([0,1])
         try:
-            for ell in primes_up_to_bound:
-                Q *= ell**ZZ(floor(RR(B).log(ell)))
+            for ell in prime_range(B):
+                Q *= ell^ZZ(floor(RR(B).log(ell)))
         except ZeroDivisionError as e:
             return ZZ(re.search(r'\d+', str(e)).group()).gcd(n)
 \end{python}
 \end{algo}
 
- \subsection{Bases de factors}
+ \subsubsection{Bases de factors: l'algoritme de Dixon}
  
- \subsubsection{El mètode de Fermat}
+ \paragraph{El mètode de Fermat}
  Comencem amb un exemple senzill, conegut des dels temps de Fermat.
 
  \begin{example}
@@ -377,13 +549,13 @@ Suposem que volem factoritzar $n=200819$. Si calculem
  \]
  podem escriure
  \[
- 449^2 = 200819 + 782,\quad 450 = 200819 + 1681,\ldots
+ 449^2 = 200819 + 782,\quad 450^2 = 200819 + 1681,\ldots
  \]
  Fixem-nos ara que $1681=41^2$ és un quadrat perfecte. Per tant,
  \[
  200819 = 450^2 - 41^2 = (450+41)(450-41) = 491\cdot 409,
  \]
- i hem obtingut una factorització de $200819$ (caldria comprovar que $491$ i $409$ són primers).
+ i hem obtingut una factorització de $200819$ (caldria comprovar que $491$ i $409$ són primers, però això només requeriria comprovar que no són divisibles per cap primer $\leq 19$).
   \end{example}
  El mètode que hem fet servir a l'exemple anterior es basa en el següent fet trivial:
  \begin{lemma}
@@ -399,20 +571,14 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
   \[
   t=\lceil\sqrt{3n}\rceil =652, 653,\ldots
   \]
-  i de seguida trobarem
-  \[
-  655^2 - 3\cdot 141467 = 68^2.
-  \]
-  Per tant, obtenim
-  \[
-  3n = (655+68)(655-68)=723\cdot 587.
-  \]
+  i de seguida trobarem $655^2 - 3\cdot 141467 = 68^2$.
+  Per tant, obtenim $3n = (655+68)(655-68)=723\cdot 587$.
   Si fem $\gcd(n,723)=241$ obtenim un factor no trivial de $n$.
  \end{example}
  
  El mètode de l'exemple anterior s'anomena \emph{Fermat generalitzat}. Ha funcionat per $n=141467$ perquè hi ha una factorització $n=ab$ amb $b\simeq 3a$. En general, si $n=ab$ amb $b\simeq ka$, podrem aplicar el mètode amb enters propers a $\sqrt{kn}$.
  
- \subsubsection{L'algoritme de Dixon}
+ \paragraph{L'algoritme de Dixon}
  Podem repensar el mètode de Fermat generalitzat com el problema de trobar parelles $(t,s)$ tals que $t^2-s^2=kn$ per algun $k$. Dit d'altra manera, estem buscant parelles $(t,s)$ amb $t^2\equiv s^2\pmod n$ (i amb $t\neq \pm s\pmod n$). Si aconseguim trobar una d'aquestes parelles, aleshores $\gcd(n,t+s)$ ens donarà un factor propi de $n$.
  
  \begin{example}
@@ -436,42 +602,41 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  \begin{example}
   Prenem $B=\{-1,2,3\}$ i $n=4633$. Aleshores
   \[
-  67^2\bmod n = -144=-1\cdot 2^4\cdot 3^2,\quad 68^2\bmod n = -9=-1\cdot 3^2,\quad 69^2\bmod n = 128=2^7,
+  67^2\bmod n = -144=-1\cdot 2^4\cdot 3^2,\quad 68^2\bmod n = -9=-1\cdot 3^2,\quad 69^2\bmod n = 128=2^7.
   \]
-  i veiem que $67$, $68$ i $69$ són $B$ nombres mòdul $n$. En canvi, $66$ no ho és perquè $66^2\bmod n=-277$.
+  Veiem que $67$, $68$ i $69$ són $B$-nombres mòdul $n$. En canvi, $66$ no ho és perquè $66^2\bmod n=-277$.
  \end{example}
  
  En la situació de l'exemple anterior, fixem-nos que
  \[
  (67\cdot 68)^2\equiv (2^2\cdot 3^2)^2\pmod n.
  \]
- És a dir, que $77^2\equiv 36^2\pmod n$ (perquè $67\cdot 68\equiv -77\pmod{n}$), i d'aquí podem obtenir el factor no trivial
- \[
- \gcd(77+36,4633) = 113 \mid 4633.
- \]
+ És a dir, que $77^2\equiv 36^2\pmod n$ (perquè $67\cdot 68\equiv -77\pmod{n}$), i d'aquí podem obtenir el factor no trivial $\gcd(77+36,4633) = 113 \mid 4633$.
+ 
  
  Fixem-nos que a cada $B$-nombre $b$ li podem associar un vector $v_b\in \F_2^{\# B}$, corresponent als exponents mòdul $2$ de la factorització de $b^2\bmod n$.
  
  \begin{example}
  Seguint amb $n=4633$ i $B=\{-1,2,3\}$, podem calcular
   \[
-  v_{67} = (1,0,0),\quad v_{68} = (1,0,0),\quad v_{69} = 0,1,0).
+  v_{67} = (1,0,0),\quad v_{68} = (1,0,0),\quad v_{69} = (0,1,0).
   \]
  \end{example}
  
- Per obtenir una factorització, ens cal trobar prou enters $b$ de manera que el conjunt $\{v_{b_1},\ldots, v_{b_h}\}$ sigui linealment dependent a $\F_2^{\# B}$. En particular, si $h > \#B$ això ja ho tindrem garantit, encara que pot ser que trobem una relació amb menys vectors. Una relació de dependència donarà lloc a una factorització, de la següent manera: si per cert subconjunt $J\subset \{1,\ldots, n\}$ tenim
+ Per obtenir una factorització, ens cal trobar prou enters $b$ de manera que el conjunt $\{v_{b_1},\ldots, v_{b_h}\}$ sigui linealment dependent a $\F_2^{\# B}$. En particular, si $h > \#B$ això ja ho tindrem garantit, encara que pot ser que trobem una relació amb menys vectors. Una relació de dependència donarà lloc a una factorització, de la següent manera: si per cert subconjunt $J\subset \{1,\ldots, h\}$ tenim $\sum_{j\in J} v_{b_j}=0$,
+  aleshores obtindrem la congruència
  \[
- \sum_{j\in J} v_{b_j}=0,
+ \left(\prod_{j\in J} b_j\right)^2 \equiv \left(\prod_{i=1}^{\# B} p_i^{r_i}\right)^2 \pmod n,
  \]
- aleshores
+ on els exponents $r_i$ s'obtenen fàcilment de la factorització de cadascun dels $b_j^2\bmod n$ involucrats: escrivim $\beta_j=b_j^2\bmod n$, i aleshores
  \[
- (\prod_{j\in J} b_j)^2 \equiv (\prod_{j\in J} p_j^{r_j}) \pmod n,
+ r_i = \frac 1 2 \sum_{j\in J} v_{p_i}(\beta_j).
  \]
- on els exponents $r_j$ s'obtenen fàcilment de la factorització de cadascun dels $b_j\bmod n$ involucrats.
  
  Si triem enters $b$ mòdul $n$ a l'atzar, obtenim el que es coneix com l'algoritme de Dixon. També els podem triar de manera que $b^2\bmod n$ sigui petit (perquè així la probabilitat que $b$ sigui un $B$-nombre serà més alta. La manera com s'aconsegueix això dona lloc per una banda a l'algoritme basat en fraccions continuades, i per altra al garbell quadràtic.
- \subsection{Fraccions continuades}
- Pel què hem vist fins ara, volem trobar enters $b$ tals que $b^2\bmod N$ sigui petit (comparat amb $N$). Les fraccions continuades donen una manera de trobar bons candidats $b$.
+ 
+ \subsubsection{Fraccions continuades}
+ Hem vist que per dur a terme l'algoritme de Dixon ens cal trobar enters $b$ tals que $b^2\bmod N$ sigui petit (comparat amb $N$). Les fraccions continuades donen una manera de trobar bons candidats $b$.
  
  Donat un real $x$, definim les successions (possiblement finites) $(a_i)_{i\geq 0}$ i  $(x_i)_{i\geq 0}$ com:
  \begin{align*}
@@ -486,10 +651,7 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  \]
  
  \begin{lemma}
- Per a tot $x\in\R$ i per a tot $i\geq 0$, es té
- \[
- x=\xcontfrac*{a_0;a_1,a_2,\cfracdots,a_i+x_i}
- \]
+ Per a tot $x\in\R$ i per a tot $i\geq 0$, es té $x=\xcontfrac*{a_0;a_1,a_2,\cfracdots,a_i+x_i}$.
  \end{lemma}
  \begin{proof}
   Per $i=0$ és clar: $[a_0+x_0] = a_0+x_0 = a_0+x-a_0=x$. Suposem-ho cert per $i\geq 0$. De la definició, i fent servir que $a_{i+1}+x_{i+1}=1/x_i$, tenim
@@ -503,10 +665,8 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
   La successió $(a_i)_{i\geq 0}$ és finita si i només si $x\in\Q$.
  \end{proposition}
  \begin{proof}
-  Si la successió és finita aleshores per algun $i\geq 0$ tindrem $x_i=0$ i, per tant,
-  \[
-  x=\xcontfrac*{a_0;a_1,\cfracdots,a_i}\in\Q.
-  \]
+  Una direcció és fàcil: si la successió és finita aleshores per algun $i\geq 0$ tindrem $x_i=0$ i, per tant, ${x=\xcontfrac*{a_0;a_1,\cfracdots,a_i}}$, que és un nombre racional.
+  
   Suposem doncs que $x$ és racional, i vegem que la successió és finita. Fixem-nos que en aquest cas $x_i\in\Q$ per a tot $i\geq 0$ (ho veiem fàcilment per inducció). També veiem fàcilment que $0\leq x_i<1$. Escrivim doncs $x_i=r_i/s_i$ amb $r_i<s_i$, i veurem que $(s_i)_{i\geq 0}$ és estrictament decreixent. Això farà que en algun moment $s_i$ hagi de ser $1$ i aleshores $x_i=0$. Per veure que $s_{i+1}<s_i$, hem de calcular el denominador de $x_{i+1}$:
   \[
   x_{i+1} =\frac{1}{x_i} - a_{i+1}= \frac{1-x_ia_{i+1}}{x_i} = \frac{s_i-r_ia_{i+1}}{r_i}.
@@ -516,42 +676,31 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  
  Suposem ara que $x$ no és racional i que, per tant, té una fracció continuada infinita.
  \begin{definition}
- Si $x\in\R\setminus\Q$, la $n$-èssima convergent és el nombre racional
- \[
- \xcontfrac*{a_0;a_1,\cfracdots,a_n}.
- \]
+ Si $x\in\R\setminus\Q$, la $n$-èssima convergent és el nombre racional $\xcontfrac*{a_0;a_1,\cfracdots,a_n}$.
  \end{definition}
   Definim successions $(p_n)_{n\geq 0}$ i $(q_n)_{n\geq 0}$ recursivament:
   \begin{align*}
-  p_0 &= a_0,& p_1 &= a_0a_1 + 1,& p_{n} &=a_np_{n-1} + p_{n-2}\ (n\geq 2)\\
-  q_0 &= 1,& q_1 &= a_1,& q_{n} &= a_nq_{n-1} + q_{n-2}\ (n\geq 2).
+  p_0 &= a_0,& p_1 &= a_0a_1 + 1,& p_{n} &=a_np_{n-1} + p_{n-2}\quad (n\geq 2)\\
+  q_0 &= 1,& q_1 &= a_1,& q_{n} &= a_nq_{n-1} + q_{n-2}\quad (n\geq 2).
   \end{align*}
  \begin{proposition}
-
+Sigui $x\in\R\setminus\Q$.
   \begin{enumerate}
-      \item La $n$-èssima convergent és $p_n/q_n$.
-      \item Per a tot $n\geq 0$, es té 
+      
+      \item Per a tot $n\geq 0$, es té la identitat
       \begin{align}
           \label{eq:convergents}
                 p_{n+1}q_{n} -p_{n}q_{n+1} &= (-1)^{n}.
       \end{align}
+      \item La $n$-èssima convergent és $p_n/q_n$, i està en forma reduïda.
   \end{enumerate}
  \end{proposition}
  \begin{proof}
-  Es fa fàcilment per inducció.
+  Per inducció es veu fàcilment (1), i que la $n$-èssima convergent és $p_n/q_n$. Aleshores de l'Equació~\eqref{eq:convergents} obtenim $\gcd(p_n,q_n)=1$ i, per tant, $p_n/q_n$ és una fracció reduïda.
  \end{proof}
  
- \begin{corollary}
-     La $n$-èssima convergent té forma reduïda $p_n/q_n$.
- \end{corollary}
- \begin{proof}
-  De l'Equació~\eqref{eq:convergents} veiem per inducció que $\gcd(p_{n},q_{n})=1$.
- \end{proof}
  \begin{proposition}
-  Per a tot $x\in\R$, es té
-  \[
-  \lim_{n\to\infty} \frac{p_n}{q_n} = x.
-  \]
+  Per a tot $x\in\R\smallsetminus\Q$, es té $\lim_{n\to\infty} \frac{p_n}{q_n} = x$.
  \end{proposition}
  \begin{proof}
   Si a l'Equació~\eqref{eq:convergents} dividim per $q_nq_{n+1}$ obtenim
@@ -564,13 +713,11 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
   \]
   Per tant,
   \begin{align*}
-  x - \frac{p_n}{q_n} &= \frac{p_{n}\frac{1}{x_{n}} + p_{n-1}}{q_{n}\frac{1}{x_{n}}+q_{n-1}}  - \frac{p_n}{q_n}\\
-  &= \frac{p_{n-1}q_n -  p_nq_{n-1}}{q_n(q_n/x_n + q_{n-1})} = \frac{(-1)^{n}}{q_n(q_n/x_n + q_{n-1})}.
+  x - \frac{p_n}{q_n} &= \frac{p_{n}\frac{1}{x_{n}} + p_{n-1}}{q_{n}\frac{1}{x_{n}}+q_{n-1}}  - \frac{p_n}{q_n}= \frac{p_{n-1}q_n -  p_nq_{n-1}}{q_n(q_n/x_n + q_{n-1})} = \frac{(-1)^{n}}{q_n(q_n/x_n + q_{n-1})}.
  \end{align*}
   Prenent el valor absolut, obtenim
   \begin{align*}
-      \left|x-\frac{p_n}{q_n}\right| = \frac{1}{q_n(q_n/x_n+q_{n-1})}<\frac{1}{q_n(a_{n+1}q_n+q_{n-1})}\\
-      =\frac{1}{q_nq_{n+1}}
+      \left|x-\frac{p_n}{q_n}\right| = \frac{1}{q_n(q_n/x_n+q_{n-1})}<\frac{1}{q_n(a_{n+1}q_n+q_{n-1})}=\frac{1}{q_nq_{n+1}}
   \end{align*}
   
   Com que $q_n\to\infty$, obtenim el resultat.
@@ -578,72 +725,44 @@ donada per $(t,s) = (\frac{a+b}{2},\frac{a-b}{2})$ i $(a,b)=(t+s,t-s)$.
  
  La demostració de la proposició anterior ens permet veure la següent estimació.
  \begin{corollary}
- Per a tot $n\geq 0$, es té
- \[
- \left|x - \frac{p_n}{q_n}\right| < \frac{1}{q_n^2}.
- \]
+ Per a tot $n\geq 0$, es té $ \left|x - \frac{p_n}{q_n}\right| < \frac{1}{q_n^2}$.
  \end{corollary}
 
  La següent proposició ens permet estudiar com de bones són les aproximacions racionals que obtenim amb les convergents.
  \begin{proposition}
-  Sigui $x>1$. Aleshores
-  \[
-  \left|q_n^2x^2-p_n^2\right| < 2x
-  \]
+  Si $x>1$, aleshores $\left|q_n^2x^2-p_n^2\right| < 2x$.
  \end{proposition}
  \begin{proof}
   Escrivim
   \[
-  |q_n^2x^2-p_n^2| = q_n^2|x-p_n/q_n||x+p_n/q_n|<q_n^2\frac{1}{q_nq_{n+1}}(2x+\frac{1}{q_nq_{n+1}}).
+  |q_n^2x^2-p_n^2| - 2x = q_n^2|x-p_n/q_n||x+p_n/q_n| -2x <\frac{q_n}{q_{n+1}}\left(2x+\frac{1}{q_nq_{n+1}}\right) -2x = \star
   \]
-  Restant $2x$, obtenim
+  Reordenant, obtenim la cadena de desigualtats
   \begin{align*}
-  |q_n^2x^2-p_n^2| - 2x &< 2x(-1+ q_n/q_{n+1} + \frac{1}{2xq_{n+1}})\\
-  &<2x\left(-1 + \frac{q_n}{q_{n+1}}+\frac{1}{q_{n+1}}\right)\\
-  &<2x(-1+\frac{q_{n+1}}{q_{n+1}})<0.
+ \star < 2x\left(-1+ \frac{q_n}{q_{n+1}} + \frac{1}{2xq_{n+1}}\right)<2x\left(-1 + \frac{q_n}{q_{n+1}}+\frac{1}{q_{n+1}}\right)
+  <2x(-1+\frac{q_{n}+1}{q_{n+1}})<0.
   \end{align*}
  \end{proof}
  
  \begin{corollary}
  Sigui $N>1$ un enter que no sigui un quadrat perfecte, i siguin $p_n/q_n$ les convergents de $\sqrt{N}$.  Aleshores
  \[
- |p_n^2 \mod N| < 2\sqrt{N}.
+ |p_n^2 \bmod N| < 2\sqrt{N}.
  \]
  \end{corollary}
-
- Per tant, veiem que els termes de la successió $(p_n)_{n\geq 0}$ ens proporcionen bons candidats per obtenir $B$-nombres a l'hora de factoritzar un enter $N$.
-
- \begin{algo}
-   \caption{Determina si un enter és $B$-suau.}
-\begin{python}
-def es_B_suau(n,B):
-    m = n
-    v = []
-    for p in B:
-        if p == -1:
-            val, m = m.sign(), m.abs()
-        else:
-            val = 0
-            while m % p == 0:
-                m /= p
-                val += 1
-        v.append(val)
-    return v if  m == 1 else False
-\end{python}
-\end{algo}
-
- \begin{algo}
+\begin{proof}
+Apliquem la proposició anterior a $x=\sqrt{N}$.
+\end{proof}
+ Per tant, veiem que els termes de la successió $(p_n)_{n\geq 0}$ ens proporcionen bons candidats per obtenir $B$-nombres a l'hora de factoritzar un enter $N$. El següent algoritme calcula successivament aquests termes.
+  \begin{algo}
    \caption{Càlcul de la fracció continuada d'$\sqrt{n}$.}
 \begin{python}
 def frac_continuada_sqrt(n):
-    F.<s> = QuadraticField(n)
-    v = F.embeddings(RDF)[0]
-    if v(s) < 0:
-        v = F.real_embeddings()[1]
+    F.<s> = NumberField(x^2 - n)
+    v = F.hom([RealField(2 * len(n.bits()))(n).sqrt()])
     b0 = 1
     b = v(s).floor()
-    a = b
-    x = s - a
+    a, x = b, s - b
     yield b
     while True:
         xinv = 1 / x
@@ -654,38 +773,51 @@ def frac_continuada_sqrt(n):
 \end{python}
 \end{algo}
 
+Tal i com hem dit, ens cal una manera eficient de determinar si un enter és $B$-suau, que eviti la factorització d'aquest.
+
+
  \begin{algo}
    \caption{Factorització per fraccions continuades.}
 \begin{python}
 def factor_fraccions_continuades(n,B):
-    M = frac_continuada_sqrt(n)
-    relations = []
-    relation_matrix = Matrix(GF(2),0,len(B),0)
-    while relation_matrix.rank() < len(B):
-        x = M.next()
-        if 2*x > n:
-            x -= n
+    rvalues = []
+    rvecs = Matrix(ZZ,0,len(B),0) # Relacions trobades
+    rvecs_mod2 = Matrix(GF(2),0,len(B),0) # El mateix, però mòdul 2
+    for x in frac_continuada_sqrt(n):
+        if 2 * x > n: x -= n
         y = x^2 % n
-        if 2*y > n:
-            y -= n
-        if gcd(y,n) > 1:
+        if 2 * y > n: y -= n
+        if gcd(y,n) > 1: # Molt improbable
             return g
         vec = es_B_suau(y,B)
-        if vec:
-            rel = Matrix(GF(2),1,len(B),[GF(2)(a) for a in vec])
-            relation_matrix = relation_matrix.stack(rel)
-            relations.append((x,vec))
-            for v in relation_matrix.kernel().basis():
-                vlist = v.list()
-                x0 = prod(r[0]^i for r,i in zip(relations,vlist))
-                y0 = 1
-                for j, p in enumerate(B):
-                    ap = sum(r[1][j] for k, r in enumerate(relations) if vlist[k] == 1)
-                    assert ap % 2 == 0
-                    y0 *= p^(ap // 2)
-                g = gcd(x0-y0,n)
+        if vec: # Hem tingut sort: x^2 mod n és B-suau
+            rel = Matrix(ZZ, 1, len(B), vec)
+            rvecs = rvecs.stack(rel)
+            rvecs_mod2 = rvecs_mod2.stack(rel)
+            rvalues.append(x)
+            for v in rvecs_mod2.kernel().basis():
+                v = v.lift() # Són 0 o 1, els volem com a enters
+                x0 = prod(r^i for r,i in zip(rvalues,v))
+                y0 = prod(p^(ap // 2) for p, ap in zip(B, v * rvecs))
+                g = gcd(x0 - y0, n)
                 if g > 1 and g < n:
                     return g
+\end{python}
+\end{algo}
+
+\begin{algo}
+   \caption{Determina si un enter és $B$-suau.}
+\begin{python}
+def es_B_suau(n,B):
+    v = []
+    for p in B:
+        if p == -1:
+            val, n = n.sign(), n.abs()
+        else:
+            val = n.valuation(p)
+            n //= p^val
+        v.append(val)
+    return v if n == 1 else False
 \end{python}
 \end{algo}
 
@@ -696,30 +828,19 @@ Calculem la fracció continuada del valor $x=\sqrt{7}=2.64575131106459\ldots$. C
 \[
 a_0=\lfloor \sqrt{7}\rfloor = 2,\quad x_0 = \sqrt{7}-2=0.64575131106459\ldots.
 \]
-Després calculem
-\[
-\frac{1}{x_0} = \frac{1}{\sqrt{7}-2} = \frac{2+\sqrt{7}}{3} =1.54858377035486\ldots.
-\]
-d'on obtenim
-\[
-a_1 = 1,\quad x_1 = \frac{-1+\sqrt{7}}{3} = 0.54858377035486\ldots.
-\]
-Ara calculem
-\[
-\frac{1}{x_1} = \frac{3}{\sqrt{7}-1} = \frac{\sqrt{7} + 1}{2} = 1.82287565553230\ldots
-\]
-i obtenim
-\[
-a_2 = 1,\quad x_2 = \frac{\sqrt{7}-1}{2} = 0.82287565553230\ldots.
-\]
-El terme següent és $1/x_2 = \frac{2}{\sqrt{7}-1} = \frac{\sqrt{7}+1}{3}=1.21525043702153\ldots$ que dona
-\[
-a_3 = 1,\quad x_3 = \frac{\sqrt{7}-2}{3} = 0.21525043702153.
-\]
-Seguidament, calculem $1/x_3= \frac{3}{\sqrt{7}-2} = \sqrt{7}+2= 4.64575131106459\ldots$, cosa que resulta en
-\[
-a_4 = 4,\quad x_4 = \sqrt{7}-2 = 0.64575131106459\ldots
-\]
+Seguim calculant:
+\begin{align*}
+\frac{1}{x_0} &= \frac{1}{\sqrt{7}-2} = \frac{2+\sqrt{7}}{3} =1.548583\ldots &\leadsto a_1 &= \mathbf{1},\quad x_1 = \frac{-1+\sqrt{7}}{3} = 0.548583\ldots\\
+\frac{1}{x_1} &= \frac{3}{\sqrt{7}-1} = \frac{\sqrt{7} + 1}{2} = 1.82287\ldots &\leadsto  a_2 &= \mathbf{1},\quad x_2 = \frac{\sqrt{7}-1}{2} = 0.82287\ldots\\
+% i obtenim
+% \[
+% a_2 = 1,\quad x_2 = \frac{\sqrt{7}-1}{2} = 0.82287565553230\ldots.
+% \]
+%El terme següent és $1/x_2 = \frac{2}{\sqrt{7}-1} = \frac{\sqrt{7}+1}{3}=1.21525043702153\ldots$ que dona
+\frac{1}{x_2} &= \frac{2}{\sqrt{7}-1} = \frac{\sqrt{7}+1}{3}=1.21525\ldots &\leadsto a_3 &= \mathbf{1},\quad x_3 = \frac{\sqrt{7}-2}{3} = 0.21525.\\
+%Seguidament, calculem $1/x_3= \frac{3}{\sqrt{7}-2} = \sqrt{7}+2= 4.64575131106459\ldots$, cosa que resulta en
+\frac{1}{x_3} &= \frac{3}{\sqrt{7}-2} = \sqrt{7}+2= 4.6457513\ldots &\leadsto a_4 &= \mathbf{4},\quad x_4 = \sqrt{7}-2 = 0.6457513\ldots
+\end{align*}
 Observem que $x_4 = x_0$ i que, per tant $a_{n+4}=a_n$ i $x_{n+4}=x_n$ per a tot $n\geq 4$. Per tant la fracció continuada és periòdica:
 \[
 \sqrt{7} =\xcontfrac*{2;1,1,1,4,1,1,1,4,1,1,1,4,\cfracdots}= \xcontfrac*{2;\overline{1,1,1,4}}
@@ -727,28 +848,17 @@ Observem que $x_4 = x_0$ i que, per tant $a_{n+4}=a_n$ i $x_{n+4}=x_n$ per a tot
 \end{example}
 
 \begin{example}
-Suposem que $x\in\R$ té fracció continuada
+Suposem que $x\in\R$ té fracció continuada $x=\xcontfrac*{3;5,3,5,3,5,3,\cfracdots}$. Aleshores podem escriure
 \[
-x=\xcontfrac*{3;5,3,5,3,5,3,\cfracdots}
-\]
-Aleshores podem escriure
-\[
-x = \xcontfrac{3;5+\frac{1}{x}},
-\]
-d'on obtenim
-\[
+x = \xcontfrac{3;5+\frac{1}{x}} \implies
 3+\frac{x}{5x+1}=x\implies \frac{16x+3}{5x+1}=x,
 \]
-és a dir $5x^2-15x-3=0$, que té arrels
-\[
-\frac{15\pm\sqrt{285}}{10}.
-\]
-Fixem-nos que $x>0$, i per tant $x=\frac{15+\sqrt{285}}{10}$.
+és a dir $5x^2-15x-3=0$, que té arrels $\frac{15\pm\sqrt{285}}{10}$. Fixem-nos que $x>0$, i per tant $x=\frac{15+\sqrt{285}}{10}$.
 \end{example}
 El comportament dels exemples anteriors és més general, i de fet podem caracteritzar per quins reals obtenim fraccions continuades periòdiques.
 
 \begin{theorem}
-Un real $x$ té una fracció continuada periòdica si i només si $x$ satisfà un polinomi de grau dos amb coeficients racionals.
+Un real $x$ té una fracció continuada periòdica (infinita) si i només si $x$ satisfà un polinomi de grau dos amb coeficients racionals.
 \end{theorem}
 \begin{proof}
 Ja hem caracteritzat els racionals i les fraccions continuades finites, per tant podem assumir que la fracció continuada és infinita (i que $x$ no és racional).
@@ -757,116 +867,89 @@ Primer, suposem que
 \[
 x=\xcontfrac*{a_0;a_1,\cfracdots,a_n,\overline{a_{n+1},\dots,a_{n+h}}}.
 \]
-Escrivim $\alpha=\xcontfrac*{a_{n+1};a_{n+2},\cfracdots}$. Aleshores tenim que
-\[
-\alpha=\xcontfrac*{a_{n+1};\cfracdots,a_{n+h},\alpha}.
-\]
+Escrivim $\alpha=\xcontfrac*{a_{n+1};a_{n+2},\cfracdots}$. Aleshores tenim que $\alpha=\xcontfrac*{a_{n+1};\cfracdots,a_{n+h},\alpha}$.
 Per tant,
 \[
 \alpha = \frac{\alpha p_{n+h} + p_{n+h-1}}{\alpha q_{n+h} + q_{n+h-1}}.
 \]
 D'aquí en deduïm que $\alpha$ satisfà un polinomi quadràtic. Com que
 \[
-x=\xcontfrac*{a_0;a_1,\cfracdots,a_n,\alpha}=\xcontfrac{a_0,a_1,\cfracdots,a_n,\alpha},
+x=\xcontfrac*{a_0;a_1,\cfracdots,a_n,\alpha}=\xcontfrac{a_0;\cfracdots,a_n,\alpha},
 \]
 veiem que $x\in \Q(\alpha)$ i, com que $x\not\in\Q$ obtenim que $x$ també satisfà un polinomi quadràtic.
 
-Suposem ara que $x$ satisfà $ax^2+bx+c=0$, amb $a,b,c\in\Z$ i $a\neq 0$. Si $x=\xcontfrac*{a_0;a_1,\cfracdots}$, definim $r_n$ com la cua $\xcontfrac*{a_n;a_{n+1},\cfracdots}$, de tal manera que $x=\xcontfrac*{a_0;a_1,\cfracdots,a_{n-1},r_n}$ per tot $n\geq 0$. Veurem que $r_n$ només pren un conjunt finit de valors. Aleshores, si $r_{n+h}=r_n$ per algun $n\geq 0$ i algun $h>0$, tindrem
+Suposem ara que $x$ satisfà $ax^2+bx+c=0$, amb $a,b,c\in\Z$ i $a\neq 0$. Si $x=\xcontfrac*{a_0;a_1,\cfracdots}$, definim $r_n$ com la cua $\xcontfrac*{a_{n+1};a_{n+2},\cfracdots}$, de tal manera que $x=\xcontfrac*{a_0;a_1,\cfracdots,a_{n},r_n}$ per tot $n\geq 0$. Veurem que $r_n$ només pren un conjunt finit de valors. Aleshores, si $r_{n+h}=r_n$ per algun $n\geq 0$ i algun $h>0$, tindrem
 \begin{align*}
-\xcontfrac*{a_0;\cfracdots,a_{n-1},r_n} &=\xcontfrac*{a_0;\cfracdots,a_{n-1},a_n,\cfracdots,a_{n+h-1},r_{n+h}}\\
-&=\xcontfrac*{a_0;\cfracdots,a_{n-1},a_n,\cfracdots,a_{n+h-1},r_{n}}\\
-&=\xcontfrac*{a_0;\cfracdots,a_{n-1},a_n,\cfracdots,a_{n+h-1},a_n,\cfracdots,a_{n+h-1},r_{n+h}}\\
-&=\xcontfrac*{a_0;\cfracdots,a_{n_1},\overline{a_n,\cfracdots,a_{n+h-1}}}.
+\xcontfrac*{a_0;\cfracdots,a_{n},r_n} &=\xcontfrac*{a_0;\cfracdots,a_{n},a_{n+1},\cfracdots,a_{n+h},r_{n+h}}\\
+&=\xcontfrac*{a_0;\cfracdots,a_{n},a_{n+1},\cfracdots,a_{n+h},r_{n}}\\
+&=\xcontfrac*{a_0;\cfracdots,a_{n},a_{n+1},\cfracdots,a_{n+h},a_{n+1},\cfracdots,a_{n+h},r_{n+h}}\\
+&=\xcontfrac*{a_0;\cfracdots,a_{n},\overline{a_{n+1},\cfracdots,a_{n+h}}}.
 \end{align*}
 
-De l'expressió $x=\xcontfrac*{a_0;a_1,\cfracdots,a_{n-1},r_n}$ tenim
-\[
-x =\frac{r_np_{n-1} + p_{n-2}}{r_n q_{n-1} + q_{n-2}}.
-\]
-Si substituïm aquesta expressió a l'equació quadràtica, i agrupem els termes en $r_n$ obtenim
-\[
-A_nr_n^2 + B_n r_n + C_n=0,
-\]
+De l'expressió $x=\xcontfrac*{a_0;a_1,\cfracdots,a_{n},r_n}$ tenim $x =\frac{r_np_{n} + p_{n-1}}{r_n q_{n} + q_{n-1}}$.
+Si substituïm aquesta expressió a l'equació quadràtica, i agrupem els termes en $r_n$ obtenim $A_nr_n^2 + B_n r_n + C_n=0$,
 amb
 \begin{align*}
-    A_n &= a p_{n-1}^2 + b p_{n-1}q_{n-1} + c q_{n-1}^2\\
-    B_n &= 2ap_{n-1}p_{n-2} + b(p_{n-1}q_{n-2}+p_{n-2}q_{n-1}) + 2cq_{n-1}q_{n-2}\\
-    C_n &= ap_{n-2}^2 + bp_{n-2}q_{n-2} + cq_{n-2}^2.
+    A_n &= a p_{n}^2 + b p_{n}q_{n} + c q_{n}^2\\
+    B_n &= 2ap_{n}p_{n-1} + b(p_{n}q_{n-1}+p_{n-1}q_{n}) + 2cq_{n}q_{n-1}\\
+    C_n &= ap_{n-1}^2 + bp_{n-1}q_{n-1} + cq_{n-1}^2.
 \end{align*}
-Ens hem de fixar que $A_n,B_n,C_n\in\Z$ i que $C_n=A_{n-1}$. A més, resulta que
+Ens hem de fixar que $A_n,B_n,C_n\in\Z$ i que $C_n=A_{n-1}$. Veurem que aquests valors estan fitats (independentment de $n$). Això implica que prenen un conjunt finit de valors i, per tant les arrels $r_n$ dels polinomis quadràtics $A_nX^2 + B_nX + C_n$ també prenen un conjunt finit de valors. Escriurem $f(X)=aX^2+bX+c$ i, per tot $n$, escriurem també $\theta_n=p_n/q_n$ la $n$-èssima convergent.
+
+Per fitar $A_n$, observem que $A_n = q_n^2 f(\theta_n)$. Aleshores:
 \[
-B_n^2 -4A_nC_n = (b^2-4ac)(p_{n-1}q_{n-2} - q_{n-1}p_{n-2})^2 = b^2-4ac.
+|f(\theta_n)=|f(\theta_n)-f(x)|=|f'(\xi)||x-\theta_n| < \frac{1}{q_n^2} M,\quad
+M = \max_{\xi \in [x-1,x+1]} |f'(\xi)|.
 \]
-De la desigualtat
+Per tant $|A_n|< M$ i $|C_n|=|A_{n-1}|< M$. Passem ara a fitar $|B_n|$. Escrivim $B_n =q_nq_{n-1}F(\theta_n,\theta_{n-1})$, on $F(X,Y)=aXY +b\frac{X+Y}{2} + c$.
+Observem que $F(X,X)=f(X)$, i fàcilment veiem també que
 \[
-\left|x - \frac{p_{n-1}}{q_{n-1}}\right|<\frac{1}{q_{n-1}q_n}<\frac{1}{q_{n-1}^2} 
+f(X)-F(X,Y) = (2ax+b)\frac{X-Y}{2}= f'(X)\frac{X-Y}{2}.
 \]
-obtenim
+Per tant,
 \[
-p_{n-1} = xq_{n-1} + \frac{\delta}{q_{n-1}},\quad |\delta|<1.
+f(\theta_n)-F(\theta_n,\theta_{n-1}) = \frac 12 (\theta_n-\theta_{n-1}) f'(\theta_n).
 \]
-Aleshores podem calcular
+Prenent valors absoluts, obtenim
 \[
-A_n = 2ax\delta + a\frac{\delta^2}{q_{n-1}^2} + b\delta,
+|f(\theta_n) - F(\theta_n,\theta_{n-1})| \leq \frac{f'(\theta_n}{2q_nq_{n-1}}\leq \frac{M}{2q_nq_{n-1}}.
 \]
-i per tant
+Aplicant la desigualtat triangular i la fita anterior, concloem que
 \[
-|A_n| = \left|2ax\delta + a\frac{\delta^2}{q_{n-1}^2} + b\delta\right|< 2|a||x| + |a| + |b|.
+|F(\theta_n,\theta_{n-1}|  \leq \frac{M}{2q_nq_{n-1}} + \frac{M}{q_n^2} < \frac{3M}{2q_nq_{n-1}}.
 \]
-D'això en deduïm que $A_n$ només pot prendre un nombre finit de valors, i també $C_n= A_{n-1}$. Finalment, com que $B_n$ satisfà $B_n^2 = 4A_nC_n + b^2-4ac$, també només pot prendre un nombre finit de valors. Així, hi ha un nombre finit de possibilitats per $r_n$.
+Per tant $|B_n|< 3M$.
 \end{proof}
+
+\begin{remark}
+Una manera alternativa de veure $B_n$ pot prendre només un conjunt finit de valors (un cop hem vist que $A_n$ i $C_n$ ho fan) és calcular directament (i tediosa)
+\[
+B_n^2 -4A_nC_n = (b^2-4ac)(p_{n}q_{n-1} - q_{n}p_{n-1})^2 = b^2-4ac.
+\]
+Per tant, $B_n = b^2-4ac + 4A_nC_n$ només pren un conjunt finit de valors.
+\end{remark}
 \subsubsection{El garbell quadràtic}
 Recordem que volem trobar $B$-nombres, és a dir $x$'s tals que $x^2\mod n$ sigui $B$-suau. El mètode de les fraccions continuades ens dona bons candidats fent servir les convergents de $\sqrt{N}$. Una alternativa és considerar molts candidats $x=\lceil\sqrt{n}\rceil, \lceil\sqrt{n}\rceil + 1, \lceil\sqrt{n}\rceil+2,\ldots$ i trobar una manera molt ràpida de distingir quins d'ells són $B$-nombres.
 
 Primer de tot, com que $x\simeq\sqrt{n}$, aleshores $x^2\mod n=x^2-n$. Per tant, no ens caldrà fer cap divisió per reduir mòdul $n$.
 
-Segon, sigui $p\leq B$. Aleshores
-\[
-p\mid x^2-n\iff x^2\equiv n\pmod{p}.
-\]
-Considerarem doncs una base de factors formada només per primers $p$ tals que $n$ sigui un quadrat mòdul $p$. Per cadascun d'aquests primers, ja sabem que només hem de mirar $x\equiv a_1,a_2\pmod p$ (on $a_1$ i $a_2$ són arrels de $n\mod p$, que podem calcular fàcilment tal i com hem vist a la Secció~\ref{sec:arrels-quadrades}).
+Segon, sigui $p\leq B$. Aleshores $p\mid x^2-n\iff x^2\equiv n\pmod{p}$. Considerarem doncs una base de factors formada només per primers $p$ tals que $n$ sigui un quadrat mòdul $p$. Per cadascun d'aquests primers, ja sabem que només hem de mirar $x\equiv a_1,a_2\pmod p$ (on $a_1$ i $a_2$ són arrels de $n\mod p$, que podem calcular fàcilment tal i com hem vist a la Secció~\ref{sec:arrels-quadrades}). Així, podem construir una taula on a la fila $i$ hi desem les quantitats $x=\lceil \sqrt{n}\rceil +i$ i $x^2-n$, amb $0\leq i\leq X$ (per alguna fita $X$).
 
-Així, podem construir una taula on a la fila $i$ hi desem les quantitats $x=\lceil \sqrt{n}\rceil +i$ i $x^2-n$, amb $0\leq i\leq X$ (per alguna fita $X$).
+Per cada $p\leq B$ amb $\legendre{n}{p}=1$, dividim les entrades $x^2-n$ de les files $i\equiv a_1,a_2\pmod{p}$ per $p$ tantes vegades com sigui possible. A l'acabar, aquelles files on haguem obtingut un $1$ són precisament les que es corresponen a $B$-nombres.
 
-Per cada $p\leq B$ amb $\legendre{n}{p}=1$, dividim les entrades $x^2-n$ de les files $i\equiv a_1,a_2\pmod{p}$ per $p$ tantes vegades com sigui possible. A l'acabar, aquelles files on haguem obtingut un $1$ són precisament les que són $B$-potència-suau.
-
-El nombre d'operacions que ens caldran per fer aquest procés és $O(X\sum_{p\leq B} \frac 1p = O(X\log\log B)$. Per tant, per a cada valor hi hem d'invertir $O(\log\log B)$ operacions, en comptes de les $O(B)$ necessàries sense fer el garbell.
-
-\begin{proposition}
-Si es tria $B$ adequadament (en funció de $n$) s'obté un algoritme que factoritza en
-\[
-O\left(e^{(1+\epsilon)\sqrt{\log n\log\log n}}\right)
-\]
-operacions.
-\end{proposition}
 
 \begin{algo}
-\caption{Factorització pel garbell quadràtic.}
+\caption{Factorització pel garbell quadràtic}
 \begin{python}
-def garbell(k0, k1, B, n):
-    llista = [[x, x*x -n] for x in srange(k0,k1)]
-
-    for p in B:
-        if p == -1:
-            continue
-        nmodp = n % p
-        x0 = GF(p)(nmodp).sqrt()
-        x1 = (-x0).lift()
-        x0 = x0.lift()
-        for r in [x0, x1]:
-            for i in sxrange((r-k0) % p, len(llista), p):
-                while llista[i][1] % p == 0:
-                    llista[i][1] /= p
-    return [(x,x*x - n) for x,y in llista if y == 1]
-
-def factor_garbell_quadratic(n,Bmax,inc):
-    B = [-1,2] + [p for p in prime_range(3,Bmax) if legendre_symbol(n,p) == 1]
+def factor_garbell_quadratic(n, Bmax, inc):
+    B = [-1,2] + [p for p in prime_range(3,Bmax) \
+                    if legendre_symbol(n,p) == 1]
     x = RR(n).sqrt().floor()
     relations = []
     relation_matrix = Matrix(GF(2),0,len(B),0)
     k0 = x
     while relation_matrix.rank() < len(B):
-        llista_garbellada =  garbell(k0, k0 + inc, B, n)
+        llista_garbellada = garbell(k0, k0 + inc, B, n)
         k0 += inc
         for x, y in llista_garbellada:
             vec = es_B_suau(y,B)
@@ -878,8 +961,8 @@ def factor_garbell_quadratic(n,Bmax,inc):
             x0 = prod(ZZ(r[0])^ZZ(i) for r,i in zip(relations,vlist))
             y0 = 1
             for j, p in enumerate(B):
-                ap = sum(r[1][j] for k, r in enumerate(relations) if vlist[k] == 1)
-                assert ap % 2 == 0
+                ap = sum(r[1][j] for k, r in enumerate(relations) \
+                                 if vlist[k] == 1)
                 y0 *= p^(ap // 2)
             g = gcd(x0 - y0,n)
             if g > 1 and g < n:
@@ -887,13 +970,40 @@ def factor_garbell_quadratic(n,Bmax,inc):
 \end{python}
 \end{algo}
 
+\begin{algo}
+\caption{Garbella un interval}
+\begin{python}
+def garbell(k0, k1, B, n):
+    N = k1 - k0
+    llista = [[x, x*x - n] for x in range(k0, k1)]
+    for p in B:
+        if p == -1: continue
+        x0 = GF(p)(n).sqrt()
+        x1 = (-x0).lift()
+        x0 = x0.lift()
+        for i in range((x0-k0) % p, N, p) + range((x1-k0) % p, N, p):
+            llista[i][1] = llista[i][1].prime_to_m_part(p)
+    return [(x, x*x - n) for x,y in llista if y == 1]
+\end{python}
+\end{algo}
+
+
+El nombre d'operacions que ens caldran per fer aquest procés és $O(X\sum_{p\leq B} \frac 1p )= O(X\log\log B)$. Per tant, per a cada valor hi hem d'invertir $O(\log\log B)$ operacions, en comptes de les $O(B)$ necessàries sense fer el garbell.
+
+\begin{proposition}
+Triant $B$ adequadament (en funció de $n$) s'obté un algoritme que factoritza en
+\[
+O\left(e^{(1+\epsilon)\sqrt{\log n\log\log n}}\right)\text{ operacions.}
+\]
+\end{proposition}
+
+
 \subsection{Algoritmes pel logaritme discret}
  
-
   \subsubsection{Pohlig--Hellman}
   Aquest algoritme funciona bé quan $G=\langle b\rangle$ té ordre $n$ divisible només per primers petits. Donat $y\in G$, l'objectiu és trobar $x\in\Z/n\Z$ tal que $b^x=y$.
   
-  El primer pas consisteix en calcular les arrels $p$-èssimes de $b$, per cada divisor primer $p\mid n$. Definim doncs
+  El primer pas consisteix en calcular les arrels $p$-èssimes de $1$, per cada divisor primer $p\mid n$. Definim doncs
   \[
   r_{p,j} = b^{j\frac{n}{p}},\quad j=0,1,\ldots,p-1.
   \]
@@ -908,20 +1018,18 @@ def factor_garbell_quadratic(n,Bmax,inc):
   L'algoritme ens permet calcular $x_0$, $x_1$, $x_2$,\ldots pas a pas.
   
   \begin{description}
-      \item[Pas (0):] Definim $y_0=y$, i calculem $y_0^{\frac{n}{p}}$, que és una arrel $p$-èssima de $1$ perquè $y^n=1$. per tant,
+      \item[Pas 0:] Definim $y_0=y$, i calculem $y_0^{\frac{n}{p}}$, que és una arrel $p$-èssima de $1$ perquè $y^n=1$. per tant,
       \[
       y^{\frac{n}{p}} = (b^x)^{\frac{n}{p}} = b^{x_0\frac{n}{p}} = r_{p,x_0}.
       \]
       És a dir $x_0$ s'obté de mirar en quina posició es troba la quantitat $y^{\frac{n}{p}}$ en la taula $\{r_{p,i}\}_{i=0,\ldots p-1}$.
-      \item[Pas (1):] Canviem $y$ per $y_1=yb^{-x_0}$, que té logaritme discret $x-x_0=x_1p+\cdots x_{\alpha-1}p^{\alpha-1}$. Per tant, $y_2^{\frac{n}{p}}=1$ i es té 
-      \[
-      y_1^{\frac{n}{p^2}}=b^{x_1\frac{n}{p}} = r_{p,x_1}.
-      \]
-      \item[$\cdots$]
-      \item[Pas (i):] Calculem $y_i=y_{i-1}b^{-px_{i-1}}$ i calculem
-      \[
-      y_i^{\frac{n}{p^{i+1}}} = r_{p,x_i}.
-      \]
+      \item[Pas 1:] Canviem $y$ per $y_1=yb^{-x_0}$, que té logaritme discret $x-x_0=x_1p+\cdots x_{\alpha-1}p^{\alpha-1}$. Per tant, $y_1^{\frac{n}{p}}=1$ i es té $y_1^{\frac{n}{p^2}}=b^{x_1\frac{n}{p}} = r_{p,x_1}$.
+      
+      \item[\hspace{.2cm}($\cdots$)]\hfill
+      \phantom{a}
+      \vspace{.3cm}
+      
+      \item[Pas $\mathbf{i}$:] Definim $y_i=y_{i-1}b^{-p^{i-1}x_{i-1}}$ i calculem $y_i^{\frac{n}{p^{i+1}}} = r_{p,x_i}$.
   \end{description}
   
   
@@ -956,7 +1064,7 @@ def factor_garbell_quadratic(n,Bmax,inc):
   \subsubsection{Càlcul d'índexs}
   Aquest algoritme ens permet calcular el logaritme discret a $\F_p^\times$, on $p$ és un primer gran. Hi ha modificacions que ens permeten calcular-lo també a $\F_q^\times$ (amb $q$ una potència d'un primer), però aquí ens centrarem en el primer cas.
   
-  Com sempre, suposem donat un generador $b$ de $\F_p^\times$, i $y\in\F_p^\times$. Volem trobar $x\pmod{p-1}$ tal que $b^x=y$. La clau de l'algoritme radica en el fet que si $b^{x_1}=y_1$ i $b^{x_2}=y_2$, aleshores $b^{x_1+x_2} = y_1y_2$. Per tant, per exemple si poguéssim factoritzar $y$ simplificariem el problema. Això serà molt difícil de fer en general, però potser podem factoritzar $b^t y\pmod p$, i aleshores també guanyem.
+  Com sempre, suposem donat un generador $b$ de $\F_p^\times$, i $y\in\F_p^\times$. Volem trobar $x\pmod{p-1}$ tal que $b^x=y$. La clau de l'algoritme radica en el fet que si $b^{x_1}=y_1$ i $b^{x_2}=y_2$, aleshores $b^{x_1+x_2} = y_1y_2$. Per tant, per exemple si poguéssim factoritzar $y$ (com a enter) simplificariem el problema. Això serà molt difícil de fer en general, però potser podem factoritzar $b^t y\pmod p$, i aleshores també guanyem.
  
  L'algoritme funciona de la següent manera.
 
@@ -965,13 +1073,13 @@ def factor_garbell_quadratic(n,Bmax,inc):
   
     \begin{enumerate}
       \item Triem una base de factors $\mathcal B=\{-1,2,3,5,7,11,\ldots,B\}$.
-      \item Per $k=1,2,3,\ldots$ intentem factoritzar $b^k\pmod p$ en la base $\mathcal B$. (només tindrem èxit si $b^k\pmod p$ és $B$-suau).
+      \item Per $k=1,2,3,\ldots$ intentem factoritzar $b^k\pmod p$ en la base $\mathcal B$ (només tindrem èxit si $b^k\pmod p$ és $B$-suau).
       \item Per cada factorització correcta
       \[
       b^k=\prod_{\ell\in \mathcal B} \ell^{\alpha_\ell},
       \]
-      afegim una relació $(k,\alpha_0,\alpha_1,\ldots)$.
-      \item Quan tinguem $\#B$ relacions independents, podem trobar (mitjançant àlgebra lineal) els logaritmes discrets de tots els elements de $\mathcal B$. Per cada $\ell\in\mathcal B$, denotarem per $i(\ell)$ l'enter tal que $b^{i(\ell)} = \ell$.
+      afegim una relació $(k,\alpha_{-1},\alpha_2,\alpha_3,\ldots)$.
+      \item Quan tinguem $\#\mathcal B$ relacions independents, podem trobar (mitjançant àlgebra lineal) els logaritmes discrets de tots els elements de $\mathcal B$. Per cada $\ell\in\mathcal B$, denotarem per $i(\ell)$ l'enter tal que $b^{i(\ell)} = \ell$.
     \end{enumerate}
     \item[Logaritme discret]\hfill
     \begin{enumerate}
@@ -981,12 +1089,8 @@ def factor_garbell_quadratic(n,Bmax,inc):
         \[
         b^t y = \prod_{\ell\in\mathcal B} \ell^{\beta_\ell},
         \]
-        podem retornar
-        \[
-        i(y) = -t + \sum_{p
-        \ell\in\mathcal{B}} \beta_\ell i(\ell).
-        \]
+        podem retornar $i(y) = -t + \sum_{\ell\in\mathcal{B}} \beta_\ell i(\ell)$.
     \end{enumerate}
   \end{description}
 
- Això ens dona un mètode sub-exponencial, però observem que es basa en l'existència de primers a $\Z$. Això fa que aquest tipus d'algoritmes no es poden aplicar a grups cíclics més generals, i el que permet que el logaritme discret en corbes el·líptiques sigui més difícil que a $\F_q^\times$.
+ Això ens dona un mètode sub-exponencial, però observem que es basa en l'existència de primers a $\Z$. Això fa que aquest tipus d'algoritmes no es puguin aplicar a grups cíclics més generals, i el que permet que el logaritme discret en corbes el·líptiques sigui més difícil que a $\F_q^\times$.

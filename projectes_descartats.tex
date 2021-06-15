@@ -1,0 +1,13 @@
+ \subsection{Estudi del nombre de punts d'una corba algebraica segons el primer}
+ 
+ En aquest projecte, estudiarem corbes de la forma $f(x,y,z)=0$, on $f\in\Z[x,y,z]$ és un polinomi homogeni. Podem comptar els punts mòdul diferents primers, així com els punts a $\F_{p^k}$ on $k\geq 1$ va canviant. Escrivim
+ \[
+ N_f(p,k) = \# \{ (x:y:z)\in\mathbb{P}^2(\F_{p^k}) ~|~ f(x,y,z) = 0\}.
+ \]
+ Un exemple ens el donen els polinomis $f(x,y)=y^2-x^3-ax-b$, que donen lloc a corbes el·líptiques ja estudiades a classe. El tipus de preguntes que ens podem fer:
+ \begin{itemize}
+     \item Com es comporta $N_f(p,1)$ respecte $p$? Depèn de $f$, aquest comportament, o només d'alguna propietat d'$f$? Podeu fer gràfiques de tot això.
+     \item Podem veure termes de segon ordre en el creixement de $N_f(p,1)$? Aquests, depenen d'alguna manera del polinomi $f$ (o del seu grau)?
+     \item Fixeu $f$ i un primer $p$, i trobeu una fórmula recursiva per $N_f(p,k)$ que us permeti trobar $N_f(p,k)$ per a tot $k$ a partir dels valors corresponents per $k=1,2,\ldots, k_0$ (on $k_0$ dependrà del grau d'$f$ però no de $p$). Comproveu que la fórmula és certa per 3 o 4 valors de $k$ fora ``el rang d'interpolació'' $[1,k_0]$.
+ \end{itemize}
+ 
