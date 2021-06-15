@@ -6,7 +6,7 @@ L'objectiu d'aquesta secció és estudiar les solucions d'equacions quadràtique
  Sigui $p$ un primer. Diem que un enter $a$ no divisible per $p$ és un \emph{residu quadràtic mòdul $p$} si $a$ és un quadrat mòdul $p$. Si no, direm que $a$ és un \emph{no-residu quadràtic mòdul $p$}.
 \end{definition}
 
-Òbviament, si $a\equiv a'\pmod{p}$ aleshores $a$ és un residu quadràtic mòdul $p$ si i només si $a'$ ho és.
+Observem que, si $a\equiv a'\pmod{p}$ aleshores $a$ és un residu quadràtic mòdul $p$ si i només si $a'$ ho és. Per tant, donat $p$ és fàcil donar una llista de tots els residus quadràtics mòdul $p$.
 
 \begin{example}
 L'$1$ és l'únic residu quadràtic tant mòdul $2$ com mòdul $3$.
@@ -30,7 +30,7 @@ El \emph{símbol de Legendre} es defineix, donats un primer \textbf{senar} $p$ i
 \]
 \end{definition}
 
-Si $a$ i $b$ són residus quadràtics, posem $a\equiv x^2\pmod p$ i $b\equiv y^2\pmod p$, aleshores és clar que $ab\equiv (xy)^2\pmod p$ i, per tant $ab$ també és un residu quadràtic. De manera semblant, si $a\equiv x^2\pmod p$ i $ab\equiv y^2\pmod p$, aleshores $b\equiv (x^{-1}y)^2\pmod p$, del que en deduïm que el produce d'un residu amb un no-residu és un no-residu. El següent lema ens diu que el producte de dos no-residus és un residu.
+Si $a$ i $b$ són residus quadràtics, posem $a\equiv x^2\pmod p$ i $b\equiv y^2\pmod p$, aleshores és clar que $ab\equiv (xy)^2\pmod p$ i, per tant $ab$ també és un residu quadràtic. De manera semblant, si $a\equiv x^2\pmod p$ i $ab\equiv y^2\pmod p$, aleshores $b\equiv (x^{-1}y)^2\pmod p$, del que en deduïm que el producte d'un residu amb un no-residu és un no-residu. El següent lema ens diu que el producte de dos no-residus és un residu.
 \begin{lemma}
 Si $p$ és un primer senar, l'aplicació $\psi\colon (\Z/p\Z)^\times \to \{\pm 1\},\quad a\mapsto \legendre{a}{p}$ és un morfisme de grups exhaustiu.
 \end{lemma}
@@ -43,11 +43,11 @@ G\surjects G/H \cong \{\pm 1\}.
 
 \subsection{LRQ i demostració}
 
-Durant el segle XVIII, els matemàtics es van preguntar si hi havia una manera senzilla de predir com es comporta $\legendre{a}{p}$ quan variava $p$. Per exemple, quan $a=5$ podem fer una taula com la que apareix a la Taula~\ref{taula:lrq}.
-\begin{table}[ht]
+Durant el segle XVIII, diversos matemàtics es van preguntar si hi havia una manera senzilla de predir com es comporta $\legendre{a}{p}$ quan variava $p$. Per exemple, quan $a=5$ obtenim la Taula~\ref{taula:lrq}.
+\begin{table}[ht!]
 \centering
-\label{taula:lrq}
 \begin{tabular}{lcccccccccccc}
+
 \toprule
     $p$ & 7  & \textbf{11} & 13 & 17 & \textbf{19} & 23 & \textbf{29} & \textbf{31} & 37 & \textbf{41} & 43 & 47\\
     \midrule
@@ -55,11 +55,12 @@ Durant el segle XVIII, els matemàtics es van preguntar si hi havia una manera s
     $p\bmod 5$ & 2 & \textbf{1} & 3 & 2 & \textbf{4} & 3 &\textbf{4} & \textbf{1} & 2 &\textbf{1} & 3 & 2\\
     \bottomrule
 \end{tabular}
-\caption{Taula de $\legendre{5}{p}$ per diversos primers.}
+\caption{\label{taula:lrq}Taula de $\legendre{5}{p}$ per diversos primers.}
+
 \end{table}
-Fixem-nos que sembla que el símbol $\legendre{5}{p}$ només depengui de si $p\equiv 1,4\pmod{5}$ o no. En canvi, si fem el mateix amb $a=7$ obtenim la Taula~\ref{taula:lrq2}.
-\begin{table}[ht]
-\label{taula:lrq2}
+
+Fixem-nos que sembla que el símbol $\legendre{5}{p}$ només depengui de si ${p\equiv 1,4\pmod{5}}$ o no. En canvi, si fem el mateix amb $a=7$ obtenim la Taula~\ref{taula:lrq2}.
+\begin{table}[ht!]
 \centering
 
 \begin{tabular}{lcccccccccccccc}
@@ -71,7 +72,7 @@ Fixem-nos que sembla que el símbol $\legendre{5}{p}$ només depengui de si $p\e
 \bottomrule
 \end{tabular}
 
-\caption{Taula de $\legendre{7}{p}$ per diversos primers.}
+\caption{\label{taula:lrq2}Taula de $\legendre{7}{p}$ per diversos primers.}
 
 \end{table}
 Ara observem que no sembla d'entrada que hi hagi una relació tan senzilla. En canvi, per $a=11$ tornem a observar el mateix comportament que per $a=5$ (quant val $\legendre{9}{p}$?). El teorema següent explica aquest fenòmen de manera molt precisa.
@@ -181,11 +182,8 @@ Deduïm que
 \[
 2^{\frac{p-1}{2}}\equiv \tau^{p-1}\pmod p.
 \]
-Veurem ara que $\tau^p\equiv \zeta^p+\zeta^{-p}\equiv \epsilon(p)\tau\pmod p$:
-\begin{description}
-\item[Cas $p\equiv \pm 1\pmod 8$ ($\iff \epsilon(p)=1$):] En aquest cas, $\tau^p\equiv \zeta+\zeta^{-1}\equiv \tau\pmod p$.
-\item[Cas $p\equiv \pm 3\pmod 8$ ($\iff \epsilon(p)=-1$):] En aquest cas, $\tau^p\equiv \zeta^3+\zeta^{-3}\equiv -\tau\pmod p$.
-\end{description}
+Observem que, com que $R$ és de característica $p$, tenim $\tau^p\equiv \zeta^p+\zeta^{-p}\pmod p$. Tenint en compte que $\zeta^8=1$, veiem que aquesta quantitat només depèn de $p\mod 8$, i coincideix amb $\epsilon(p)\tau$.
+
 Per tant, $\tau \legendre{2}{p} \equiv \epsilon(p) \tau \pmod p$ i, multiplicant per $\tau$, obtenim
 \[
 2\legendre{2}{p}\equiv 2\epsilon(p)\pmod p.
@@ -212,8 +210,9 @@ Si $p\mid a$, aleshores $\zeta_p^a=1$ i el resultat és obvi. En cas contrari, $
 \]
 \end{proof}
 
+Definim una suma semblant a l'anterior, però modificant el signe d'alguns dels seus termes.
 \begin{definition}
- La \emph{suma de Gauss} associada a un element $a\in (\Z/p\Z)^\times$ és
+ La \emph{suma de Gauss} associada a un element $a\in (\Z/p\Z)$ és
  \[
  \gamma_a = \sum_{n=1}^{p-1}\legendre{n}{p} \zeta_p^{an}.
  \]
@@ -237,7 +236,7 @@ Pel lema anterior, podem assumir que $p\nmid a$. Aleshores:
 on hem fet servir que multiplicar per $a$ permuta els elements de $\Z/p\Z$. El resultat s'obté multiplicant per $\legendre ap$.
 \end{proof}
 
-La base de la demostració és el següent resultat.
+La base de la demostració de la Llei de reciprocitat quadràtica és el següent resultat.
 \begin{proposition}
 Per tot enter $a$ coprimer amb $p$, es té que
  \[
@@ -251,42 +250,34 @@ Per tot enter $a$ coprimer amb $p$, es té que
  \]
  Per tant, caldrà veure que $\gamma_a\gamma_{-a} = p$. Per fer-ho, calculem (totes les sumes recorren els enters entre $1$ i $p-1$).
  \begin{align*}
-     \sum_a \gamma_a\gamma_{-a} &= \sum_{a,m,n} \legendre{n}{p}\legendre{m}{p}\zeta_p^{an-am}\\
-     &=\sum_{n,m} \legendre{n}{p} \legendre{m}{p} \sum_{a} \zeta^{a(n-m)} = \sum_n p \legendre{n}{p}^2 = p(p-1).
+     \sum_a \gamma_a\gamma_{-a} &= \sum_{a,m,n} \legendre{n}{p}\legendre{m}{p}\zeta_p^{an-am}=\sum_{n,m} \legendre{n}{p} \legendre{m}{p} \sum_{a} \zeta^{a(n-m)} = \sum_n p \legendre{n}{p}^2 = p(p-1).
  \end{align*}
 \end{proof}
 
 \begin{proof}[Demostració del Teorema~\ref{thm:lrq}]
-Si escrivim $p^*=(-1)^{\frac{p-1}{2}} p$, aleshores fixem-nos que
+Treballarem a $\Z[\zeta_p]/(q)$, que és un anell de característica $q$. No hem aconseguit una arrel quadrada de $p$, sinó de $p^*=(-1)^{\frac{p-1}2} p$. Per tant, buscarem una formula per $\legendre{p^*}{q}$ fent servir el  criteri d'Euler:
 \[
-\legendre{p^*}{q} = \legendre{-1}{q}^{\frac{p-1}{2}} \legendre pq \equiv (-1)^{\frac{p-1}{2}\frac{q-1}{2}} \legendre pq \pmod q.
+\legendre{p^*}{q}= (p^*)^{\frac{q-1}{2}} \equiv \gamma_1^{q-1}\pmod{q}.
 \]
-Per tant, per demostrar la LRQ ens cal veure que
-\[
-\legendre{p^*}{q} \equiv \legendre{q}{p} \pmod{q}.
-\]
-Per acabar, haurem de treballar a $\Z[\zeta_p]/(q)$, que és un anell de característica $q$. Aleshores, pel criteri d'Euler,
-\[
-\gamma_1\legendre{p^*}{q}\equiv \gamma_1(p^*)^{\frac{q-1}{2}} \equiv \gamma_1^q\pmod{q}.
-\]
-Ara calculem
+Calculem
 \begin{align*}
 \gamma_1^q &\equiv \left(\sum_n \legendre{n}{p}\zeta_p^n\right)^q \equiv \sum_n \legendre{n}{q} \zeta_p^{qn} \equiv \gamma_q\equiv \gamma_1\legendre{q}{p}\pmod{q}.
 \end{align*}
-Com que $\gamma_1$ és invertible a $\Z[\zeta_p]/(q)$, podem simplificar $\gamma_1$ de l'expressió
+Com que $\gamma_1$ és invertible a $\Z[\zeta_p]/(q)$, podem simplificar $\gamma_1$ i obtenim
 \[
-\gamma_1\legendre{p^*}{q}\equiv \gamma_1 \legendre{q}{p}\pmod{q}
+\legendre{p^*}{q}\equiv \legendre{q}{p}\pmod q.
 \]
-per obtenir el resultat.
-
+Com que a $R$ es pot distingir $1$ de $-1$, d'aquesta congruència en deduïm la igualtat $\legendre{p^*}{q}=\legendre{q}{p}$.
+Per acabar, fixem-nos que
+\[
+\legendre{p^*}{q} = \legendre{-1}{q}^{\frac{p-1}{2}} \legendre pq = (-1)^{\frac{p-1}{2}\frac{q-1}{2}} \legendre pq,
+\]
+i per tant hem demostrat la LRQ.
 \end{proof}
 
 \subsection{El símbol de Jacobi}
-Donats un enter $a$ i un \emph{enter senar positiu} $m$, definim
-\[
-\legendre{a}{m}=\prod_{p^k\parallel m} \legendre{a}{p}^k,
-\]
-on en el producte de la dreta el símbol és el de Legendre. Observem que si $m$ és un primer senar, aleshores aquesta definició coincideix amb el símbol de Legendre.
+Donats un enter $a$ i un \emph{enter senar positiu} $m$, definim $\legendre{a}{m}=\prod_{p^k\parallel m} \legendre{a}{p}^k$,
+on en el producte de la dreta fem servir el símbol de Legendre. Observem que si $m$ és un primer senar, aleshores aquesta definició coincideix amb el símbol de Legendre.
 
 \begin{lemma}
 \begin{enumerate}
@@ -325,60 +316,92 @@ A més,
  \[
  \legendre{7411}{9283} = -\legendre{9283}{7411}=-\legendre{1872}{7411}.
  \]
- Si només fem servir el símbol de Legendre, ara hem de factoritzar $1872=2^4\cdot 3^3\cdot 13$. En canvi, fent servir el símbol de Jacobi només hem de treure les potències de $2$:
+ Si només fem servir el símbol de Legendre, ara hem de factoritzar $1872=2^4\cdot 3^2\cdot 13$. En canvi, fent servir el símbol de Jacobi només hem de treure les potències de $2$:
  \begin{align*}
  &-\legendre{1872}{7411} =-\legendre{2^4}{7411}\legendre{117}{7411} = -\legendre{7411}{117}\\
  &=-\legendre{40}{117} = -\legendre{2}{117}\legendre{5}{117} = \legendre{5}{117}=\legendre{117}{5} = \legendre{2}{5}=-1.
  \end{align*}
+ A més, com que el resultat és $-1$, ja sabem que $7411$ no és un quadrat mòdul $9283$, encara que no haguem comprovat que són primers.
 \end{example}
  \subsection{Aplicació: arrels quadrades mòdul \texorpdfstring{$p$}{p}}
  \label{sec:arrels-quadrades}
  
  En aquesta secció ens plantegem el problema de trobar les solucions d'una equació quadràtica $ax^2+bx+c=0$ a $\F_p=\Z/p\Z$, amb $p\geq 3$ primer. De la fórmula quadràtica se'n despren que n'hi ha prou amb saber trobar l'arrel quadrada de $D=b^2-4ac$, si en té. Fent servir la llei de reciprocitat quadràtica, hem vist que podem determinar ràpidament si $D$ és un quadrat, però que no obtenim informació sobre com trobar $\delta\in \F$ tal que $\delta^2=D$.
  
- Recordem que, si $D$ és un quadrat, aleshores
- \[
- D^{\frac{p-1}{2}}\equiv 1\pmod p.
- \]
+ Recordem que, si $D$ és un quadrat, aleshores $D^{\frac{p-1}{2}}\equiv 1\pmod p$.
  Per tant, $D^{\frac{p+1}{2}} \equiv D\pmod p$. Observem aleshores que, si $\frac{p+1}{2}$ és parell ($\iff$ $p\equiv 3\pmod 4$), aleshores $\delta=D^{\frac{p+1}{4}}$ satisfà $\delta^2=D$.
  
- Per tant, podem suposar que $p\equiv 1\pmod{4}$. Donarem ara un algoritme probabilístic per trobar $\delta$. Considerem l'anell $R=\F_p[x]/(x^2-D)$, i escrivim $\sqrt{D}$ per la classe de $x$ a $R$. Considerem el morfisme d'anells
- \[
- \varphi\colon R\to \F,\quad a+b\sqrt{D}\mapsto a+b\delta
- \]
- (fixem-nos que encara no hem trobat $\delta$, però en tot cas sabem que existeix).
+ A partir d'ara, doncs, suposarem que $p\equiv 1\pmod{4}$. Veurem dos algoritmes probabilístics per trobar $\delta$.
+ 
+ \subsubsection{Un primer algoritme}
+ Considerem l'anell $R=\F_p[x]/(x^2-D)$, i escrivim $\sqrt{D}$ per la classe de $x$ a $R$. Considerem el morfisme d'anells $\varphi\colon R\to \F_p$ que envia $a+b\sqrt{D}\mapsto a+b\delta$ (fixem-nos que encara no hem trobat $\delta$, però en tot cas sabem que existeix).
  
  Ara, triem un element $z\in \F_p^\times$ a l'atzar, i calculem (fent servir exponenciació eficient) la quantitat
  \[
  (1+z\sqrt{D})^{\frac{p-1}{2}}=u+v\sqrt{D}\in R.
  \]
- Com que $\varphi(u+v\sqrt{D}) = (1+\varphi(z)\delta)^{\frac{p-1}{2}}$ i $\F_p^\times$ té $p-1$ elements, necessàriament $u+v\delta\in \{0,1,-1\}$. Per tant, si $v\neq 0$ aleshores
+ Com que $\varphi(u+v\sqrt{D}) = (1+\varphi(z)\delta)^{\frac{p-1}{2}}$ i $\#\F_p^\times=(p-1)$, necessàriament $u+v\delta\in \{0,1,-1\}$. Per tant, si $v\neq 0$ (si $v=0$, triem un altre $z\in \F_p^\times$ i repetim el procés), aleshores
  \[
  \delta\in \{-u/v, (1-u)/v, (-1-u)/v\}.
  \]
- Podem provar aquestes tres possibilitats i trobarem $\delta$. Si $v=0$, triem un altre $z\in \F_p^\times$ i repetim el procés.
-
+ Podem provar aquestes tres possibilitats i trobarem $\delta$. 
  \begin{algo}
-   \caption{Donat un enter $a$ i un primer $p$, troba (si existeix) una arrel quadrada d'$a$ a $\F_p$.}
+   \caption{Donat $D$ i un primer $p$, troba (si existeix) una arrel quadrada de $D$ a $\F_p$.}
  \begin{python}
- def troba_arrel_quadrada(a, p):
-    assert legendre_symbol(a, p) == 1
+ def troba_arrel_quadrada(D, p):
+    assert legendre_symbol(D, p) == 1
+    Fp = GF(p)
     if (p+1) % 4 != 0:
-        return a^((p+1)//4)
-    S.<x> = GF(p)['x']
-    R.<alpha> = S.quotient(x^2-a)
+        return D^((p+1)//4)
+    S.<x> = Fp['x']
+    R.<alpha> = S.quotient(x^2-D)
     v = 0
     while v == 0:
-        z = GF(p).random_element()
-        w = (1 + z*alpha)^ZZ((p-1) / 2)
-        u, v = w.list()
-    ans = -u / v
-    if ans^2 == a:
-        return ans
+        u, v = ((1 + Fp.random_element() * alpha)^ZZ((p-1) / 2)).list()
+    root = -u / v
+    if root^2 == D: return root
     vinv = 1 / v
-    ans += vinv
-    if ans^2 == a:
-        return ans
-    return ans - 2 * vinv
+    root += vinv
+    if root^2 == D: return root
+    return root - 2 * vinv
+ \end{python}
+\end{algo}
+
+\subsubsection{L'algoritme de Cipolla}
+Treballarem també amb un anell de la forma $R=\F_p[x]/(x^2-u)$, però l'arrel que adjuntarem no serà l'arrel de $D$, que ja sabem que és un quadrat, sino una que ens garanteixi que $R$ és un cos. Concretament, hem de trobar $t\in\F_p$ tal que $u=t^2-D$ sigui un no-quadrat a $\F_p$. La meitat de les possibles $t$ funcionaran, perquè la meitat de residus són no-quadrats. 
+
+\begin{theorem}
+Sigui $\delta=(t+\sqrt{u})^{\frac{p+1}{2}}\in R$. Aleshores:
+\begin{enumerate}
+    \item $\delta^2=D$, i
+    \item $\delta\in\F_p$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Primer calculem quant val $\sqrt{u}^p$:
+\[
+\sqrt{u}^p = \sqrt{u}\sqrt{u}^{p-1} = \sqrt{u} u^{\frac{p-1}{2}} = -\sqrt{u},
+\]
+on a l'última igualtat hem fet servir el criteri d'Euler i el fet que $u$ és un no-quadrat. Aleshores, per veure $(1)$, calculem a $R$, que és de característica $p$, i recordem que $t\in\F_p$:
+\[
+\delta^2=(t+\sqrt{u})^{p+1} = (t+\sqrt{u}) (t^p+\sqrt{u}^p) = (t+\sqrt{u})(t-\sqrt{u})=t^2-u=D.
+\]
+
+Per veure $(2)$, observem que el polinomi $x^2-D$ té com a molt dues arrels en qualsevol cos. Hem vist que $\pm\delta$ són dues arrels quadrades, i sabem que $x^2-D$ té dues arrels a $\F_p\subset R$ (perquè estem suposant que $D$ és un quadrat a $\F_p$). Per tant, $\pm \delta$ han de ser les arrels que busquem a $\F_p$.
+\end{proof}
+Com que podem calcular $\delta$ amb exponenciació modular a $R$, obtenim un algoritme per trobar l'arrel quadrada de $D$. Obtenim el següent algoritme.
+\begin{algo}
+   \caption{Donat $D$ i un primer $p$, troba (si existeix) una arrel quadrada de $D$ a $\F_p$.}
+ \begin{python}
+ def troba_arrel_quadrada(D, p):
+    assert legendre_symbol(D, p) == 1
+    Fp = GF(p)
+    u = 0
+    while legendre_symbol(u, p) != -1:
+        t = Fp.random_element()
+        u = t^2 - D
+    S.<x> = Fp['x']
+    R.<w> = S.quotient(x^2 - u)
+    return Fp(((t + w)^( (p+1) // 2)).lift())
  \end{python}
 \end{algo}

@@ -32,13 +32,19 @@ Es té:
 \gcd(a,b) = \gcd(b,a)=\gcd(\pm a,\pm b) = \gcd(a,b-a) = \gcd(a,b+a). 
 \]
 \end{lemma}
+\begin{proof}
+   Directament de la definició i el fet que si $d\mid a$ i $d\mid b$ aleshores $d\mid a\pm b$.
+\end{proof}
 
-Observem que, com a conseqüència, també obtenim
+Observem que, com a conseqüència, també obtenim:
+\begin{corollary}
+Per a tot $a$, $b$ i $t \in \Z$ es té
 \[
-\gcd(a,b+at) = \gcd(a,b)\quad \forall t\in\Z.
+\gcd(a,b+at) = \gcd(a,b).
 \]
+\end{corollary}
 
-Aquesta observació ens permet calcular el màxim comú divisor entre dos nombres de manera ràpida. Comencem amb un exemple:
+Aquest últim resultat ens permet calcular el màxim comú divisor entre dos nombres de manera ràpida. Comencem amb un exemple:
 
 \begin{example}
 Calculem $\gcd(986,289)$. Fent la divisió entera, obtenim
@@ -242,7 +248,7 @@ def garbell(n):
  és una bijecció.
  \end{proposition}
  \begin{proof}
-Com que $m_a$ és un morfisme d'anells, podem parlar del nucli $\ker m_a$. Fixem-nos que, com que $\gcd(a,m)=1$, la Proposició~\ref{prop:cancellativitat} ens garanteix
+Com que $m_a$ és un morfisme de grups (amb la suma), podem parlar del nucli $\ker m_a$. Fixem-nos que, com que $\gcd(a,m)=1$, la Proposició~\ref{prop:cancellativitat} ens garanteix
 \[
 ax\equiv 0\pmod{m}\implies x\equiv 0\pmod{m},
 \]
@@ -272,10 +278,10 @@ i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sort
  \begin{definition}
  La funció \emph{$\varphi$ d'Euler} assigna a un enter positiu $n$ el valor
  \[
- \varphi(n)=\#(\Z/n\Z)^\times=\{1\leq a\leq n~|~ \gcd(a,n)=1\}.
+ \varphi(n)=\#(\Z/n\Z)^\times=\#\{1\leq a\leq n~|~ \gcd(a,n)=1\}.
  \]
  \end{definition}
- Per exemple, $\varphi(p) = p-1$ si $p$ és primer i, de fet, és fàcil de veure que
+ Per exemple, $\varphi(p) = p-1$ si $p$ és primer i, de fet, és fàcil de veure que, per tot $k\geq 1$,
  \[
  \varphi(p^k) = p^k - p^{k-1} = p^{k-1}(p-1).
  \]
@@ -307,21 +313,44 @@ i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sort
  \]
  \end{theorem}
  \begin{proof}
-  Considerem $G=(\Z/n\Z)^\times$, i $H=\langle a\rangle\subseteq G$. Aleshores $\#H = \operatorname{ord}(a) \mid \#G = \varphi(n)$. Per tant, $a^{\varphi(n)}$ és la identitat a $G$, com voliem veure.
+  Considerem $G=(\Z/n\Z)^\times$, i $H=\langle a\rangle\subseteq G$. Aleshores el teorema de Lagrange ens diu que $\#H = \operatorname{ord}(a) \mid \#G = \varphi(n)$. Per tant, $a^{\varphi(n)}$ és la identitat a $G$, com volíem veure.
  \end{proof}
  
  \begin{corollary}[Petit teorema de Fermat]
  Si $p$ és un primer i $p\nmid a$, aleshores
  \[
- a^{p-1} \equiv 1\pmod{n}.
+ a^{p-1} \equiv 1\pmod{p}.
  \]
  \end{corollary}
  
-  \subsubsection{El teorema dels residus xinesos}
+ \begin{remark}
+ Observem que el recíproc no és cert. Per exemple, $2^{340}\equiv 1 \pmod{341}$ i $341=11\cdot 31$. En aquest cas, però, es compleix $3^{340}\equiv 56 \pmod{341}$. Ens podem plantejar, doncs si és cert que si $n$ és compost aleshores podem trobar un enter $a$ coprimer amb $n$ tal que $a^{n-1}\not\equiv 1 \pmod{n}$. Això tampoc és cert, i als nombres que incompleixen aquest principi (per exemple $561=3\cdot 11 \cdot 17$) se'ls anomena \emph{nombres de Carmichael}. Més endavant n'estudiarem algunes de les seves propietats.
+ \end{remark}
+ \subsubsection{El teorema de Wilson}
+ 
+ El següent resultat ens dona una caracterització dels primers en termes de congruències.
+\begin{proposition}[Teorema de Wilson]
+ Un enter $n>1$ és primer si i només si
+ \[
+ (n-1)!\equiv -1\pmod{n}.
+ \]
+\end{proposition}
+\begin{proof}
+ Suposem primer que la congruència és certa però que $n$ no és primer. Prenem llavors un factor primer $\ell\mid n$ de $n$. Tenim, per una banda, que $\ell\mid (n-1)!$, i també que $\ell\mid n\mid (n-1)!+1$. Però aleshores $\ell\mid 1$, que és una contradicció.
+ 
+ D'altra banda, si $n>2$ és primer (per $n=2$ ho podem verificar directament), aleshores fixem-nos que els factors que apareixen en el producte
+ \[
+ (n-1)! = \prod_{a=1}^{n-1} a
+ \]
+ són representants de tots els elements de $(\Z/n\Z)^\times$. En particular, per cada $a$ que apareix en el producte també apareix $b\equiv a^{-1} \pmod n$, que es cancel·larà. L'única manera que aquests dos termes no es cancel·lin és si $b=a$, és a dir si $a^2\equiv 1\pmod n$, i això només passa per $a=1$ i $a=n-1$. Per tant, tenim $(n-1)!\equiv n-1\equiv -1\pmod n$, com volíem demostrar.
+\end{proof}
+Fixem-nos que no és un mètode pràctic per decidir si $n$ és primer, ja que per calcular el factorial de $n-1$ calen prop de $n$ operacions. Més endavant veurem altres mètodes que ens permetran demostrar que un nombre és compost, o bé donar-nos molta seguretat sobre el fet que és primer (si ho és).
+
+  \subsubsection{El teorema xinès dels residus}
   
   \begin{theorem}
   \label{thm:crt}
-  Si $m_1$, \ldots, $m_k$ són enters coprimers entre si, aleshores el morfisme d'anells
+  Si $m_1$, \ldots, $m_k$ són enters coprimers dos a dos, aleshores el morfisme d'anells
   \[
   \Z/(m_1\cdots m_k)\Z\to\Z/m_1\Z \times\cdots\times \Z/m_k\Z,\quad a\mapsto (a\bmod m_1,\ldots, a\bmod m_k)
   \]
@@ -342,7 +371,7 @@ i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sort
   \[
   x = a+tm,
   \]
-  per algun $t$ tal que $a+tm\equiv b\pmod{n}$. Aquesta equació és té solució perquè $\gcd(m,n)=1$, tal i com hem vist a la Proposició~\ref{prop:eqslineals}.
+  per algun $t$ tal que $a+tm\equiv b\pmod{n}$. Aquesta equació té solució perquè $\gcd(m,n)=1$, tal i com hem vist a la Proposició~\ref{prop:eqslineals}.
   
   Per veure la unicitat, considerem dues solucions $x$ i $y$. Aleshores $z=x-y$ és divisible per $n$ i $m$. Com que $\gcd(m,n)=1$, tenim $nm\mid z$, i per tant $z\equiv 0\pmod{mn}$, d'on tenim que $x\equiv y\pmod{mn}$.
   \end{proof}
@@ -369,7 +398,7 @@ i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sort
   que té una solució única mòdul $m_1m_2\cdots m_k$, per hipòtesi d'inducció.
   \end{proof}
  
- Tenim una versió del teorema dels residus xinesos pels grups d'unitats.
+ Tenim una versió del teorema xinès dels residus pels grups d'unitats.
  \begin{lemma}
  Si $m_1$, \ldots, $m_k$ són enters coprimers entre si, aleshores el morfisme de grups
   \[
@@ -380,9 +409,9 @@ i per tant $\ker m_a=\{0\}$, i $m_a$ és injectiva. Com que els conjunts de sort
  \begin{proof}
   Si $\gcd(a,m_1\cdots m_k) = 1$, aleshores $\gcd(a,m_i)=1$ per a tot $i=1,\ldots,k$. Per tant, l'aplicació està ben definida.
   
-  La injectivitat és automàtica, pel fet que es tracta de la restricció del morfisme d'anells del teorema dels residus xinesos.
+  La injectivitat és automàtica, pel fet que es tracta de la restricció del morfisme d'anells del teorema xinès dels residus.
   
-  Per veure l'exhaustivitat, observem que el teorema dels residus xinesos ens garanteix, donats $a_i \in \Z/m_i\Z$, un element $a\in\Z/(m_1\cdots m_k)\Z$ que tal que $a\pmod m_i = a_i$. Ara bé, si sabem que $\gcd(a_i,m_i)=1$ per a tot $i$, aleshores $\gcd(a,m_i)=1$ per a tot $i$, i d'aquí obtenim (pel Teorema~\ref{thm:Euclides-pab}) que $\gcd(a,m)=1$.
+  Per veure l'exhaustivitat, observem que el teorema xinès dels residus ens garanteix, donats $a_i \in \Z/m_i\Z$, un element $a\in\Z/(m_1\cdots m_k)\Z$ que tal que $a\pmod m_i = a_i$. Ara bé, si sabem que $\gcd(a_i,m_i)=1$ per a tot $i$, aleshores $\gcd(a,m_i)=1$ per a tot $i$, i d'aquí obtenim (pel Teorema~\ref{thm:Euclides-pab}) que $\gcd(a,m)=1$.
  \end{proof}
  
 En teoria de nombres, una funció $f$ s'anomena \emph{multiplicativa} si $f(mn)=f(m)f(n)$ sempre i quan $\gcd(m,n)=1$. Si $f(mn)=f(m)f(n)$ per a tot $m,n$ aleshores s'anomena \emph{completament multiplicativa}.
@@ -398,11 +427,7 @@ En teoria de nombres, una funció $f$ s'anomena \emph{multiplicativa} si $f(mn)=
  \end{proof}
 Com a conseqüència de la multiplicativitat de $\varphi$, podem donar una fórmula per $\varphi(n)$ en termes de la factorització de $n$.
 \begin{proposition}
- Sigui $n\geq 1$ un enter que factoritza com
- \[
- n = p_1^{e_1} p_2^{e_2}\cdots p_k^{e_k}.
- \]
- Aleshores
+ Sigui $n\geq 1$ un enter que factoritza com $n = p_1^{e_1} p_2^{e_2}\cdots p_k^{e_k}$. Aleshores
 \[
 \varphi(n)= n \prod_{i=1}^k \left(1-\frac{1}{p_i}\right) = \prod_{i=1}^k p_i^{e_i-1}(p_i-1).
 \]
@@ -410,7 +435,7 @@ Com a conseqüència de la multiplicativitat de $\varphi$, podem donar una fórm
 
 \begin{remark}
 \label{rmk:factoritzar-i-phi}
-En general, és difícil calcular $\varphi(n)$ eficientment sense conèixer una factorització de $n$. Per exemple, si $n=pq$ és el producte dos primers, aleshores la informació que ens dona saber $\varphi(n)$ ens permet calcular la factorització de $n$ de manera molt ràpida: considerem el polinomi $X^2-2sX + n$, on $s = \frac{n+1-\varphi(n)}{2}$. Aquest polinomi té $p$ i $q$ com a arrels, que podem trobar calculant:
+En general, és difícil calcular $\varphi(n)$ eficientment sense conèixer una factorització de $n$. Per exemple, si $n=pq$ és el producte de dos primers, aleshores la informació que ens dona saber $\varphi(n)$ ens permet calcular la factorització de $n$ de manera molt ràpida: considerem el polinomi $X^2-2sX + n$, on $s = \frac{n+1-\varphi(n)}{2}$. Aquest polinomi té $p$ i $q$ com a arrels, que podem trobar calculant:
 \[
 p,q = s \pm \sqrt{s^2 - n}.
 \]
@@ -420,19 +445,22 @@ La funció $\varphi$ també satisfà una propietat que ens serà útil més enda
 \begin{proposition}
  Per a tot $n\geq 1$ es té:
  \[
- \sum_{1\leq d\mid n}\varphi(d) = n
+ \sum_{\substack{d\geq 1\\d \mid n}}\varphi(d) = n
  \]
 \end{proposition}
-\begin{proof}
+\begin{proof}[Demostració 1 (fent servir teoria de grups)]
+Observem que per a tot $d$, $\varphi(d)$ és el nombre de generadors d'un grup cíclic d'ordre $d$. Considerem doncs un grup cíclic $G$ d'ordre $n$. Diem que dos elements $x,y\in G$ estan relacionats si $\langle x\rangle = \langle y \rangle$. El nombre d'elements a la classe de $x$ és $\varphi(d)$ si $x$ té ordre $d$, i $G$ té un únic subgrup d'ordre $d$ per cada divisor $d\mid n$, d'on obtenim la fórmula.
+\end{proof}
+\begin{proof}[Demostració 2 (elemental)]
  Anomenem $f(n)$ al terme de l'esquerra, i volem veure que $f(n)=n$. Primer veurem que $f$ és multiplicativa: considerem enters coprimers $m$ i $n$. Donat un enter $k$, denotem per $\Delta(k)$ el conjunt dels seus divisors positius. Aleshores es té una bijecció $\Delta(m)\times\Delta(n)\to \Delta(mn)$, donada per $(d_1,d_2)\mapsto d_1d_2$ (comproveu-ho). Per tant:
  \begin{align*}
  f(mn)&=\sum_{d\in\Delta(mn)}\varphi(d) = \sum_{d_1\in\Delta(m)}\sum_{d_2\in\Delta(n)}\varphi(d_1d_2)\\
  &=\sum_{d_1\in\Delta(m)}\sum_{d_2\in\Delta(n)}\varphi(d_1)\varphi(d_2)\\
  &=\sum_{d_1\in\Delta(m)}\varphi(d_1)\sum_{d_2\in\Delta(n)}\varphi(d_2) = f(m)f(n).
  \end{align*}
- Per tant, només cal comprovar que $f(p^k) = p^k$ per a tot primer $p$ i tot $k\geq 0$. Els divisors de $p^k$ són de la forma $p^r$ amb $0\leq r \leq k$, i per tant:
+ Per tant, només cal comprovar que $f(p^k) = p^k$ per a tot primer $p$ i tot $k\geq 1$. Els divisors de $p^k$ són de la forma $p^r$ amb $0\leq r \leq k$, i per tant:
 \[
-f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
+f(p^k) = \sum_{r=0}^k \varphi(p^r) = 1+\sum_{r=1}^k (p-1)p^{r-1} = p^k.
 \]
 \end{proof}
  \subsection{Mètodes efectius per inversos i exponenciació}
@@ -456,7 +484,7 @@ f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
 53 & = \ul 3\cdot 14 + 11\\
 14 &= \ul 1 \cdot 11 + 3\\
 11 &= \ul 3\cdot 3 + 2\\
-3 &= \ul 1\cdot 2 + 1\\
+3 &= \ul 1\cdot 2 + 1
  \end{align*}
  Ara aprofitem les equacions anteriors, per escriure:
  \begin{align*}
@@ -478,16 +506,14 @@ f(p^k) = \sum_{r=0}^k \varphi(p^r) = \sum_{r=0}^k (p-1)p^{r-1} = p^k.
  \end{example}
  L'exemple anterior ens dona la idea de l'algoritme conegut com ``algoritme d'Euclides extès'':
  \begin{algo}
- \caption{Retorna enters $g$, $x$ i $y$ satisfent $g=\gcd(a,b)$ i $ax+by=g$}
+ \caption{Donats $a,b>0$, retorna enters $g$, $x$ i $y$ satisfent $g=\gcd(a,b)$ i $ax+by=g$}
  \begin{python}
  def xgcd(a,b):
-    signe_a, signe_b = a.sign(), b.sign()
-    a, b = a.abs(), b.abs()
     x, y, r, s = 1, 0, 0, 1
     while b:
         q, c = a.quo_rem(b)
         a, b, r, s, x, y = b, c, x - q * r, y - q * s, r, s
-    return a, signe_a * x, signe_b * y
+    return a, x, y
  \end{python}
  \end{algo}
  
@@ -521,7 +547,7 @@ Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, 
   \[
   xm+yn=1.
   \]
-  Aleshores podem definir $x=a + (b-a)xm=ayn + bxm$. Fixem-nos que:
+  Aleshores podem definir $z=a + (b-a)xm=ayn + bxm$. Fixem-nos que:
   \[
   ayn + bxm \equiv ayn \equiv a(1-xm)\equiv a\pmod m,
   \]
@@ -581,9 +607,6 @@ Quan l'algoritme acaba, $b_n=0$ i per tant $\gcd(a,b)=\gcd(a_n,0)=a_n$. A més, 
 def exponentiate(a,r,m):
     result = 1
     powers = a % m
-    if r < 0:
-        r = -r
-        powers = invers_mod(a,m)
     while r:
         if r % 2 == 1:
             result = (result * powers) % m
@@ -607,9 +630,6 @@ def exponentiate(a,r,m):
  \caption{Calcula $a^r\pmod m$, versió millorada}
  \begin{python}
 def exponentiate_reverse(a,r,m):
-    if r < 0:
-        r = -r
-        a = invers_mod(a,m)
     result = 1
     for bit in reversed(r.bits()):
         result = result**2 % m
@@ -618,28 +638,55 @@ def exponentiate_reverse(a,r,m):
     return result
  \end{python}
  \end{algo}
- 
-\subsection{Diffie--Hellman i RSA}
-Els algoritmes que hem vist fins ara ens permeten descriure protocols clàssics en la criptografia.
+
+\subsection{Aplicacions a la criptografia}
+Els algoritmes que hem vist fins ara ens permeten descriure protocols clàssics en la criptografia. Un d'aquests (RSA) porta dècades utilitzant-se a la pràctica.
 
 \subsubsection{Diffie--Hellman}
 \label{sec:diffie-hellman}
-L'intercanvi de claus de Diffie--Hellman  funciona de la manera següent. Les dues parts, Alice i Bob, fixen un primer $p$. Es treballarà amb el grup cíclic $G = (\Z/p\Z)^\times$. Alice i Bob fixen també un generador $g\in G$, que a l'igual que $p$ serà públic. El protocol funciona de la manera següent:
+L'intercanvi de claus de Diffie--Hellman  funciona de la manera següent. Les dues parts, Alice i Bob, fixen un grup cíclic $G$, de cardinal $N$. Alice i Bob fixen també un generador $g\in G$, que a l'igual que $G$ (i $N$) també serà públic. El protocol funciona de la manera següent:
 \begin{enumerate}
-    \item L'Alice escull un enter a l'atzar $1<a<p-1$, i envia la quantitat $A=g^a\bmod{p}$ a en Bob.
-    \item En Bob, per la seva banda, escull un enter a l'atzar $1<b<p-1$, i envia la quantitat $B=g^b\bmod{p}$ a l'Alice.
-    \item Alice i Bob calculen respectivament $S=B^a\bmod{p}$ i $S=A^b\bmod{p}$. Observem que les dues quantitats són iguals a $g^{ab}\pmod{p}$, que serà el secret compartit.
+    \item Alice escull un enter a l'atzar $1<a<N$, i envia la quantitat $A=g^a$ a Bob.
+    \item Bob, per la seva banda, escull un enter a l'atzar $1<b<N$, i envia la quantitat $B=g^b$ a l'Alice.
+    \item Alice i Bob calculen respectivament $S_a=B^a$ i $S_b=A^b$. Observem que els dos elements són iguals a $S=g^{ab}\in G$, que serà el secret compartit.
 \end{enumerate}
 
-Primer de tot, observem que els càlculs involucrats es poden fer de manera eficient gràcies a l'exponenciació modular. Per trobar un generador $g$, el que es fa és triar un primer $p$ de la forma $p=2q+1$ amb $q$ primer, i així per veure que $g\neq \pm 1$ té ordre $p-1$ només cal comprovar (mitjançant exponenciació modular) que $g^q\equiv -1\pmod{p}$.
+Primer de tot, observem que els càlculs involucrats es poden fer de manera eficient gràcies a l'exponenciació modular, si tenim una manera eficient de calcular en $G$.
 
-Fixem-nos que un observador Eve que tingui accés a tota la comunicació sap els valors de $g^a\pmod{p}$ i $g^b\pmod{p}$. El \emph{problema de Diffie--Hellman} consisteix a calcular $g^{ab}\pmod{p}$ donats $g^a\pmod{p}$ i $g^b\pmod{p}$. Al 2019, no coneixem\footnote{S'entén la comunitat acadèmica.} cap algoritme que resolgui aquest problema sense resoldre el \emph{problema del logaritme discret}: donats $A$ i $g$, trobar $a$ tal que $g^a\equiv A\pmod{p}$.
+Un possible exemple de grup cíclic que funciona en aquest cas és $G = (\Z/p\Z)^\times$ i $N=p-1$ (on $p$ és un primer). En aquest cas, per trobar un generador $g$ de manera fàcil, el que es fa és triar un primer $p$ de la forma $p=2q+1$ amb $q$ primer, i així per veure que $g\neq \pm 1$ té ordre $p-1$ només cal comprovar (mitjançant exponenciació modular) que $g^q\equiv -1\pmod{p}$.
 
-\subsubsection{RSA}
-En aquest cas, es tracta d'establir un protocol que permeti a qualsevol usuari d'escriure un missatge xifrat de manera que només el receptor pretés el pugui desxifrar. Per fer-ho, cada usuari receptor escull dos primers grans $p$ i $q$, i calcula el producte $N=pq$ i $\varphi(N)=(p-1)(q-1)$. Aleshores tria un enter $1<e<\varphi(n)$, i fent servir l'algoritme que hem vist abans calcula el seu invers mòdul $\varphi(n)$: calcula $d$ amb $de\equiv 1\pmod{\varphi(n)}$. Així, cada usuari té una clau pública $(N,e)$ i una clau privada $(\varphi(N),d)$.
+Fixem-nos que un observador Eve que tingui accés a tota la comunicació sap els valors de $g^a\pmod{p}$ i $g^b\pmod{p}$. El \emph{problema de Diffie--Hellman} consisteix a calcular $g^{ab}\pmod{p}$ donats $g^a\pmod{p}$ i $g^b\pmod{p}$. Al 2021, no coneixem\footnote{S'entén la comunitat acadèmica.} cap algoritme que resolgui aquest problema sense resoldre el \emph{problema del logaritme discret}: donats $A$ i $g$, trobar $a$ tal que $g^a\equiv A\pmod{p}$.
 
-Suposem ara que Alice vol enviar un missatge a Bob, que té clau pública $(N_B,e_B)$. Podem suposar que el missatge està codificat com un enter $1<m<N_B$ coprimer amb $N_B$. Aleshores Alice calcula $c=m^{e_B}\bmod{N_B}$, que serà el missatge xifrat. Quan Bob ho rebi, calcula $c^{d_B}\bmod{N_B}$. Vegem que
+ \subsubsection{El xifrat ElGamal}
+ \label{sec:elgamal}
+ 
+ Una variant del protocol de Diffie--Hellman ens permet establir un sistema de xifrat de clau pública basat en el logaritme discret. 
+ 
+ \begin{description}
+ \item[Preparació:] Cada usuari tria un grup cíclic $G=\langle g \rangle$ de tamany $N$. Seguidament, tria un enter $2< s < N$ i calcula $K=g^s$. La clau pública de l'Alice serà la tupla $(G, N, g, K)$, i la clau secreta serà $s$.
+ \item[Xifrat:] Suposem que l'Alice vol enviar un missatge $m\in G$ a en Bob, que té clau pública $(G, N, g, K_B)$. L'Alice tria un enter a l'atzar, $2< y < N$, i calcula $Y=g^y$ i també $Z=mK_B^y$. Aleshores envia a en Bob la tupla $(Y,Z)$.
+ \item[Desxifrat:] Per recuperar el missatge, en Bob calcula $Y^{-s} Z$. Observem que
+ \[
+ Y^{-s}Z = g^{-sy}mg^{sy} = m.
+ \]
+ \end{description}
+ Fixem-nos que la part de preparació s'assembla molt al que fa l'Alice en el protocol Diffie--Hellman, mentre que la part de xifrat s'assembla al que faria en Bob, amb la diferència que la part ``secreta'' $y$ va canviant a cada missatge. Aleshores la part ``pública'' $Y$ permet acordar un secret comú (que seria $Y^s=g^{sy}=K_B^y$), i que és justament el secret que s'ha fet servir per emmascarar el missatge $m$.
+ 
+ Si un possible atacant que tingui accés a la comunicació vol recuperar el missatge $m$ a partir de $(Y,Z)$, haurà de trobar el secret a partir de $Y=g^y$ i de $K_B=g^s$, i això és precisament el problema de Diffie--Hellman, que estem assumint igual de difícil que el problema del logaritme discret.
+
+\subsubsection{El xifrat RSA}
+Com en el cas anterior, es tracta d'establir un protocol que permeti a qualsevol usuari d'escriure un missatge xifrat de manera que només el receptor pretés el pugui desxifrar.
+
+\begin{description}
+
+\item[Preparació:] Cada usuari escull dos primers grans $p$ i $q$, i calcula el producte $N=pq$ i $\varphi(N)=(p-1)(q-1)$. Aleshores tria un enter $1<e<\varphi(n)$, i fent servir l'algoritme que hem vist abans calcula el seu invers mòdul $\varphi(n)$: calcula $d$ amb $de\equiv 1\pmod{\varphi(n)}$. Així, cada usuari té una clau pública $(N,e)$ i una clau privada $(\varphi(N),d)$.
+
+\item[Xifrat:] Suposem ara que l'Alice vol enviar un missatge a en Bob, que té clau pública $(N_B,e_B)$. Podem suposar que el missatge està codificat com un enter $1<m<N_B$ coprimer amb $N_B$. Aleshores l'Alice calcula $c=m^{e_B}\bmod{N_B}$, que serà el missatge xifrat.
+
+\item[Desxifrat:] Per recuperar el missatge, en Bob calcula $c^{d_B}\bmod{N_B}$.
+\end{description}
+Vegem que
 \[
 c^{d_B}\equiv m^{e_Bd_B}\equiv m^{1+t\varphi(N_B)}\equiv m\pmod{N_B},
 \]
-i per tant Bob pot desxifrar el missatge. Sense saber quant val $\varphi(N_B)$, no es pot trobar $d_B$ a partir de $e_B$ i, per tant, la seguretat del sistema rau en la dificultat de factoritzar $N_B$ (vegeu la Remarca~\ref{rmk:factoritzar-i-phi}). Més endavant veurem algoritmes per factoritzar enters, però els millors mètodes són sub-exponencials, fet que els fa inviables\footnote{Almenys al 2020! El novembre de 2019 un equip de 6 matemàtics va aconseguir factoritzar l'RSA-240, que té 240 dígits decimals.} per certs nombres de més de 250 decimals.  
+i per tant en Bob pot desxifrar el missatge. Sense saber quant val $\varphi(N_B)$, no es pot trobar $d_B$ a partir de $e_B$ i, per tant, la seguretat del sistema rau en la dificultat de factoritzar $N_B$ (vegeu la Remarca~\ref{rmk:factoritzar-i-phi}). Més endavant veurem algoritmes per factoritzar enters, però els millors mètodes són sub-exponencials, fet que els fa inviables\footnote{Almenys al 2020! El febrer de 2020 un equip de 6 matemàtics va aconseguir factoritzar l'RSA-250, que té 250 dígits decimals.} per certs nombres de més de 260 decimals.  
